@@ -12,11 +12,31 @@ export async function getUsuarios() {
     return apiResponse.data;
 }
 
+export async function getUsuarioEstado(dni) {
+    const apiResponse = await axios.get(
+        `${config.apiUrl}/usuarios/getEstadoByDni/${dni}`
+    );
+    return apiResponse.data;
+}
+
 export async function getDirectivos() {
     const apiResponse = await axios.get(
         `${config.apiUrl}/usuarios/directivos/todos`
     );
     return apiResponse.data;
+}
+
+export async function updateEstadoUsuarioByDni(dni, estadoNuevo) {
+    const apiResponse = await axios.put(
+        `${config.apiUrl}/usuarios/updateEstadoByDni/${dni}`,
+        { estado: estadoNuevo },
+        {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    );
+    return apiResponse;
 }
 
 export async function postUsuarios(
