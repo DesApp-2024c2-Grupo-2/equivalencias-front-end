@@ -108,22 +108,23 @@ const FormUnahur = ({
                             >
                                 <Grid>
                                     <TextField
-                                        required
-                                        name={materia.materiaUnahur}
-                                        sx={{
-                                            width: '80%'
-                                        }}
-                                        size="small"
-                                        label="Materia solicitada UNAHUR"
-                                        variant="outlined"
-                                        value={materia.materiaUnahur}
-                                        onChange={(event) =>
-                                            handleChangeMateriaUnaHur(
-                                                event,
-                                                materia.key
-                                            )
-                                        }
+                                    //    required
+                                    //    name={materia.materiaUnahur}
+                                    //    sx={{
+                                    //        width: '80%'
+                                    //    }}
+                                    //    size="small"
+                                    //    label="Materia solicitada UNAHUR"
+                                    //    variant="outlined"
+                                    //    value={materia.materiaUnahur}
+                                    //    onChange={(event) =>
+                                    //        handleChangeMateriaUnaHur(
+                                    //            event,
+                                    //            materia.key
+                                    //        )
+                                    //    }
                                     />
+                                    {/* 
                                     <IconButton
                                         sx={{ color: '#5f6368' }}
                                         aria-label="upload picture"
@@ -149,7 +150,28 @@ const FormUnahur = ({
                                         }}
                                     >
                                         <DeleteOutlineOutlinedIcon />
-                                    </IconButton>
+                                    </IconButton> */}
+                                    <AutocompleteInput
+                                        options={['materia.materiaUnahur']}
+                                        onSelect={(event) =>
+                                            handleChangeMateriaUnaHur(
+                                                event,
+                                                materia.materiaUnahur
+                                            )
+                                        }
+                                        renderInput={(params) => (
+                                            <TextField
+                                                required
+                                                {...params}
+                                                key={materia.materiaUnahur}
+                                                label="Materia solicitada UNAHUR"
+                                                name="materiaUnahur"
+                                                value={
+                                                    ' ' || materia.materiaUnahur
+                                                }
+                                            />
+                                        )}
+                                    />
                                 </Grid>
                             </Box>
                         );
