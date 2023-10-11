@@ -79,12 +79,24 @@ const FormularioInicioSesion = () => {
                     );
                     localStorage.setItem('id', JSON.stringify(usuario.id));
 
-                    if (usuario.rol == 'alumno') {
+                    if (
+                        usuario.rol == 'alumno' &&
+                        usuario.estado == 'Habilitado'
+                    ) {
                         window.location.href = '/usuario/equivalencias';
-                    } else if (usuario.rol == 'directivo') {
+                    } else if (
+                        usuario.rol == 'directivo' &&
+                        usuario.estado == 'Habilitado'
+                    ) {
                         window.location.href = '/direccionDashboard';
-                    } else if (usuario.rol == 'superusuario') {
+                    } else if (
+                        usuario.rol == 'superusuario' &&
+                        usuario.estado == 'Habilitado'
+                    ) {
                         window.location.href = '/direccionDashboard'; //superusuario/solicitudes direccion anterior
+                    } else {
+                        window.alert('Tu usuario no está habiltado');
+                        localStorage.clear();
                     }
                 }
             });

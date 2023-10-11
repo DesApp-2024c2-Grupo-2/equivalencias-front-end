@@ -47,7 +47,8 @@ export async function postUsuarios(
     discord,
     telefono,
     rol,
-    password
+    password,
+    estado
 ) {
     const data = {
         dni: dni,
@@ -57,7 +58,8 @@ export async function postUsuarios(
         discord: discord,
         telefono: telefono,
         rol: rol,
-        password: password
+        password: password,
+        estado: estado
     };
     console.log('DATOS que llegan', data);
     try {
