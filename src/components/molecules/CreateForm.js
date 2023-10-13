@@ -333,7 +333,7 @@ const CreateForm = () => {
                     container
                     xs={12}
                     sx={{
-                        borderTop: '1px solid #DADCE0',
+                        borderBottom: '1px solid #DADCE0',
                         marginTop: '20px ',
                         padding: '0px 40px'
                     }}
@@ -341,7 +341,7 @@ const CreateForm = () => {
                     <BotonMUI
                         buttoncontainedaddmateria="+true"
                         variant="outlined"
-                        sx={{ margin: '10px 0px' }}
+                        sx={{ margin: '10px 0px', marginBottom: '20px' }}
                         onClick={addMateria}
                     >
                         Agregar materia

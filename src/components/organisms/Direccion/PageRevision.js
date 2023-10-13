@@ -476,7 +476,10 @@ const PageRevision = ({ socket }) => {
 
                         {equiv.materiasAprobadas !== undefined ? (
                             equiv.materiasAprobadas.map((materiaAprobada) => {
-                                //console.log("Valor de carreraOrigen:", materiaAprobada.carreraOrigen);
+                                console.log(
+                                    'Valor de carreraOrigen:',
+                                    materiaAprobada
+                                );
                                 return (
                                     <>
                                         <Grid
@@ -591,7 +594,9 @@ const PageRevision = ({ socket }) => {
                                                         label="Universidad de Origen"
                                                         name="universidadOrigen"
                                                         value={
-                                                            'Universidad de la Matanza'
+                                                            materiaAprobada
+                                                                .Universidad_origen
+                                                                .nombre_universidad
                                                         }
                                                         variant="outlined"
                                                         size="small"
