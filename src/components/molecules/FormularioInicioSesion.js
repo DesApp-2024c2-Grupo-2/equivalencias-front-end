@@ -10,16 +10,16 @@ import { BotonMUI } from '../atoms/Button/BotonMUI';
 import { Grid, styled } from '@mui/material';
 import { Formulario } from '../atoms/Formulario/Formulario';
 import { useEffect } from 'react';
-import { getUsuarios } from '../../services/usuario_service';
-
+import { getLogin } from '../../services/usuario_service';
 import bcrypt from 'bcryptjs';
 
 const FormularioInicioSesion = () => {
     const [dni, setDni] = useState(null);
     const [password, setPassword] = useState('');
-    const [usuarios, setUsuarios] = useState([]);
+    const [usuario, setUsuario] = useState([null]);
 
     useEffect(() => {
+        /*
         const fetchUsuariosData = async () => {
             const usuarios = await getUsuarios();
 
@@ -27,82 +27,70 @@ const FormularioInicioSesion = () => {
         };
 
         fetchUsuariosData();
+        */
     }, []);
+
+    const grabarUsuario = async (user) => {
+        localStorage.setItem('dni', JSON.stringify(user.dni));
+        localStorage.setItem('nombre', JSON.stringify(user.nombre));
+        localStorage.setItem('apellido', JSON.stringify(user.apellido));
+        localStorage.setItem('email', JSON.stringify(user.email));
+        localStorage.setItem('discord', JSON.stringify(user.discord));
+        localStorage.setItem('telefono', JSON.stringify(user.telefono));
+        localStorage.setItem('rol', JSON.stringify(user.rol));
+        localStorage.setItem('password', JSON.stringify('********'));
+        localStorage.setItem('id', JSON.stringify(user.id));
+    };
+
+    const ingresarAplicacion = async (user) => {
+        setUsuario(user);
+        if (user.rol == 'alumno') {
+            window.location.href = '/usuario/equivalencias';
+        } else if (user.rol == 'directivo') {
+            window.location.href = '/direccionDashboard';
+        } else if (user.rol == 'superusuario') {
+            window.location.href = '/direccionDashboard'; //superusuario/solicitudes direccion anterior
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        console.log(usuarios);
-        /*
-        const usuario = usuarios.find(
-            (usuario) => usuario.dni === dni && usuario.password === password
-        );
-*/
         console.log(dni);
-        const usuario = usuarios.find(
-            (usuario) => usuario.dni === parseInt(dni)
-        );
 
-        // console.log(usuario);
-        if (usuario) {
-            bcrypt.compare(password, usuario.password, function (err, isMatch) {
-                if (err) {
-                    throw err;
-                } else if (!isMatch) {
-                    alert('Usuario o contraseña incorrectos');
-                } else {
-                    localStorage.setItem('dni', JSON.stringify(usuario.dni));
-                    localStorage.setItem(
-                        'nombre',
-                        JSON.stringify(usuario.nombre)
-                    );
-                    localStorage.setItem(
-                        'apellido',
-                        JSON.stringify(usuario.apellido)
-                    );
-                    localStorage.setItem(
-                        'email',
-                        JSON.stringify(usuario.email)
-                    );
-                    localStorage.setItem(
-                        'discord',
-                        JSON.stringify(usuario.discord)
-                    );
-                    localStorage.setItem(
-                        'telefono',
-                        JSON.stringify(usuario.telefono)
-                    );
-                    localStorage.setItem('rol', JSON.stringify(usuario.rol));
-                    localStorage.setItem(
-                        'password',
-                        JSON.stringify(usuario.password)
-                    );
-                    localStorage.setItem('id', JSON.stringify(usuario.id));
-
-                    if (
-                        usuario.rol == 'alumno' &&
-                        usuario.estado == 'Habilitado'
-                    ) {
-                        window.location.href = '/usuario/equivalencias';
-                    } else if (
-                        usuario.rol == 'directivo' &&
-                        usuario.estado == 'Habilitado'
-                    ) {
-                        window.location.href = '/direccionDashboard';
-                    } else if (
-                        usuario.rol == 'superusuario' &&
-                        usuario.estado == 'Habilitado'
-                    ) {
-                        window.location.href = '/direccionDashboard'; //superusuario/solicitudes direccion anterior
-                    } else {
-                        window.alert('Tu usuario no está habiltado');
-                        localStorage.clear();
-                    }
+        getLogin(parseInt(dni))
+            .then(function (loginBack) {
+                // controlor de login y mensaje al usuario:
+                console.log('login: ', loginBack);
+                if (loginBack.status != 200) {
+                    throw loginBack.message;
                 }
+                return loginBack.user;
+            })
+            .then(function (user) {
+                // corroborar la contraseña:
+                const mensajeError = 'Usuario o contraseña incorrectos';
+                console.log('primer console: ', user);
+                if (password != '') {
+                    bcrypt.compare(
+                        password,
+                        user.password,
+                        async function (err, isMatch) {
+                            if (err || !isMatch) {
+                                alert(mensajeError);
+                            } else {
+                                await grabarUsuario(user);
+
+                                await ingresarAplicacion(user);
+                            }
+                        }
+                    );
+                } else {
+                    throw 'Usuario o contraseña incorrectos';
+                }
+            })
+            .catch(function (error) {
+                return alert(error);
             });
-        } else {
-            alert('Usuario o contraseña incorrectos');
-        }
     };
 
     return (
