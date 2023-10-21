@@ -7,6 +7,18 @@ export async function getUsuario(id) {
     return apiResponse.data;
 }
 
+export async function getUsuarioDni(dni) {
+    const apiResponse = await axios.get(`${config.apiUrl}/usuarios/dni/${dni}`);
+    return apiResponse.data;
+}
+
+export async function getLogin(dni) {
+    const apiResponse = await axios.get(
+        `${config.apiUrl}/usuarios/login/${dni}`
+    );
+    return apiResponse.data;
+}
+
 export async function getUsuarios() {
     const apiResponse = await axios.get(`${config.apiUrl}/usuarios/todos`);
     return apiResponse.data;
