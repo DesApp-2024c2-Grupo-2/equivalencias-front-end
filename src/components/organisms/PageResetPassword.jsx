@@ -26,13 +26,14 @@ const PageResetPassword = () => {
         const { password, DNI } = formValue;
         const hashedPassword = bcrypt.hashSync(password, 10);
         const fieldsToValidate = [
-            { field: 'DNI', regex: /^\d{8}$/ },
+            { field: 'DNI', regex: /^\d{5,8}$/ },
             {
                 field: 'password',
                 regex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
             }
         ];
         let valid = true;
+        let passCoinciden = password == passwordConfirmation;
 
         fieldsToValidate.forEach(({ field, regex }) => {
             if (!validateField(formValue[field], regex)) {
@@ -49,9 +50,10 @@ const PageResetPassword = () => {
             }
         });
 
-        if (valid && password == passwordConfirmation) {
+        if (valid && passCoinciden) {
             try {
                 const update = await updatePassword(DNI, hashedPassword, hash);
+                console.log(update);
                 if (update === 200) {
                     setErrorPasswordDif(false);
                     notifyExito();
@@ -97,15 +99,18 @@ const PageResetPassword = () => {
     };
 
     const notifyError = () => {
-        toast.error('Se produjo un error al intentar modificar la contraseña', {
-            position: 'bottom-left',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined
-        });
+        toast.error(
+            'Error al intentar modificar la contraseña, revise los datos.',
+            {
+                position: 'bottom-left',
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined
+            }
+        );
     };
 
     return (
