@@ -12,11 +12,22 @@ import { Formulario } from '../atoms/Formulario/Formulario';
 import { useEffect } from 'react';
 import { getLogin } from '../../services/usuario_service';
 import bcrypt from 'bcryptjs';
+import ResetPasswordModal from '../organisms/IniciarSesion/ResetPasswordModal';
 
 const FormularioInicioSesion = () => {
     const [dni, setDni] = useState(null);
     const [password, setPassword] = useState('');
     const [usuario, setUsuario] = useState([null]);
+
+    const [openModal, setOpenModal] = useState(false);
+
+    const handleOpenModal = () => {
+        setOpenModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setOpenModal(false);
+    };
 
     useEffect(() => {
         /*
@@ -136,11 +147,17 @@ const FormularioInicioSesion = () => {
                     </div>
 
                     <OlvidastePassword>
-                        <OlvidastePasswordLink href="https://www.google.com.ar">
+                        <OlvidastePasswordLink
+                            href="#"
+                            onClick={handleOpenModal}
+                        >
                             ¿Olvidaste tu contraseña?
                         </OlvidastePasswordLink>
                     </OlvidastePassword>
-
+                    <ResetPasswordModal
+                        open={openModal}
+                        onClose={handleCloseModal}
+                    />
                     <LineaSeparacion></LineaSeparacion>
 
                     <Grid>
