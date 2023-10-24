@@ -2,6 +2,8 @@ import { Button, styled } from '@mui/material';
 import { css } from '@mui/styled-engine';
 
 const BotonMUI = styled(Button)`
+    display: flex;
+    margin: 0 auto;
     width: 200px;
     height: 45px;
     text-transform: none;

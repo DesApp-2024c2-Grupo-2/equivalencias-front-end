@@ -7,9 +7,9 @@ import { Link } from 'react-router-dom';
 
 const SideRegistro = styled(Grid)`
     background: #009673;
-    width: 35%;
-    max-width: 35%;
+    max-width: 100%;
     height: 100%;
+    min-height: 250px;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -18,6 +18,7 @@ const SideRegistro = styled(Grid)`
 `;
 
 const Register = () => {
+    //esto es una cargada, o exceso de chat gpt2
     const onClick = (e) => {
         return <Registro />;
     };
@@ -35,7 +36,7 @@ const Register = () => {
             </Titulos>
 
             <a href={'/registro'} style={{ textDecoration: 'none' }}>
-                <BotonMUI buttonoutlined variant="outlined" onClick={onClick}>
+                <BotonMUI buttonoutlined variant="outlined">
                     Registrarse
                 </BotonMUI>
             </a>

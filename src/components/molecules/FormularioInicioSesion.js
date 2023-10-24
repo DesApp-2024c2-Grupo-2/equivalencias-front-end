@@ -13,6 +13,8 @@ import { useEffect } from 'react';
 import { getUsuarios } from '../../services/usuario_service';
 
 import bcrypt from 'bcryptjs';
+import { color } from '@mui/system';
+import { blacklistedBrowsers } from 'dropzone';
 
 const FormularioInicioSesion = () => {
     const [dni, setDni] = useState(null);
@@ -95,22 +97,26 @@ const FormularioInicioSesion = () => {
 
     return (
         <FormularioMain>
-            <TituloBienvenida>
-                <Titulos titulogrande="+true" titulomarginbottom component="h2">
-                    ¡Bienvenido/a!
-                </Titulos>
-                <Titulos titulochico titulolight component="h2">
-                    Iniciar sesión
-                </Titulos>
-            </TituloBienvenida>
+            <Grid container>
+                <TituloBienvenida>
+                    <Grid item xs={12} sm={5}>
+                        <Titulos
+                            titulogrande="+true"
+                            titulomarginbottom
+                            component="h2"
+                        >
+                            ¡Bienvenido/a!
+                        </Titulos>
+                        <Titulos titulochico titulolight component="h2">
+                            Iniciar sesión
+                        </Titulos>
+                    </Grid>
+                </TituloBienvenida>
+            </Grid>
 
-            <Formulario sx={{ marginTop: '40px' }}>
-                <form
-                    action=""
-                    onSubmit={handleSubmit}
-                    style={{ height: '100%', textAlign: 'center' }}
-                >
-                    <div>
+            <Formulario sx={{ marginTop: '10px' }}>
+                <Grid item xs={12} sm={12}>
+                    <form action="" onSubmit={handleSubmit} style={{}}>
                         <ContenedorInputs>
                             <InputMUI
                                 type="text"
@@ -133,42 +139,39 @@ const FormularioInicioSesion = () => {
                                 value={password}
                             />
                         </ContenedorInputs>
-                    </div>
 
-                    <OlvidastePassword>
-                        <OlvidastePasswordLink href="https://www.google.com.ar">
-                            ¿Olvidaste tu contraseña?
-                        </OlvidastePasswordLink>
-                    </OlvidastePassword>
+                        <OlvidastePassword>
+                            <OlvidastePasswordLink href="https://www.google.com.ar">
+                                ¿Olvidaste tu contraseña?
+                            </OlvidastePasswordLink>
+                        </OlvidastePassword>
 
-                    <LineaSeparacion></LineaSeparacion>
+                        <LineaSeparacion></LineaSeparacion>
 
-                    <Grid>
-                        <BotonMUI
-                            variant="contained"
-                            buttoncontained="+true"
-                            disableElevation
-                            type="submit"
-                        >
-                            Ingresar
-                        </BotonMUI>
-                    </Grid>
-                </form>
+                        <Grid>
+                            <BotonMUI
+                                variant="contained"
+                                buttoncontained="+true"
+                                disableElevation
+                                type="submit"
+                            >
+                                Ingresar
+                            </BotonMUI>
+                        </Grid>
+                    </form>
+                </Grid>
             </Formulario>
         </FormularioMain>
     );
 };
 
 const FormularioMain = styled(Grid)`
-    width: 65%;
-    max-width: 65%;
-    height: 100%;
+    max-width: 100%;
     padding: 50px 0px;
     border-radius: 20px;
     background: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: row;
+    margin: 0 auto;
 `;
 
 export { FormularioMain, FormularioInicioSesion };
