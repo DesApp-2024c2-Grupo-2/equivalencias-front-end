@@ -18,6 +18,8 @@ import PageSuperUsuario from './components/PageSuperUsuario';
 import PageResetPassword from './components/organisms/PageResetPassword';
 import socketIO from 'socket.io-client';
 
+console.log(socketIO.connected);
+console.log(socketIO.connect);
 const socket = socketIO.connect('http://localhost:3001');
 
 function App() {
