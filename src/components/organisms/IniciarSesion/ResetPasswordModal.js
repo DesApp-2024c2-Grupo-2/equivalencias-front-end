@@ -7,7 +7,7 @@ const ResetPasswordModal = ({ open, onClose }) => {
     const [dni, setDni] = useState('');
 
     const handleResetPassword = () => {
-        // Aquí puedes realizar la lógica para enviar el DNI al backend y solicitar el reset de contraseña
+        // lógica para enviar el DNI al backend y solicitar el reset de contraseña
         console.log(`Solicitando reset de contraseña para DNI: ${dni}`);
         postReset(dni);
         onClose(); // Cierra el modal después de enviar la solicitud
