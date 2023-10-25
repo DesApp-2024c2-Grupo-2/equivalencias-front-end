@@ -5,7 +5,6 @@ import { PageMyForm } from './components/molecules/PageMyForm';
 import { PagePerfil } from './components/organisms/Alumno/PagePerfil';
 import { PageCRUDCarreras } from './components/carreras/PageCRUDCarreras';
 import { PageDireccion } from './components/organisms/Direccion/PageDireccion';
-import { PageVerEquivalencia } from './components/molecules/PageVerEquivalencia';
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -16,9 +15,11 @@ import PageEditarInstituciones from './components/organisms/Instituciones/PageEd
 import PageInstitucionDashboard from './components/organisms/Instituciones/PageInstitucionDashboard';
 import PageDireccionDashboard from './components/organisms/Direccion/PageDireccionDashboard';
 import PageSuperUsuario from './components/PageSuperUsuario';
+import PageResetPassword from './components/organisms/PageResetPassword';
 import socketIO from 'socket.io-client';
-import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 
+console.log(socketIO.connected);
+console.log(socketIO.connect);
 const socket = socketIO.connect('http://localhost:3001');
 
 function App() {
@@ -122,6 +123,11 @@ function App() {
                 <Router>
                     <Route path="/" exact component={PageIniciarSesion} />
                     <Route path="/registro" exact component={PageRegistro} />
+                    <Route
+                        path="/resetPassword/:hash"
+                        exact
+                        component={PageResetPassword}
+                    />
                 </Router>
             }
 

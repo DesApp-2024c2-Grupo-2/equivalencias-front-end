@@ -239,7 +239,7 @@ const ArchivoAltaEquivalencia = ({
                                         sm: '16px'
                                     }}
                                 >
-                                    Adjunte un archivo BICHA .pdf:
+                                    Adjunte un archivo.pdf
                                 </Titulos>
                             </Grid>
                             <Grid

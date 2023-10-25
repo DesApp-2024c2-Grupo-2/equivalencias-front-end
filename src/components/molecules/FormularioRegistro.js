@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 
 import bcrypt from 'bcryptjs';
 import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 
 const FormularioRegistro = () => {
     const [formValue, setFormValue] = useState({
@@ -18,7 +19,8 @@ const FormularioRegistro = () => {
         discord: '',
         telefono: '',
         rol: 'alumno',
-        password: ''
+        password: '',
+        estado: 'Habilitado'
     });
 
     const [errorDNI, setErrorDNI] = useState(false);
@@ -109,7 +111,8 @@ const FormularioRegistro = () => {
                 discord,
                 telefono,
                 rol,
-                password
+                password,
+                estado
             } = formValue;
             const hashedPassword = bcrypt.hashSync(password, 10);
             const response = await postUsuarios(
@@ -120,7 +123,8 @@ const FormularioRegistro = () => {
                 discord,
                 telefono,
                 rol,
-                hashedPassword
+                hashedPassword,
+                estado
             );
 
             if (response.status === 200) {
@@ -421,7 +425,7 @@ const FormularioRegistro = () => {
                                 inputProps={{
                                     minLength: 8,
                                     maxLength: 10,
-                                    pattern: '[0-9]{8,10}'
+                                    pattern: '[0-9]{7,10}'
                                 }}
                                 helperText={
                                     errorTelefono
@@ -498,12 +502,23 @@ const FormularioRegistro = () => {
                                 id="demo-simple-select"
                                 value={formValue.rol}
                                 label="Rol"
-                                onChange={(event) =>
-                                    setFormValue({
-                                        ...formValue,
-                                        rol: event.target.value
-                                    })
-                                }
+                                onChange={(event) => {
+                                    if (event.target.value === 'alumno') {
+                                        setFormValue({
+                                            ...formValue,
+                                            rol: event.target.value,
+                                            estado: 'Habilitado'
+                                        });
+                                    } else if (
+                                        event.target.value === 'directivo'
+                                    ) {
+                                        setFormValue({
+                                            ...formValue,
+                                            rol: event.target.value,
+                                            estado: 'Deshabilitado'
+                                        });
+                                    }
+                                }}
                             >
                                 <MenuItem value={'alumno'}>Alumno</MenuItem>
                                 <MenuItem value={'directivo'}>

@@ -63,6 +63,26 @@ const MateriaUniOrigen = ({
                     marginTop: '6px'
                 }}
             >
+                <StandardInput
+                    required
+                    name="carreraOrigen"
+                    size="small"
+                    label="Carrera origen"
+                    variant="outlined"
+                    value={formValueArray.carreraOrigen}
+                    onChange={(event) => handleChangeArray(event, key2)}
+                />
+            </Grid>
+
+            <Grid
+                item
+                container
+                md={12}
+                lg={5.8}
+                sx={{
+                    marginTop: '6px'
+                }}
+            >
                 <AutocompleteInput
                     size="small"
                     variant="outlined"

@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import SwitchHabilitarUsuario from '../atoms/Button/SwitchHabilitarUsuario';
 
 const TablaUsuarios = (props) => {
     const { rol, usuarios, buscador } = props;
@@ -36,10 +37,16 @@ const TablaUsuarios = (props) => {
             label: 'Rol',
             minWidth: 140,
             align: 'center'
+        },
+        {
+            id: 'estado',
+            label: 'Estado',
+            minWidth: 140,
+            align: 'center'
         }
     ];
-    function createData(nombre, dni, email, telefono, rolUsuario) {
-        return { nombre, dni, email, telefono, rolUsuario };
+    function createData(nombre, dni, email, telefono, rolUsuario, estado) {
+        return { nombre, dni, email, telefono, rolUsuario, estado };
     }
     const rows = usuarios.map((usuario) =>
         createData(
@@ -47,7 +54,8 @@ const TablaUsuarios = (props) => {
             usuario.dni,
             usuario.email,
             usuario.telefono,
-            usuario.rol
+            usuario.rol,
+            usuario.estado
         )
     );
     const [page, setPage] = React.useState(0);
@@ -121,8 +129,23 @@ const TablaUsuarios = (props) => {
                                         key={row.code}
                                     >
                                         {columns.map((column) => {
-                                            const value = row[column.id];
-                                            return (
+                                            let value = row[column.id];
+                                            if (column.id === "estado"){
+                                                return (
+                                                    <TableCell
+                                                        key={column.id}
+                                                        align={column.align}
+                                                    >
+                                                        <SwitchHabilitarUsuario
+                                                            dniUsuario={row.dni}
+                                                            page={page}
+                                                            buscador={buscador}
+                                                            rol={rol}
+                                                        />
+                                                    </TableCell>
+                                                )
+                                            } else {
+                                                return (
                                                 <TableCell
                                                     key={column.id}
                                                     align={column.align}
@@ -133,6 +156,8 @@ const TablaUsuarios = (props) => {
                                                         : value}
                                                 </TableCell>
                                             );
+                                            }
+                                            
                                         })}
                                     </TableRow>
                                 );

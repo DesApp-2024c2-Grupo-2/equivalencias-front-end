@@ -50,6 +50,7 @@ const CreateForm = () => {
             anioAprobacion: '',
             materiaAprobada: '',
             universidadOrigen: null,
+            carreraOrigen: null,
             certificado: false
         }
     ]);
@@ -219,6 +220,7 @@ const CreateForm = () => {
                         carga_horaria: item.cargaHorariaTotal,
                         año_aprobacion: item.anioAprobacion,
                         nombre_materia: item.materiaAprobada,
+                        carreraOrigen: item.carreraOrigen,
                         UniversidadOrigenId: item.universidadOrigen,
                         certificado: item.certificado,
                         archivo: item.archivo
@@ -260,55 +262,6 @@ const CreateForm = () => {
                 marginTop={{ xs: '30px' }}
                 sx={{ height: 'auto' }}
             >
-                <Grid
-                    item
-                    container
-                    direction="row"
-                    justifyContent="flex-start"
-                    alignItems="center"
-                    sm={12}
-                    padding={{
-                        xs: '20px 30px',
-                        sm: '20px 60px'
-                    }}
-                    sx={{
-                        height: 'auto',
-                        borderRadius: '10px 10px 0px 0px'
-                    }}
-                >
-                    <FormUnahur
-                        formValue={formValue}
-                        carreras={carreras}
-                        materias={materiasUnahur}
-                        handleChangeCarrera={handleChangeCarrera}
-                        handleChangeMateriaUnaHur={handleChangeMateriaUnaHur}
-                        handledelete={handleClickOpen}
-                        handledelete2={notifyBorrarMateria}
-                        handleEliminar={elegirMateriaABorrar}
-                        eliminarDirecto={setMateriasUnahur}
-                    />
-                </Grid>
-
-                <Grid
-                    item
-                    container
-                    xs={12}
-                    sx={{
-                        borderTop: '1px solid #DADCE0',
-                        marginTop: '20px ',
-                        padding: '0px 40px'
-                    }}
-                >
-                    <BotonMUI
-                        buttoncontainedaddmateria="+true"
-                        variant="outlined"
-                        sx={{ margin: '10px 0px' }}
-                        onClick={addMateriaUnahur}
-                    >
-                        Agregar materia
-                    </BotonMUI>
-                </Grid>
-
                 {materias.map((materia) => {
                     return (
                         <>
@@ -380,6 +333,55 @@ const CreateForm = () => {
                     container
                     xs={12}
                     sx={{
+                        borderBottom: '1px solid #DADCE0',
+                        marginTop: '20px ',
+                        padding: '0px 40px'
+                    }}
+                >
+                    <BotonMUI
+                        buttoncontainedaddmateria="+true"
+                        variant="outlined"
+                        sx={{ margin: '10px 0px', marginBottom: '20px' }}
+                        onClick={addMateria}
+                    >
+                        Agregar materia
+                    </BotonMUI>
+                </Grid>
+
+                <Grid
+                    item
+                    container
+                    direction="row"
+                    justifyContent="flex-start"
+                    alignItems="center"
+                    sm={12}
+                    padding={{
+                        xs: '10px 30px',
+                        sm: '10px 60px'
+                    }}
+                    sx={{
+                        height: 'auto',
+                        borderRadius: '10px 10px 0px 0px'
+                    }}
+                >
+                    <FormUnahur
+                        formValue={formValue}
+                        carreras={carreras}
+                        materias={materiasUnahur}
+                        handleChangeCarrera={handleChangeCarrera}
+                        handleChangeMateriaUnaHur={handleChangeMateriaUnaHur}
+                        handledelete={handleClickOpen}
+                        handledelete2={notifyBorrarMateria}
+                        handleEliminar={elegirMateriaABorrar}
+                        eliminarDirecto={setMateriasUnahur}
+                    />
+                </Grid>
+
+                <Grid
+                    item
+                    container
+                    xs={12}
+                    sx={{
                         borderTop: '1px solid #DADCE0',
                         marginTop: '20px ',
                         padding: '0px 40px'
@@ -389,7 +391,7 @@ const CreateForm = () => {
                         buttoncontainedaddmateria="+true"
                         variant="outlined"
                         sx={{ margin: '10px 0px' }}
-                        onClick={addMateria}
+                        onClick={addMateriaUnahur}
                     >
                         Agregar materia
                     </BotonMUI>

@@ -7,8 +7,27 @@ export async function getUsuario(id) {
     return apiResponse.data;
 }
 
+export async function getUsuarioDni(dni) {
+    const apiResponse = await axios.get(`${config.apiUrl}/usuarios/dni/${dni}`);
+    return apiResponse.data;
+}
+
+export async function getLogin(dni) {
+    const apiResponse = await axios.get(
+        `${config.apiUrl}/usuarios/login/${dni}`
+    );
+    return apiResponse.data;
+}
+
 export async function getUsuarios() {
     const apiResponse = await axios.get(`${config.apiUrl}/usuarios/todos`);
+    return apiResponse.data;
+}
+
+export async function getUsuarioEstado(dni) {
+    const apiResponse = await axios.get(
+        `${config.apiUrl}/usuarios/getEstadoByDni/${dni}`
+    );
     return apiResponse.data;
 }
 
@@ -19,6 +38,19 @@ export async function getDirectivos() {
     return apiResponse.data;
 }
 
+export async function updateEstadoUsuarioByDni(dni, estadoNuevo) {
+    const apiResponse = await axios.put(
+        `${config.apiUrl}/usuarios/updateEstadoByDni/${dni}`,
+        { estado: estadoNuevo },
+        {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    );
+    return apiResponse;
+}
+
 export async function postUsuarios(
     dni,
     nombre,
@@ -27,7 +59,8 @@ export async function postUsuarios(
     discord,
     telefono,
     rol,
-    password
+    password,
+    estado
 ) {
     const data = {
         dni: dni,
@@ -37,7 +70,8 @@ export async function postUsuarios(
         discord: discord,
         telefono: telefono,
         rol: rol,
-        password: password
+        password: password,
+        estado: estado
     };
     console.log('DATOS que llegan', data);
     try {
