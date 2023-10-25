@@ -134,8 +134,13 @@ const FormularioInicioSesion = () => {
                             <InputMUI
                                 type="text"
                                 id="outlined-basic"
+                                placeholder="DNI"
                                 label="DNI"
                                 variant="outlined"
+                                margin="normal"
+                                InputLabelProps={{
+                                    shrink: true
+                                }}
                                 onChange={(e) => setDni(e.target.value)}
                                 value={dni}
                             />
@@ -145,9 +150,13 @@ const FormularioInicioSesion = () => {
                             <InputMUI
                                 type="password"
                                 id="outlined-basic"
+                                placeholder="Contraseña"
                                 label="Contraseña"
                                 variant="outlined"
                                 margin="normal"
+                                InputLabelProps={{
+                                    shrink: true
+                                }}
                                 onChange={(e) => setPassword(e.target.value)}
                                 value={password}
                             />

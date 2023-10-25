@@ -207,7 +207,7 @@ const Mensajes = withStyles(MensajesStyle)((props) => {
                                                         {usuarios[
                                                             mensaje.id_remitente
                                                         ].nombre.trim() +
-                                                            '' +
+                                                            ' ' +
                                                             usuarios[
                                                                 mensaje
                                                                     .id_remitente
