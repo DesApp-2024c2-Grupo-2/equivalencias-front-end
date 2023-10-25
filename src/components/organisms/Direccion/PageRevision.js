@@ -919,17 +919,22 @@ const PageRevision = ({ socket }) => {
                                         }}
                                     />
                                     <br></br>
+
                                     <br></br>
+                                    {rol !== 'alumno' ? (
+                                        <TextField
+                                            label="Observaciones nuevas"
+                                            multiline
+                                            maxRows={4}
+                                            key={formValue.observaciones}
+                                            onChange={grabarObservaciones}
+                                            variant="standard"
+                                            fullWidth
+                                        />
+                                    ) : (
+                                        <></>
+                                    )}
                                     <br></br>
-                                    <TextField
-                                        label="Observaciones nuevas"
-                                        multiline
-                                        maxRows={4}
-                                        key={formValue.observaciones}
-                                        onChange={grabarObservaciones}
-                                        variant="standard"
-                                        fullWidth
-                                    />
                                 </Grid>
                                 <br></br>
                                 <Grid
