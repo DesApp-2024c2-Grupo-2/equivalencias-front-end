@@ -1,4 +1,4 @@
-import { Collapse, Grid } from '@mui/material';
+import { Collapse, Grid, TextField } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { Titulos } from '../../atoms/Title/Titulos';
 import { GridTop } from '../../atoms/GridTop';
@@ -54,6 +54,12 @@ const PageRevision = ({ socket }) => {
         ],
         observaciones: ''
     });
+
+    const [observaciones, setObservaciones] = useState('');
+
+    const grabarObservaciones = (e) => {
+        formValue.observaciones = e.target.value;
+    };
 
     const columns = [
         { id: 'desc', label: 'Solicitante' },
@@ -197,6 +203,7 @@ const PageRevision = ({ socket }) => {
                     observaciones: equivalenciasResponse.observaciones,
                     instituto: equivalenciasResponse.instituto
                 });
+                setObservaciones(formValue.observaciones);
             }
         };
         fetchData();
@@ -890,6 +897,41 @@ const PageRevision = ({ socket }) => {
                                 alignItems="center"
                                 sm={12}
                             >
+                                {/*Observaciones*/}
+
+                                <Grid
+                                    item
+                                    container
+                                    direction="row"
+                                    justifyContent="flex-start"
+                                    alignItems="center"
+                                    sm={12}
+                                >
+                                    <TextField
+                                        label="Observaciones anteriores"
+                                        multiline
+                                        maxRows={4}
+                                        value={formValue.observaciones}
+                                        variant="standard"
+                                        fullWidth
+                                        InputProps={{
+                                            readOnly: true
+                                        }}
+                                    />
+                                    <br></br>
+                                    <br></br>
+                                    <br></br>
+                                    <TextField
+                                        label="Observaciones nuevas"
+                                        multiline
+                                        maxRows={4}
+                                        key={formValue.observaciones}
+                                        onChange={grabarObservaciones}
+                                        variant="standard"
+                                        fullWidth
+                                    />
+                                </Grid>
+                                <br></br>
                                 <Grid
                                     item
                                     container
