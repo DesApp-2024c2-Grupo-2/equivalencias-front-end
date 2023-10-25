@@ -51,16 +51,20 @@ const FormularioInicioSesion = () => {
         localStorage.setItem('rol', JSON.stringify(user.rol));
         localStorage.setItem('password', JSON.stringify('********'));
         localStorage.setItem('id', JSON.stringify(user.id));
+        localStorage.setItem('estado', JSON.stringify(user.estado));
     };
 
     const ingresarAplicacion = async (user) => {
         setUsuario(user);
-        if (user.rol == 'alumno') {
+        if (user.rol == 'alumno' && user.estado == 'Habilitado') {
             window.location.href = '/usuario/equivalencias';
-        } else if (user.rol == 'directivo') {
+        } else if (user.rol == 'directivo' && user.estado == 'Habilitado') {
             window.location.href = '/direccionDashboard';
-        } else if (user.rol == 'superusuario') {
+        } else if (user.rol == 'superusuario' && user.estado == 'Habilitado') {
             window.location.href = '/direccionDashboard'; //superusuario/solicitudes direccion anterior
+        } else {
+            window.alert('Tu usuario no está habiltado');
+            localStorage.clear();
         }
     };
 
