@@ -129,7 +129,7 @@ const FormularioRegistro = () => {
 
             if (response.status === 200) {
                 notifyExito();
-                history.push('/Registro');
+                history.push('/');
             } else {
                 notifyError();
             }
