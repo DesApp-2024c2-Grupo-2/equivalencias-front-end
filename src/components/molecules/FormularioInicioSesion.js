@@ -112,7 +112,7 @@ const FormularioInicioSesion = () => {
         <FormularioMain>
             <Grid container>
                 <TituloBienvenida>
-                    <Grid item xs={12} sm={5}>
+                    <Grid item xs={12}>
                         <Titulos
                             titulogrande="+true"
                             titulomarginbottom

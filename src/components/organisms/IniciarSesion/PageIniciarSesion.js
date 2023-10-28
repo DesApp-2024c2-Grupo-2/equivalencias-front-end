@@ -11,7 +11,7 @@ const PageIniciarSesion = () => {
                     <Grid item xs={12} sm={5}>
                         <Register />
                     </Grid>
-                    <Grid item xs={11} sm={7}>
+                    <Grid item xs={12} sm={7}>
                         <FormularioInicioSesion />
                     </Grid>
                 </Grid>

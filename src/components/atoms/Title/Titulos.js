@@ -3,11 +3,7 @@ import { css } from '@mui/styled-engine';
 
 const TituloBienvenida = styled(Grid)`
     width: 100%;
-    max-width: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
     text-align: center;
 `;
 

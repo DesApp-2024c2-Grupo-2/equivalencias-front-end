@@ -22,8 +22,6 @@ const socket = socketIO.connect('http://localhost:3001');
 
 function App() {
     const rol = JSON.parse(localStorage.getItem('rol'));
-    console.log(rol);
-
     return (
         <>
             {rol == 'alumno' && (
@@ -117,17 +115,6 @@ function App() {
                     />
                 </Router>
             )}
-            {
-                <Router>
-                    <Route path="/" exact component={PageIniciarSesion} />
-                    <Route path="/registro" exact component={PageRegistro} />
-                    <Route
-                        path="/resetPassword/:hash"
-                        exact
-                        component={PageResetPassword}
-                    />
-                </Router>
-            }
 
             <ToastContainer
                 containerId={'Toastify'}

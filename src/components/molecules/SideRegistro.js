@@ -15,6 +15,7 @@ const SideRegistro = styled(Grid)`
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    padding: 20px 30px;
 `;
 
 const Register = () => {
