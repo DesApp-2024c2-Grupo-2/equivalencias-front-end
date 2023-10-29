@@ -15,6 +15,7 @@ import { BotonMUI } from '../atoms/Button/BotonMUI';
 import { Menu } from './Menu';
 import React from 'react';
 import md5 from 'md5';
+import { link } from 'fs';
 
 const dni = JSON.parse(localStorage.getItem('dni'));
 const nombre = JSON.parse(localStorage.getItem('nombre'));
@@ -230,19 +231,18 @@ const Header = ({ name, paginaPrincipal, botonSeleccionado }) => {
                         </Tooltip>
 
                         <Grid item container sx={{ marginLeft: '40px' }}>
-                            <Link to="/" style={{ textDecoration: 'none' }}>
-                                <BotonMUI
-                                    buttoncontained
-                                    buttonlogout
-                                    variant="contained"
-                                    sx={{ width: '150px' }}
-                                    onClick={() => {
-                                        localStorage.clear();
-                                    }}
-                                >
-                                    Cerrar sesión
-                                </BotonMUI>
-                            </Link>
+                            <BotonMUI
+                                onClick={() => {
+                                    localStorage.clear();
+                                    window.location.href = '/';
+                                }}
+                                buttoncontained
+                                buttonlogout
+                                variant="contained"
+                                sx={{ width: '150px' }}
+                            >
+                                Cerrar sesión
+                            </BotonMUI>
                         </Grid>
                     </Grid>
                 </Grid>
