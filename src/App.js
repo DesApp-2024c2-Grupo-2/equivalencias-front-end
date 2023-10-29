@@ -2,7 +2,6 @@ import PageIniciarSesion from './components/organisms/IniciarSesion/PageIniciarS
 import { PageCreateForm } from './components/molecules/PageCreateForm';
 import { PageRevision } from './components/organisms/Direccion/PageRevision';
 import { PageMyForm } from './components/molecules/PageMyForm';
-import { PagePerfil } from './components/organisms/Alumno/PagePerfil';
 import { PageCRUDCarreras } from './components/carreras/PageCRUDCarreras';
 import { PageDireccion } from './components/organisms/Direccion/PageDireccion';
 import React from 'react';
@@ -26,7 +25,6 @@ function App() {
         <>
             {rol == 'alumno' && (
                 <Router>
-                    <Route path="/" exact component={PageIniciarSesion} />
                     <Route
                         path="/usuario/equivalencias"
                         component={PageMyForm}
@@ -43,7 +41,6 @@ function App() {
             )}
             {rol == 'directivo' && (
                 <Router>
-                    <Route path="/" exact component={PageIniciarSesion} />
                     <Route
                         path="/direccion/solicitudes"
                         component={PageDireccion}
@@ -76,7 +73,6 @@ function App() {
             )}
             {rol == 'superusuario' && (
                 <Router>
-                    <Route path="/" exact component={PageIniciarSesion} />
                     <Route
                         path="/superusuario/solicitudes"
                         component={PageDireccion}
@@ -115,6 +111,17 @@ function App() {
                     />
                 </Router>
             )}
+            {
+                <Router>
+                    <Route path="/" exact component={PageIniciarSesion} />
+                    <Route path="/registro" exact component={PageRegistro} />
+                    <Route
+                        path="/resetPassword/:hash"
+                        exact
+                        component={PageResetPassword}
+                    />
+                </Router>
+            }
 
             <ToastContainer
                 containerId={'Toastify'}
