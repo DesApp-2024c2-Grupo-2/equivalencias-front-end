@@ -2,6 +2,7 @@ import { Box, Grid, Modal, Button, TextField } from '@mui/material';
 import { Titulos } from '../atoms/Title/Titulos';
 import { StandardInput } from '../atoms/Input/InputMUI';
 import { AutocompleteInput } from '../atoms/Input/InputMUI';
+import MultipleSelect from '../atoms/Input/MultipleSelect';
 
 export const ModalEliminarCarrera = (props) => {
     const { openEliminar, handleCloseEliminar, handleDelete } = props;
@@ -143,7 +144,8 @@ export const ModalAgregarCarrera = (props) => {
         handleChange,
         handleChangeDirectivo,
         nombresDirectivos,
-        formValue
+        formValue,
+        listaDirectivos
     } = props;
 
     return (
@@ -183,7 +185,13 @@ export const ModalAgregarCarrera = (props) => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <AutocompleteInput
+                        <MultipleSelect
+                            nombresDirectivos={nombresDirectivos}
+                            handleChangeDirectivo={handleChangeDirectivo}
+                            listaDirectivos={listaDirectivos}
+                        />
+
+                        {/* <AutocompleteInput
                             size="small"
                             variant="outlined"
                             onSelect={handleChangeDirectivo}
@@ -198,7 +206,7 @@ export const ModalAgregarCarrera = (props) => {
                                     value={formValue.directivo || ''}
                                 />
                             )}
-                        />
+                        /> */}
                     </Grid>
 
                     <Grid item container justifyContent="space-between" xs={12}>

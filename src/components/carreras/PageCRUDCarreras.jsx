@@ -11,12 +11,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { GridTop } from '../atoms/GridTop';
 import { Titulos } from '../atoms/Title/Titulos';
-import { HeaderSuperUsuario } from '../molecules/HeaderSuperUsuario';
 import {
-    getCarreras,
     createCarrera,
     updateCarrera,
-    deleteCarrera
+    deleteCarrera,
+    getCarrerasConDirectivos
 } from '../../services/carrera_service';
 import { getDirectivos } from '../../services/usuario_service';
 import { createUsuario_Carrera } from '../../services/usuarios_carreras_service';
@@ -64,6 +63,12 @@ const PageCRUDCarreras = () => {
             label: 'Fecha Actualizacion',
             minWidth: 140,
             align: 'center'
+        },
+        {
+            id: 'directivosParaTabla',
+            label: 'Directivo',
+            minWidth: 140,
+            align: 'center'
         }
     ];
 
@@ -92,7 +97,7 @@ const PageCRUDCarreras = () => {
 
     useEffect(() => {
         const fetchCarreras = async () => {
-            const carreras_input = await getCarreras();
+            const carreras_input = await getCarrerasConDirectivos();
             setCarreras(carreras_input.data);
         };
         fetchCarreras();
@@ -106,8 +111,24 @@ const PageCRUDCarreras = () => {
         }));
     };
 
-    function createData(id, nombre_carrera, nombre_instituto, updatedAt) {
-        return { id, nombre_carrera, nombre_instituto, updatedAt };
+    function createData(
+        id,
+        nombre_carrera,
+        nombre_instituto,
+        updatedAt,
+        directivos
+    ) {
+        const directivosString = directivos.map(
+            (dir) => dir.nombre + ' ' + dir.apellido
+        );
+        const directivosParaTabla = directivosString.join(', ');
+        return {
+            id,
+            nombre_carrera,
+            nombre_instituto,
+            updatedAt,
+            directivosParaTabla
+        };
     }
 
     const rows = carreras.map((carrera) =>
@@ -115,7 +136,8 @@ const PageCRUDCarreras = () => {
             carrera.id,
             carrera.nombre_carrera,
             carrera.nombre_instituto,
-            carrera.updatedAt
+            carrera.updatedAt,
+            carrera.directivos
         )
     );
 
@@ -171,23 +193,22 @@ const PageCRUDCarreras = () => {
             nombre_instituto: carreraSeleccionada.nombre_instituto,
             activo: 1
         };
-        
+
         createCarrera(objCarrera).then((rpta) => {
-            console.log(rpta);
-            console.log(formValue.directivo);
-            let objUsuario_Carrera = {
-                UsuarioId: formValue.directivo,
-                CarreraId: rpta.id
-            };
-            createUsuario_Carrera(objUsuario_Carrera).then((rpta) => {
-                console.log(rpta);
+            formValue.idDirectivos.forEach((idDir) => {
+                let objUsuario_Carrera = {
+                    UsuarioId: idDir,
+                    CarreraId: rpta.id
+                };
+                createUsuario_Carrera(objUsuario_Carrera).then((rpta) => {
+                    console.log(rpta);
+                });
             });
         });
         console.log(carreras);
         setTimeout(() => {
             setOpenAgregar(false);
         }, 1000);
-        setOpenAgregar(false);
     };
 
     const [formValue, setformValue] = useState({
@@ -197,7 +218,7 @@ const PageCRUDCarreras = () => {
     const [directivos, setDirectivos] = useState([]);
 
     const nombresDirectivos = directivos.map((directivo) => {
-        return directivo.nombre;
+        return directivo.nombre + ' ' + directivo.apellido;
     });
 
     useEffect(() => {
@@ -208,30 +229,38 @@ const PageCRUDCarreras = () => {
         fetchDirectivos();
     }, []);
 
+    const [listaDirectivos, setListaDirectivos] = React.useState([]);
+
     const handleChangeDirectivo = (event) => {
-        if (event.target.name === 'directivo') {
-            try {
-                const id_directivo = directivos.find(
-                    (directivo) => directivo.nombre === event.target.value
-                ).id;
-                console.log(id_directivo);
-                setformValue((formValue) => ({
-                    ...formValue,
-                    [event.target.name]: id_directivo
-                }));
-            } catch (error) {
-                console.log(error);
-            }
-        }
+        const {
+            target: { value }
+        } = event;
+        setListaDirectivos(
+            typeof value === 'string' ? value.split(',') : value
+        );
     };
+
+    useEffect(() => {
+        const directivosFiltrados = directivos.filter((dir) =>
+            listaDirectivos.includes(dir.nombre + ' ' + dir.apellido)
+        );
+        const directivosId = directivosFiltrados.map((dir) => dir.id);
+
+        const nuevoEstadoFormValue = {
+            ...formValue,
+            idDirectivos: directivosId
+        };
+
+        setformValue(nuevoEstadoFormValue);
+    }, [listaDirectivos]);
 
     return (
         <Grid container>
             <Grid item container xs={12}>
-            <Header
-                name="Mis equivalencias"
-                paginaPrincipal="/usuario/equivalencias/"
-            />
+                <Header
+                    name="Mis equivalencias"
+                    paginaPrincipal="/usuario/equivalencias/"
+                />
             </Grid>
 
             <Grid
@@ -278,6 +307,7 @@ const PageCRUDCarreras = () => {
                             handleChangeDirectivo={handleChangeDirectivo}
                             nombresDirectivos={nombresDirectivos}
                             formValue={formValue}
+                            listaDirectivos={listaDirectivos}
                         ></ModalAgregarCarrera>
                     </Grid>
                 </GridTop>
