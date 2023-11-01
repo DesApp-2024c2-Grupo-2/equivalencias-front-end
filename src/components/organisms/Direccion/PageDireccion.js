@@ -1,8 +1,16 @@
-import { Grid, Paper, MenuItem, Select } from '@mui/material';
+import {
+    Grid,
+    Paper,
+    MenuItem,
+    Select,
+    Autocomplete,
+    TextField,
+    Button
+} from '@mui/material';
 import { GridTop } from '../../atoms/GridTop';
 import { Titulos } from '../../atoms/Title/Titulos';
 import StickyHeadTable from '../Direccion/TablaDireccion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import React from 'react';
@@ -13,6 +21,10 @@ import { HeaderSuperUsuario } from '../../molecules/HeaderSuperUsuario';
 import TablaEquivalencias from '../../molecules/TablaEquivalencias';
 import IconButton from '@mui/material/IconButton';
 import { Header } from '../../molecules/Header';
+import { BotonMUI } from '../../atoms/Button/BotonMUI';
+import { getInstitucionesHabilitadas } from '../../../services/institucionService';
+import { getMateriaAprobadasPorUniversidad } from '../../../services/materias_aprobadas_services';
+import BusquedaMateriasModal from '../Direccion/busquedaMateriasModal';
 
 const PageDireccion = () => {
     const [searchQuery, setSearchQuery] = useState({
@@ -36,6 +48,39 @@ const PageDireccion = () => {
             ...prevState,
             column: event.target.value
         }));
+    };
+
+    const [universidades, setUniversidades] = useState([]);
+    const [universidad, setUniversidad] = useState({});
+    const [materiasAprobadas, setmateriasAprobadas] = useState([]);
+    const defaultProps = {
+        options: universidades,
+        getOptionLabel: (option) => option.nombre_universidad
+    };
+    const [openModalMateria, setOpenModalMateria] = useState(false);
+    const handleOpenModalMateria = () => {
+        setOpenModalMateria(true);
+    };
+    const handleCloseModalMateria = () => {
+        setOpenModalMateria(false);
+    };
+
+    useEffect(() => {
+        const traerUniversidades = async () => {
+            const getUniversidades = await getInstitucionesHabilitadas();
+            setUniversidades(getUniversidades);
+        };
+
+        traerUniversidades();
+    }, []);
+
+    const handleBuscar = async () => {
+        console.log('Universidad seleccionada :', universidad.id);
+        const buscarMateriaAprobadas = await getMateriaAprobadasPorUniversidad(
+            universidad.id
+        );
+        console.log('Busqueda: ', buscarMateriaAprobadas);
+        handleOpenModalMateria();
     };
 
     return (
@@ -74,6 +119,71 @@ const PageDireccion = () => {
                             Solicitudes de equivalencias
                         </Titulos>
                     </Grid>
+                </GridTop>
+
+                <GridTop
+                    item
+                    container
+                    blanco="+true"
+                    search
+                    searchPlaceholder
+                    searchProps
+                    debounceSearchRender
+                    xs={11.5}
+                    md={9}
+                    lg={7}
+                    sx={{
+                        height: '5rem',
+                        borderBottom: 'none',
+                        borderBottomLeftRadius: '0px',
+                        borderBottomRightRadius: '0px'
+                    }}
+                >
+                    {/* Busqueda de equivalencias*/}
+                    <Grid
+                        item
+                        container
+                        direction="row"
+                        justifyContent="flex-start"
+                        alignItems="center"
+                        borderColor={'grey'}
+                        xs={12}
+                        sx={{
+                            height: 'auto',
+                            marginLeft: '40px'
+                        }}
+                    >
+                        <Titulos component="h3">
+                            Busqueda de equivalencias
+                        </Titulos>
+
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-universidades"
+                            onChange={(event, newValue) => {
+                                setUniversidad(newValue);
+                            }}
+                            {...defaultProps}
+                            sx={{ width: 300, marginLeft: '2%' }}
+                            renderInput={(params) => (
+                                <TextField {...params} label="Universidades" />
+                            )}
+                        />
+
+                        <Button
+                            id="boton-busqueda-equivalencias"
+                            sx={{ width: 120, marginLeft: '3%' }}
+                            onClick={handleBuscar}
+                        >
+                            Buscar
+                        </Button>
+                    </Grid>
+                    <BusquedaMateriasModal
+                        open={openModalMateria}
+                        onCloseBoton={handleCloseModalMateria}
+                        materiasAprobadas={materiasAprobadas}
+                        universidad={universidad}
+                    />
                 </GridTop>
 
                 <GridTop
