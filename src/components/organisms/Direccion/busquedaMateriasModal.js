@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BotonMUI } from '../../atoms/Button/BotonMUI';
 import { Modal, Box, TextField, Grid } from '@mui/material';
+import TablaResultadosMateria from './TablaResultadosMaterias';
 
 const BusquedaMateriasModal = ({
     open,
@@ -11,8 +12,6 @@ const BusquedaMateriasModal = ({
     const handleClose = () => {
         onCloseBoton(); // Cierra el modal
     };
-
-    const { data } = materiasAprobadas;
 
     return (
         <Modal open={open} onClose={onCloseBoton}>
@@ -28,12 +27,14 @@ const BusquedaMateriasModal = ({
                     p: 4
                 }}
             >
-                <h4>
-                    Materias aprobadas en equivalencias de{' '}
-                    {universidad.nombre_universidad}
-                </h4>
+                <h4>Materias aprobadas en equivalencias de {universidad}</h4>
                 <br></br>
-                <Grid>Listado de materias</Grid>
+                <Grid>
+                    Listado de materias
+                    <TablaResultadosMateria
+                        materiasAprobadas={materiasAprobadas}
+                    />
+                </Grid>
 
                 <BotonMUI
                     variant="contained"

@@ -79,9 +79,14 @@ const PageDireccion = () => {
         const buscarMateriaAprobadas = await getMateriaAprobadasPorUniversidad(
             universidad.id
         );
-        console.log('Busqueda: ', buscarMateriaAprobadas);
+        setmateriasAprobadas(buscarMateriaAprobadas);
+        console.log('Busqueda: ', materiasAprobadas);
         handleOpenModalMateria();
     };
+
+    useEffect(() => {
+        console.log('Busqueda: ', materiasAprobadas);
+    }, [materiasAprobadas]);
 
     return (
         <Grid container direction="column">
@@ -182,7 +187,9 @@ const PageDireccion = () => {
                         open={openModalMateria}
                         onCloseBoton={handleCloseModalMateria}
                         materiasAprobadas={materiasAprobadas}
-                        universidad={universidad}
+                        universidad={
+                            universidad ? universidad.nombre_universidad : ''
+                        }
                     />
                 </GridTop>
 
