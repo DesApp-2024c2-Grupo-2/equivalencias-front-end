@@ -6,6 +6,13 @@ export async function getCarreras() {
     return apiResponse.data;
 }
 
+export async function getCarrerasConDirectivos() {
+    const apiResponse = await axios.get(
+        `${config.apiUrl}/carreras/todasConDirectivos`
+    );
+    return apiResponse.data;
+}
+
 export async function getCarrera(id) {
     const apiResponse = await axios.get(`${config.apiUrl}/carreras/${id}`);
     return apiResponse.data;
