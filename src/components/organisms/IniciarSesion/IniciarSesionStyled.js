@@ -7,6 +7,7 @@ const TarjetaLogin = styled(Grid)`
     height: auto%;
     border-radius: 20px;
     position: relative;
+    background-color: white;
 `;
 
 const FatherContainer = styled(Grid)`
