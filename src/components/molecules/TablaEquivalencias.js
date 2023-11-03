@@ -265,7 +265,7 @@ export default function TablaEquivalencias({ searchQuery }) {
                 boxShadow: 'none'
             }}
         >
-            <TableContainer sx={{ maxHeight: 440 }}>
+            <TableContainer sx={{ maxHeight: 500 }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow>

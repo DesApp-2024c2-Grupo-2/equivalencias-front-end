@@ -292,8 +292,7 @@ const PageDireccion = () => {
                     item
                     container
                     blanco
-                    xs={11.5}
-                    md={7}
+                    maxWidth={'95vw'}
                     sx={{
                         height: 'auto',
                         borderTopLeftRadius: '0px',
