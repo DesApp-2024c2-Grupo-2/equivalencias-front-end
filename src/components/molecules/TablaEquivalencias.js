@@ -275,8 +275,7 @@ export default function TablaEquivalencias({ searchQuery }) {
                                     align={'center'}
                                     style={{ minWidth: column.minWidth }}
                                     sx={{
-                                        backgroundColor:
-                                            'rgba(245, 245, 245, 0.7)',
+                                        backgroundColor: 'rgba(245, 245, 245)',
                                         padding: '16px 40px'
                                     }}
                                 >
