@@ -13,3 +13,10 @@ export async function createUsuario_Carrera(usuario_carrera) {
     );
     return apiResponse.data;
 }
+
+export async function getUsuario_carrera(id) {
+    const apiResponse = await axios.get(
+        `${config.apiUrl}/usuarios_carreras/${id}`
+    );
+    return apiResponse.data;
+}

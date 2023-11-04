@@ -2,8 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
@@ -12,10 +10,9 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import {
     getEquivalencia,
-    getEquivalenciaUsuario,
-    getEquivalenciaSuperUsuario,
-    getEquivalenciaPorDirectivo
+    getEquivalenciaUsuario
 } from '../../services/equivalencia_service';
+import { getUsuario_carrera } from '../../services/usuarios_carreras_service';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import { Grid } from '@mui/material';
@@ -65,7 +62,15 @@ export default function TablaEquivalencias({ searchQuery }) {
         carrera
     ) => {
         if (rol === 'directivo' || rol === 'superusuario') {
-            return { solicitante, dni, materia, dateTime, actions, estado };
+            return {
+                solicitante,
+                dni,
+                materia,
+                dateTime,
+                actions,
+                estado,
+                carrera
+            };
         } else {
             return { carrera, materia, dateTime, estado, actions };
         }
@@ -161,6 +166,15 @@ export default function TablaEquivalencias({ searchQuery }) {
             </Button>
         );
     };
+    const carre = [];
+    const fetchCarrerasData = async () => {
+        if (rol === 'directivo') {
+            carre.push(
+                await getUsuario_carrera(JSON.parse(localStorage.getItem('id')))
+            );
+        }
+    };
+    fetchCarrerasData();
 
     useEffect(() => {
         const fetchEquivalenciaData = async () => {
@@ -188,7 +202,7 @@ export default function TablaEquivalencias({ searchQuery }) {
                     (d.getMonth() + 1) +
                     '/' +
                     d.getFullYear();
-                let carrera = arrayItem.carrera;
+                let carrera = arrayItem.Materia_solicitadas[0].carrera;
                 let status = renderState(
                     arrayItem.estado.toUpperCase(),
                     arrayItem.Materia_solicitadas
@@ -197,7 +211,7 @@ export default function TablaEquivalencias({ searchQuery }) {
                     arrayItem.id,
                     arrayItem.Materia_solicitadas
                 );
-                //console.log(status);
+                let array2 = [];
                 array.push(
                     createData(
                         filterNameMat(arrayItem.Materia_solicitadas),
@@ -211,11 +225,17 @@ export default function TablaEquivalencias({ searchQuery }) {
                         carrera
                     )
                 );
-                if (rol === 'directivo' || rol === 'superusuario') {
-                    let dataFilter = array;
+                if (rol === 'directivo') {
+                    let carreras = carre[0].map(
+                        (carrera) => carrera.Carrera.nombre_carrera
+                    ); //mapea las carreras del directivo
+                    let dataFilter = [];
+                    array2 = array.filter((usuario) =>
+                        carreras.includes(usuario.carrera)
+                    );
                     switch (searchQuery.column) {
                         case 'dni':
-                            dataFilter = array.filter((d) =>
+                            dataFilter = array2.filter((d) =>
                                 d.dni
                                     .toString()
                                     .toLowerCase()
@@ -223,35 +243,33 @@ export default function TablaEquivalencias({ searchQuery }) {
                             );
                             break;
                         case 'solicitante':
-                            dataFilter = array.filter((d) =>
+                            dataFilter = array2.filter((d) =>
                                 d.solicitante
                                     .toLowerCase()
                                     .includes(searchQuery.value.toLowerCase())
                             );
                             break;
-
                         case 'estado':
-                            dataFilter = array.filter((d) =>
+                            dataFilter = array2.filter((d) =>
                                 d.estado.props.children
                                     .toLowerCase()
                                     .includes(searchQuery.value.toLowerCase())
                             );
                             break;
                         default:
-                            dataFilter = array;
+                            dataFilter = array2;
                             break;
                     }
                     if (searchQuery) {
                         setRows(dataFilter);
                         setPage(0);
                     } else {
-                        setRows([...array]);
+                        setRows([...array2]);
                     }
                 } else {
-                    setRows([...array]);
+                    setRows([...array2]);
                 }
             });
-            //console.table([columns, array]);
         };
         fetchEquivalenciaData();
     }, [searchQuery]);

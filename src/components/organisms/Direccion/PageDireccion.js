@@ -75,18 +75,15 @@ const PageDireccion = () => {
     }, []);
 
     const handleBuscar = async () => {
-        console.log('Universidad seleccionada :', universidad.id);
         const buscarMateriaAprobadas = await getMateriaAprobadasPorUniversidad(
             universidad.id
         );
         setmateriasAprobadas(buscarMateriaAprobadas);
-        console.log('Busqueda: ', materiasAprobadas);
+
         handleOpenModalMateria();
     };
 
-    useEffect(() => {
-        console.log('Busqueda: ', materiasAprobadas);
-    }, [materiasAprobadas]);
+    useEffect(() => {}, [materiasAprobadas]);
 
     return (
         <Grid container direction="column">
@@ -239,7 +236,7 @@ const PageDireccion = () => {
                                 ref={iconSearch}
                                 sx={{
                                     m: '10px',
-                                    color: 'rgba(0, 0, 0, 0.54)'
+                                    color: 'rgba(0, 0, 0, 0.64)'
                                 }}
                             />
                             {/* </IconButton> */}
