@@ -257,17 +257,17 @@ export default function TablaEquivalencias({ searchQuery }) {
                             );
                             break;
                         default:
-                            dataFilter = array2;
+                            dataFilter = array;
                             break;
                     }
                     if (searchQuery) {
                         setRows(dataFilter);
                         setPage(0);
                     } else {
-                        setRows([...array2]);
+                        setRows([...array]);
                     }
                 } else {
-                    setRows([...array2]);
+                    setRows([...array]);
                 }
             });
         };
