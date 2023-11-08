@@ -53,7 +53,7 @@ const PageDireccion = () => {
     const [universidades, setUniversidades] = useState([]);
     const [universidad, setUniversidad] = useState({});
     const [materiasAprobadas, setmateriasAprobadas] = useState([]);
-    const [materiaAprobada, setMateriaAprobada] = useState('');
+    const [materiaAprobada, setMateriaAprobada] = useState(null);
 
     const defaultProps = {
         options: universidades,
@@ -86,7 +86,7 @@ const PageDireccion = () => {
         };
         if (primerRender) {
             setPrimerRender(false);
-        } else {
+        } else if (universidad != null) {
             buscarMaterias();
         }
     }, [universidad]);
@@ -103,13 +103,18 @@ const PageDireccion = () => {
         getOptionLabel: (option) => option.nombre_materia
     };
 
-    const handleBuscar = async () => {
-        const buscarMateriaAprobadas = await getMateriaAprobadasPorUniversidad(
-            universidad.id
-        );
-        setmateriasAprobadas(buscarMateriaAprobadas);
+    const [equivFiltradas, setequivFiltradas] = useState([]);
 
-        handleOpenModalMateria();
+    const handleBuscar = async () => {
+        if (materiaAprobada == null) {
+            alert('Tenes que seleccionar una materia.');
+        } else {
+            const equivs = materiasAprobadas.filter(
+                (mat) => mat.nombre_materia == materiaAprobada.nombre_materia
+            );
+            setequivFiltradas(equivs);
+            handleOpenModalMateria();
+        }
     };
 
     useEffect(() => {}, [materiasAprobadas]);
@@ -225,7 +230,7 @@ const PageDireccion = () => {
                     <BusquedaMateriasModal
                         open={openModalMateria}
                         onCloseBoton={handleCloseModalMateria}
-                        materiasAprobadas={materiasAprobadas}
+                        materiasAprobadas={equivFiltradas}
                         universidad={
                             universidad ? universidad.nombre_universidad : ''
                         }
