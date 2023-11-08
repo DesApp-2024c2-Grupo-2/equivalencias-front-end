@@ -53,6 +53,8 @@ const PageDireccion = () => {
     const [universidades, setUniversidades] = useState([]);
     const [universidad, setUniversidad] = useState({});
     const [materiasAprobadas, setmateriasAprobadas] = useState([]);
+    const [materiaAprobada, setMateriaAprobada] = useState('');
+
     const defaultProps = {
         options: universidades,
         getOptionLabel: (option) => option.nombre_universidad
@@ -73,6 +75,33 @@ const PageDireccion = () => {
 
         traerUniversidades();
     }, []);
+
+    const [primerRender, setPrimerRender] = useState(true);
+
+    useEffect(() => {
+        const buscarMaterias = async () => {
+            const buscarMateriaAprobadas =
+                await getMateriaAprobadasPorUniversidad(universidad.id);
+            setmateriasAprobadas(buscarMateriaAprobadas);
+        };
+        if (primerRender) {
+            setPrimerRender(false);
+        } else {
+            buscarMaterias();
+        }
+    }, [universidad]);
+
+    const opcionesUnicas = materiasAprobadas.filter(
+        (materia, index, self) =>
+            self.findIndex(
+                (m) => m.nombre_materia === materia.nombre_materia
+            ) === index
+    );
+
+    const defaultPropsMaterias = {
+        options: opcionesUnicas,
+        getOptionLabel: (option) => option.nombre_materia
+    };
 
     const handleBuscar = async () => {
         const buscarMateriaAprobadas = await getMateriaAprobadasPorUniversidad(
@@ -169,6 +198,19 @@ const PageDireccion = () => {
                             sx={{ width: 300, marginLeft: '2%' }}
                             renderInput={(params) => (
                                 <TextField {...params} label="Universidades" />
+                            )}
+                        />
+
+                        <Autocomplete
+                            disablePortal
+                            id="combo-box-materias"
+                            onChange={(event, newValue) => {
+                                setMateriaAprobada(newValue);
+                            }}
+                            {...defaultPropsMaterias}
+                            sx={{ width: 300, marginLeft: '2%' }}
+                            renderInput={(params) => (
+                                <TextField {...params} label="Materias" />
                             )}
                         />
 
@@ -289,6 +331,9 @@ const PageDireccion = () => {
                     item
                     container
                     blanco
+                    xs={11.5}
+                    md={9}
+                    lg={7}
                     maxWidth={'95vw'}
                     sx={{
                         height: 'auto',
