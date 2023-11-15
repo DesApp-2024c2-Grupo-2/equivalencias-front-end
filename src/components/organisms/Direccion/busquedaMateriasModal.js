@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BotonMUI } from '../../atoms/Button/BotonMUI';
-import { Modal, Box, TextField, Grid } from '@mui/material';
+import { Modal, Box, Grid } from '@mui/material';
 import TablaResultadosMateria from './TablaResultadosMaterias';
 
 const BusquedaMateriasModal = ({

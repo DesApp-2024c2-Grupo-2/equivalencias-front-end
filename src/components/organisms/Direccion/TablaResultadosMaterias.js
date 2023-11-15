@@ -17,26 +17,29 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 const TablaResultadosMateria = ({ materiasAprobadas }) => {
     console.log(materiasAprobadas);
 
-    const data = materiasAprobadas.map((item) => {
-        return {
-            nombre_materia: item.nombre_materia,
-            carreraOrigen: item.carreraOrigen,
-            updatedAt: item.updatedAt,
-            Equivalencium: {
-                estado: item.Equivalencium.estado,
-                instituto: item.Equivalencium.instituto,
-                Materia_solicitadas: item.Equivalencium.Materia_solicitadas.map(
-                    (materia) => {
-                        return {
-                            nombre: materia.nombre,
-                            estado: materia.estado,
-                            carrera: materia.carrera
-                        };
-                    }
-                )
-            }
-        };
-    });
+    const data = materiasAprobadas
+        .map((item) => {
+            return {
+                nombre_materia: item.nombre_materia,
+                carreraOrigen: item.carreraOrigen,
+                updatedAt: item.updatedAt,
+                Equivalencium: {
+                    estado: item.Equivalencium.estado,
+                    instituto: item.Equivalencium.instituto,
+                    Materia_solicitadas:
+                        item.Equivalencium.Materia_solicitadas.map(
+                            (materia) => {
+                                return {
+                                    nombre: materia.nombre,
+                                    estado: materia.estado,
+                                    carrera: materia.carrera
+                                };
+                            }
+                        )
+                }
+            };
+        })
+        .filter((mat) => mat.Equivalencium.estado == 'Cerrado');
 
     return (
         <TableContainer component={Paper}>

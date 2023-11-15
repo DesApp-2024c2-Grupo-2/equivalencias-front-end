@@ -21,7 +21,6 @@ import NotificationsActiveTwoToneIcon from '@mui/icons-material/NotificationsAct
 
 export default function TablaEquivalencias({ searchQuery }) {
     const rol = JSON.parse(localStorage.getItem('rol'));
-    const id = JSON.parse(localStorage.getItem('id'));
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [rows, setRows] = useState([]);
@@ -251,6 +250,41 @@ export default function TablaEquivalencias({ searchQuery }) {
                             break;
                         case 'estado':
                             dataFilter = array2.filter((d) =>
+                                d.estado.props.children
+                                    .toLowerCase()
+                                    .includes(searchQuery.value.toLowerCase())
+                            );
+                            break;
+                        default:
+                            dataFilter = array;
+                            break;
+                    }
+                    if (searchQuery) {
+                        setRows(dataFilter);
+                        setPage(0);
+                    } else {
+                        setRows([...array]);
+                    }
+                } else if (rol == 'superusuario') {
+                    let dataFilter = [];
+                    switch (searchQuery.column) {
+                        case 'dni':
+                            dataFilter = array.filter((d) =>
+                                d.dni
+                                    .toString()
+                                    .toLowerCase()
+                                    .includes(searchQuery.value.toLowerCase())
+                            );
+                            break;
+                        case 'solicitante':
+                            dataFilter = array.filter((d) =>
+                                d.solicitante
+                                    .toLowerCase()
+                                    .includes(searchQuery.value.toLowerCase())
+                            );
+                            break;
+                        case 'estado':
+                            dataFilter = array.filter((d) =>
                                 d.estado.props.children
                                     .toLowerCase()
                                     .includes(searchQuery.value.toLowerCase())

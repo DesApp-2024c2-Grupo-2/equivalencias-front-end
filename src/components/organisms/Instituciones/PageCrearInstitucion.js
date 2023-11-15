@@ -1,16 +1,9 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { postInstituciones } from '../../../services/institucionService';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import {
-    Container,
-    Grid,
-    styled,
-    Typography,
-    Button,
-    IconButton
-} from '@mui/material';
+import { Grid, Typography, Button, IconButton } from '@mui/material';
 import { Header } from '../../molecules/Header';
 import Image from 'mui-image';
 import {

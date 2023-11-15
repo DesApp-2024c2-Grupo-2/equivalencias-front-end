@@ -3,9 +3,9 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import { AutocompleteInput } from '../atoms/Input/InputMUI';
 import { Titulos } from '../atoms/Title/Titulos';
-import IconButton from '@mui/material/IconButton';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import Box from '@mui/material/Box';
+import { IconButton } from '@mui/material';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
 const FormUnahur = ({
     formValue,
@@ -124,7 +124,6 @@ const FormUnahur = ({
                                             )
                                         }
                                     />
-                                    {/* 
                                     <IconButton
                                         sx={{ color: '#5f6368' }}
                                         aria-label="upload picture"
@@ -150,7 +149,7 @@ const FormUnahur = ({
                                         }}
                                     >
                                         <DeleteOutlineOutlinedIcon />
-                                    </IconButton> */}
+                                    </IconButton>
                                 </Grid>
                             </Box>
                         );

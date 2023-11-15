@@ -12,7 +12,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import TablePagination from '@mui/material/TablePagination';
 import Pagination from '@mui/material/Pagination';
 import { Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -35,24 +34,18 @@ const PageInstituciones = () => {
     }
 
     useEffect(() => {
-        console.log('ENTRE AL USE EFFECT');
         const fetchInstituciones = async () => {
-            console.log('Por hacer el llamado');
             const instituciones = await getInsitutciones({
                 limit: limit,
                 page: currentPage
             });
-            console.log('INSTITUCIONES', instituciones);
             const institucionesListadas = instituciones.items;
-            console.log('INSTITUCIONES LISTADAS', institucionesListadas);
             setListaInstituciones(institucionesListadas);
             setTotalPages(instituciones.totalPages);
             setTotalElements(instituciones.totalItems);
         };
         fetchInstituciones();
     }, [currentPage, limit]);
-    console.log('LLEGUE A LA PAGINA');
-    console.log('LISTA INSTITUCIONES', listaInstituciones);
     return (
         <Grid container direction="column">
             <Grid item container xs={12}>

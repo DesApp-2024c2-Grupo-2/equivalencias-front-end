@@ -18,8 +18,6 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { config } from '../../../config/config';
 import { ArchivoEquivalencia } from '../../molecules/ArchivoEquivalencia';
-import { HeaderDirectivo } from '../../molecules/HeaderDirectivo';
-import { HeaderSuperUsuario } from '../../molecules/HeaderSuperUsuario';
 import Chat from '../../chat/Chat';
 import { Button, IconButton } from '@mui/material';
 import { toast } from 'react-toastify';
@@ -43,7 +41,6 @@ const PageRevision = ({ socket }) => {
     const [user, setUser] = useState([]);
     const [rows, setRows] = useState([]);
     const [equiv, setEquiv] = useState({});
-    const [alignment, setAlignment] = useState('web');
     const [mostrarChat, setMostrarChat] = useState(false);
     const [formValue, setFormValue] = useState({
         materias: [

@@ -13,7 +13,6 @@ import { ActionButtons } from '../atoms/Button/ActionButtons';
 import { getEquivalenciaUsuario } from '../../services/equivalencia_service';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Button from '@mui/material/Button';
 
 const columns = [
     { id: 'desc', label: 'Descripción', minWidth: 170 },

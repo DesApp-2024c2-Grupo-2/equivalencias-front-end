@@ -9,19 +9,15 @@ import {
 } from '@mui/material';
 import { GridTop } from '../../atoms/GridTop';
 import { Titulos } from '../../atoms/Title/Titulos';
-import StickyHeadTable from '../Direccion/TablaDireccion';
 import { useState, useEffect } from 'react';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import React from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from 'react-router-dom';
-import { HeaderDirectivo } from '../../molecules/HeaderDirectivo';
-import { HeaderSuperUsuario } from '../../molecules/HeaderSuperUsuario';
 import TablaEquivalencias from '../../molecules/TablaEquivalencias';
 import IconButton from '@mui/material/IconButton';
 import { Header } from '../../molecules/Header';
-import { BotonMUI } from '../../atoms/Button/BotonMUI';
 import { getInstitucionesHabilitadas } from '../../../services/institucionService';
 import { getMateriaAprobadasPorUniversidad } from '../../../services/materias_aprobadas_services';
 import BusquedaMateriasModal from '../Direccion/busquedaMateriasModal';
@@ -31,14 +27,6 @@ const PageDireccion = () => {
         value: '',
         column: 'dni'
     });
-    //const rol = JSON.parse(localStorage.getItem('rol'));
-    //const rolUsuario = () => {
-    //    if (rol === 'directivo') {
-    //        return <HeaderDirectivo />;
-    //    } else {
-    //        return <HeaderSuperUsuario />;
-    //    }
-    //};
 
     const iconSearch = React.createRef();
     const inputSearch = React.createRef();
@@ -180,7 +168,7 @@ const PageDireccion = () => {
                         item
                         container
                         direction="row"
-                        justifyContent="flex-start"
+                        justifyContent="space-around"
                         alignItems="center"
                         borderColor={'grey'}
                         xs={12}
@@ -190,7 +178,7 @@ const PageDireccion = () => {
                         }}
                     >
                         <Titulos component="h3">
-                            Busqueda de equivalencias
+                            Historial de equivalencias
                         </Titulos>
 
                         <Autocomplete
@@ -200,7 +188,7 @@ const PageDireccion = () => {
                                 setUniversidad(newValue);
                             }}
                             {...defaultProps}
-                            sx={{ width: 300, marginLeft: '2%' }}
+                            sx={{ width: '25%', marginLeft: '2%' }}
                             renderInput={(params) => (
                                 <TextField {...params} label="Universidades" />
                             )}
@@ -213,7 +201,7 @@ const PageDireccion = () => {
                                 setMateriaAprobada(newValue);
                             }}
                             {...defaultPropsMaterias}
-                            sx={{ width: 300, marginLeft: '2%' }}
+                            sx={{ width: '25%', marginLeft: '2%' }}
                             renderInput={(params) => (
                                 <TextField {...params} label="Materias" />
                             )}
@@ -221,7 +209,7 @@ const PageDireccion = () => {
 
                         <Button
                             id="boton-busqueda-equivalencias"
-                            sx={{ width: 120, marginLeft: '3%' }}
+                            sx={{ width: 120 }}
                             onClick={handleBuscar}
                         >
                             Buscar
