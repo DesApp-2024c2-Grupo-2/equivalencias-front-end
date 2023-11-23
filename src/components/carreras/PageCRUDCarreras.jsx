@@ -35,10 +35,6 @@ const PageCRUDCarreras = () => {
         id: ''
     });
 
-    useEffect(() => {
-        console.log(carreraSeleccionada);
-    }, [carreraSeleccionada]);
-
     const seleccionarCarrera = (carrera, caso) => {
         setCarreraSeleccionada(carrera);
         caso === 'Editar' ? handleOpenEditar() : handleOpenEliminar();
@@ -184,9 +180,6 @@ const PageCRUDCarreras = () => {
         const directivosAdd = dirId.filter(
             (dir) => !directivosActuales.includes(dir)
         );
-        console.log('directivosActuales', directivosActuales);
-        console.log('directivosABorrar', directivosABorrar);
-        console.log('directivosAdd', directivosAdd);
         e.preventDefault();
         let objCarrera = {
             id: carreraSeleccionada.id,
@@ -195,7 +188,6 @@ const PageCRUDCarreras = () => {
             directivoDelete: directivosABorrar,
             directivoAdd: directivosAdd
         };
-        console.log(objCarrera);
         setOpenEditar(false);
 
         updateCarrera(objCarrera).then((rpta) => {

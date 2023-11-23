@@ -72,8 +72,6 @@ export const ModalEditarCarrera = (props) => {
         setDirId
     } = props;
 
-    // const [personName, setPersonName] = React.useState([]);
-    // const [dirId, setDirId] = React.useState([]);
     const [primeraVez, setPrimeraVez] = React.useState(true);
 
     useEffect(() => {
@@ -85,7 +83,6 @@ export const ModalEditarCarrera = (props) => {
             );
             setPersonName(nombresDirActuales);
         }
-        console.log(carreraSeleccionada);
     }, [openEditar]);
 
     return (

@@ -39,17 +39,10 @@ export default function MultipleSelectEdit(props) {
         const selectedNames = value.map(
             (selected) => selected.nombre + ' ' + selected.apellido
         );
-        console.log('value', value);
         setPersonName(selectedNames);
-        console.log(selectedNames);
         const selectedIds = value.map((selected) => selected.id);
         setDirId(selectedIds);
     };
-
-    useEffect(() => {
-        console.log('personame', personName);
-        console.log(dirId);
-    }, [personName, dirId]);
 
     const directivos = listaDirectivos.map((dir) => {
         return {
