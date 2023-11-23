@@ -1,8 +1,10 @@
-import { Box, Grid, Modal, Button, TextField } from '@mui/material';
+import { Box, Grid, Modal, Button } from '@mui/material';
 import { Titulos } from '../atoms/Title/Titulos';
 import { StandardInput } from '../atoms/Input/InputMUI';
-import { AutocompleteInput } from '../atoms/Input/InputMUI';
 import MultipleSelect from '../atoms/Input/MultipleSelect';
+import MultipleSelectEdit from '../atoms/Input/MultipleSelectEdit';
+import * as React from 'react';
+import { useEffect } from 'react';
 
 export const ModalEliminarCarrera = (props) => {
     const { openEliminar, handleCloseEliminar, handleDelete } = props;
@@ -62,8 +64,29 @@ export const ModalEditarCarrera = (props) => {
         handleCloseEditar,
         handleUpdate,
         handleChange,
-        carreraSeleccionada
+        carreraSeleccionada,
+        listaDirectivos,
+        personName,
+        setPersonName,
+        dirId,
+        setDirId
     } = props;
+
+    // const [personName, setPersonName] = React.useState([]);
+    // const [dirId, setDirId] = React.useState([]);
+    const [primeraVez, setPrimeraVez] = React.useState(true);
+
+    useEffect(() => {
+        if (primeraVez) {
+            setPrimeraVez(false);
+        } else {
+            const nombresDirActuales = carreraSeleccionada.directivosID.map(
+                (dirs) => dirs.nombre
+            );
+            setPersonName(nombresDirActuales);
+        }
+        console.log(carreraSeleccionada);
+    }, [openEditar]);
 
     return (
         <Modal
@@ -111,6 +134,18 @@ export const ModalEditarCarrera = (props) => {
                             }
                             onChange={handleChange}
                         />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <MultipleSelectEdit
+                            listaDirectivos={listaDirectivos}
+                            personName={personName}
+                            setPersonName={setPersonName}
+                            dirId={dirId}
+                            setDirId={setDirId}
+                            directivosActuales={
+                                carreraSeleccionada.directivosID
+                            }
+                        ></MultipleSelectEdit>
                     </Grid>
                     <Grid item container justifyContent="space-between" xs={12}>
                         <Button
