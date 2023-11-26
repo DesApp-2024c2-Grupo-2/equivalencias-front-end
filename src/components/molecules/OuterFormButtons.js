@@ -7,9 +7,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
+import CircularColor from '../atoms/Button/CargaCircular';
 
 const OuterFormButtons = ({ handleSubmit, path, titulo, mensaje }) => {
     const [open, setOpen] = useState(false);
+    const [finalizar, setFinalizar] = useState('Finalizar');
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -17,6 +19,10 @@ const OuterFormButtons = ({ handleSubmit, path, titulo, mensaje }) => {
 
     const handleClose = () => {
         setOpen(false);
+    };
+
+    const handleFinalizar = () => {
+        setFinalizar(<CircularColor />);
     };
 
     return (
@@ -38,15 +44,19 @@ const OuterFormButtons = ({ handleSubmit, path, titulo, mensaje }) => {
 
             <BotonMUI
                 buttoncontainedsmallfinalizar="+true"
-                onClick={handleSubmit}
+                onClick={() => {
+                    handleFinalizar();
+                    handleSubmit();
+                }}
                 sx={{
                     width: {
                         lg: '7rem',
                         xs: '7rem'
                     }
                 }}
+                disabled={finalizar === 'Finalizar' ? false : true}
             >
-                Finalizar
+                {finalizar}
             </BotonMUI>
             <Dialog
                 open={open}
