@@ -33,7 +33,7 @@ const DireccionDashboard = () => {
                             <Grid sx={{ padding: '0.5rem' }}>
                                 <DashboardCard
                                     tituloCard="Solicitudes"
-                                    cuerpoCard="Ver las solicitudes de equivalencia."
+                                    cuerpoCard="Gestion y comunicación"
                                     imgSrc="https://res.cloudinary.com/dfwvsjwjr/image/upload/c_scale,w_68/v1684362644/solicitud_rryiab.png"
                                     link={rolDireccion}
                                 />
@@ -47,8 +47,8 @@ const DireccionDashboard = () => {
                                 >
                                     <DashboardCard
                                         tituloCard="Usuarios"
-                                        cuerpoCard="Ir a control de instituciones en el sistema."
-                                        imgSrc="https://res.cloudinary.com/dfwvsjwjr/image/upload/c_scale,w_68/v1684362643/institucion_1_plx7hx.png"
+                                        cuerpoCard="Administrar y habilitar"
+                                        imgSrc="https://drive.google.com/uc?export=view&id=1sRHDyv6r5z6A6t874d9HP3lzPW1aOcGy"
                                         link={'/superusuario/usuarios'}
                                     />
                                 </div>
@@ -62,8 +62,8 @@ const DireccionDashboard = () => {
                                 >
                                     <DashboardCard
                                         tituloCard="Carreras"
-                                        cuerpoCard="Ir a control de instituciones en el sistema."
-                                        imgSrc="https://res.cloudinary.com/dfwvsjwjr/image/upload/c_scale,w_68/v1684362643/institucion_1_plx7hx.png"
+                                        cuerpoCard="Ingreso y modificación"
+                                        imgSrc="https://drive.google.com/uc?export=view&id=1c1CdqCcDO5CDlkfr0mawwmTBRDElgRbK"
                                         link={'/superusuario/carreras'}
                                     />
                                 </div>
@@ -72,7 +72,7 @@ const DireccionDashboard = () => {
                             <Grid sx={{ padding: '0.5rem' }}>
                                 <DashboardCard
                                     tituloCard="Instituciones"
-                                    cuerpoCard="Ir a control de instituciones en el sistema."
+                                    cuerpoCard="Administrar y ingresar"
                                     imgSrc="https://res.cloudinary.com/dfwvsjwjr/image/upload/c_scale,w_68/v1684362643/institucion_1_plx7hx.png"
                                     link={'/direccion/instituciones'}
                                 />
