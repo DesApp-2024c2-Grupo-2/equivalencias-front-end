@@ -2,15 +2,46 @@ import React, { useState } from 'react';
 import { BotonMUI } from '../../atoms/Button/BotonMUI';
 import { Modal, Box, TextField } from '@mui/material';
 import { postReset } from '../../../services/reset_services';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 const ResetPasswordModal = ({ open, onClose }) => {
     const [dni, setDni] = useState('');
 
     const handleResetPassword = () => {
-        // lógica para enviar el DNI al backend y solicitar el reset de contraseña
         console.log(`Solicitando reset de contraseña para DNI: ${dni}`);
-        postReset(dni);
-        onClose(); // Cierra el modal después de enviar la solicitud
+        if (dni != '' && Number(dni)) {
+            postReset(dni);
+            notifyExito('Reset enviado. Consulte en su correo electronico');
+        } else {
+            notifyError('ERROR: ingresar un DNI para solicitar Reset');
+        }
+        onClose();
+    };
+
+    const notifyExito = (mensaje) => {
+        toast.success(mensaje, {
+            containerId: 'home',
+            position: 'bottom-left',
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined
+        });
+    };
+
+    const notifyError = (mensaje) => {
+        toast.error(mensaje, {
+            position: 'bottom-left',
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined
+        });
     };
 
     return (

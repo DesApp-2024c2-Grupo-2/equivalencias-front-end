@@ -13,6 +13,8 @@ import { useEffect } from 'react';
 import { getLogin } from '../../services/usuario_service';
 import bcrypt from 'bcryptjs';
 import ResetPasswordModal from '../organisms/IniciarSesion/ResetPasswordModal';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 const FormularioInicioSesion = () => {
     const [dni, setDni] = useState(null);
@@ -29,17 +31,7 @@ const FormularioInicioSesion = () => {
         setOpenModal(false);
     };
 
-    useEffect(() => {
-        /*
-        const fetchUsuariosData = async () => {
-            const usuarios = await getUsuarios();
-
-            setUsuarios(usuarios);
-        };
-
-        fetchUsuariosData();
-        */
-    }, []);
+    useEffect(() => {}, []);
 
     const grabarUsuario = async (user) => {
         localStorage.setItem('dni', JSON.stringify(user.dni));
@@ -61,9 +53,9 @@ const FormularioInicioSesion = () => {
         } else if (user.rol == 'directivo' && user.estado == 'Habilitado') {
             window.location.href = '/direccionDashboard';
         } else if (user.rol == 'superusuario' && user.estado == 'Habilitado') {
-            window.location.href = '/direccionDashboard'; //superusuario/solicitudes direccion anterior
+            window.location.href = '/direccionDashboard';
         } else {
-            window.alert('Tu usuario no está habiltado');
+            notifyError('Tu usuario no está habiltado');
             localStorage.clear();
         }
     };
@@ -74,7 +66,6 @@ const FormularioInicioSesion = () => {
 
         getLogin(parseInt(dni))
             .then(function (loginBack) {
-                // controlor de login y mensaje al usuario:
                 console.log('login: ', loginBack);
                 if (loginBack.status != 200) {
                     throw loginBack.message;
@@ -82,7 +73,6 @@ const FormularioInicioSesion = () => {
                 return loginBack.user;
             })
             .then(function (user) {
-                // corroborar la contraseña:
                 const mensajeError = 'Usuario o contraseña incorrectos';
                 console.log('primer console: ', user);
                 if (password != '') {
@@ -91,7 +81,7 @@ const FormularioInicioSesion = () => {
                         user.password,
                         async function (err, isMatch) {
                             if (err || !isMatch) {
-                                alert(mensajeError);
+                                notifyError(mensajeError);
                             } else {
                                 await grabarUsuario(user);
 
@@ -104,8 +94,20 @@ const FormularioInicioSesion = () => {
                 }
             })
             .catch(function (error) {
-                return alert(error);
+                return notifyError(error);
             });
+    };
+
+    const notifyError = (mensaje) => {
+        toast.error(mensaje, {
+            position: 'bottom-left',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined
+        });
     };
 
     return (
