@@ -15,7 +15,6 @@ import { BotonMUI } from '../atoms/Button/BotonMUI';
 import { Menu } from './Menu';
 import React from 'react';
 import md5 from 'md5';
-import { link } from 'fs';
 
 const dni = JSON.parse(localStorage.getItem('dni'));
 const nombre = JSON.parse(localStorage.getItem('nombre'));
