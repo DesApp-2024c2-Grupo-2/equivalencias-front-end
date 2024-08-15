@@ -9,13 +9,15 @@ const InputMUI = styled(TextField)`
 `;
 
 const ContenedorInputs = styled(Grid)`
+    display: flex;
+    width: 75%;
     margin: 0 auto;
-    padding: 6px 0;
-    display: inline-block;
-    text-align: center;
+    padding: 6px 0px 0px 30px;
 `;
 
 const StandardInput = styled(TextField)`
+    display: flex;
+    margin:0 auto
     outline: 0px;
     border: 0;
     width: 100%;
@@ -56,7 +58,7 @@ const AutocompleteInput = styled(Autocomplete)`
 `;
 
 const FileUploader = styled(TextField)`
-    width: 50%;
+    width: 80%;
     min-width: 212px;
 
     input[type='file']::file-selector-button {

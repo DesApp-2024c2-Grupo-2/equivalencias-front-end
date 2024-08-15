@@ -1,10 +1,11 @@
-import { Grid } from '@mui/material';
+import { Grid, IconButton } from '@mui/material';
 import { Header } from './Header';
-import { GridTop } from './GridTop';
-import { Titulos } from './components/atoms/Title/Titulos';
+import { GridTop } from '../atoms/GridTop';
+import { Titulos } from '../atoms/Title/Titulos';
 import { CreateForm } from './CreateForm';
 import React from 'react';
-import { OuterFormButtons } from './OuterFormButtons';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Link } from 'react-router-dom';
 
 const PageCreateForm = () => {
     return (
@@ -37,15 +38,18 @@ const PageCreateForm = () => {
                     alignItems="center"
                 >
                     <Grid item>
-                        <Titulos component="h2" titulogrande>
+                        <Link to="/usuario/equivalencias">
+                            <IconButton sx={{ padding: 0 }}>
+                                <ArrowBackIcon />
+                            </IconButton>
+                        </Link>
+                        <Titulos component="h2" titulogrande="+true">
                             Formulario de Equivalencia
                         </Titulos>
                     </Grid>
                 </GridTop>
 
                 <CreateForm />
-
-                {/* <OuterFormButtons /> */}
             </Grid>
         </Grid>
     );

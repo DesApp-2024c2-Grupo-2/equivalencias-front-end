@@ -9,11 +9,10 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Chip from '@mui/material/Chip';
 import { Grid } from '@mui/material';
-import { ActionButtons } from './ActionButtons';
-import { getEquivalenciaUsuario } from './services/equivalencia_service';
+import { ActionButtons } from '../atoms/Button/ActionButtons';
+import { getEquivalenciaUsuario } from '../../services/equivalencia_service';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Button from '@mui/material/Button';
 
 const columns = [
     { id: 'desc', label: 'Descripción', minWidth: 170 },
@@ -133,7 +132,7 @@ export default function StickyHeadTable() {
             let arrayData = [];
 
             obtainedEquivalenciaData.forEach(function (arrayItem) {
-                let d = new Date(arrayItem.Materias_solicitadas[0].createdAt);
+                let d = new Date(arrayItem.Materia_solicitadas[0].createdAt);
                 let dateTime =
                     d.getDate() +
                     '/' +
@@ -147,7 +146,7 @@ export default function StickyHeadTable() {
 
                 arrayData.push(
                     createData(
-                        arrayItem.Materias_solicitadas[0].nombre,
+                        arrayItem.Materia_solicitadas[0].nombre,
                         dateTime,
                         arrayItem.estado,
                         arrayItem.id

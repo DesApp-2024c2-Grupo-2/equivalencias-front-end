@@ -2,6 +2,8 @@ import { Button, styled } from '@mui/material';
 import { css } from '@mui/styled-engine';
 
 const BotonMUI = styled(Button)`
+    display: flex;
+    margin: 0 auto;
     width: 200px;
     height: 45px;
     text-transform: none;
@@ -73,6 +75,21 @@ const BotonMUI = styled(Button)`
             }
         `}
 
+    ${(props) =>
+        props.buttondownload &&
+        css`
+            background-color: #fffff;
+            border: 1px solid #0941ce;
+            color: #0941ce;
+            width: 90px;
+            height: 30px;
+
+            &:hover {
+                border: 1px solid #0941ce;
+                opacity: 0.7;
+            }
+        `}   
+
         ${(props) =>
         props.buttoncontainedaddmateria &&
         css`
@@ -104,10 +121,11 @@ const BotonMUI = styled(Button)`
         css`
             width: 110px;
             height: 40px;
-            color: #009673;
+            color: #fffff;
+            background-color: #ef2626;
 
             &:hover {
-                background-color: rgba(0, 150, 115, 0.1);
+                background-color: #c20008;
             }
         `}
 
@@ -120,6 +138,30 @@ const BotonMUI = styled(Button)`
 
             &:hover {
                 background-color: #007a5e;
+            }
+        `}
+
+        ${(props) =>
+        props.buttonuploadoff &&
+        css`
+            background-color: #fbeee6;
+            width: 80px;
+            height: 30px;
+
+            &:hover {
+                background-color: #f27154;
+            }
+        `}
+        ${(props) =>
+        props.buttoncontainedsmallfinalizar &&
+        css`
+            width: 110px;
+            height: 40px;
+            background-color: #2a74e4;
+            color: '#FFFFFF';
+
+            &:hover {
+                background-color: #2463c2;
             }
         `}
 `;

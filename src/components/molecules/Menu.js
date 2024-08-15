@@ -6,20 +6,19 @@ import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
-import { stringConcat } from '../../Header';
-import { Grid } from '@mui/material';
+import { stringConcat } from './Header';
+import { Grid, Typography } from '@mui/material';
 import { Titulos } from '../atoms/Title/Titulos';
-import { Link } from 'react-router-dom';
 
 export default function Menu({ name, paginaPrincipal }) {
     const nombre = JSON.parse(localStorage.getItem('nombre'));
     const apellido = JSON.parse(localStorage.getItem('apellido'));
     const email = JSON.parse(localStorage.getItem('email'));
+    const rol = JSON.parse(localStorage.getItem('rol'));
 
     const [state, setState] = useState({
         left: false
@@ -78,6 +77,7 @@ export default function Menu({ name, paginaPrincipal }) {
                     ''
                 )}
             </Grid>
+
             <Grid
                 item
                 justifyContent={'flex-start'}
@@ -88,8 +88,42 @@ export default function Menu({ name, paginaPrincipal }) {
                     marginTop: '2px'
                 }}
             >
-                {email ? <span style={{ color: '#71767b' }}>{email}</span> : ''}
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        overflowWrap: 'break-word',
+                        wordBreak: 'break-all',
+                        wordWrap: 'break-word'
+                    }}
+                >
+                    <Typography>
+                        {email ? (
+                            <span style={{ color: '#71767b' }}>{email}</span>
+                        ) : (
+                            ''
+                        )}
+                    </Typography>
+                </Box>
             </Grid>
+
+            <Grid
+                item
+                justifyContent={'flex-start'}
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '0px 16px',
+                    marginTop: '2px'
+                }}
+            >
+                {rol ? (
+                    <span style={{ color: '#71767b' }}>Rol: {rol}</span>
+                ) : (
+                    ''
+                )}
+            </Grid>
+
             <List sx={{ marginTop: '8px' }}>
                 <ListItem disablePadding>
                     <ListItemButton component="a" href={paginaPrincipal}>
@@ -98,6 +132,7 @@ export default function Menu({ name, paginaPrincipal }) {
                 </ListItem>
             </List>
             <Divider />
+
             <List>
                 <ListItem disablePadding>
                     <ListItemButton
@@ -107,13 +142,6 @@ export default function Menu({ name, paginaPrincipal }) {
                             localStorage.clear();
                         }}
                     >
-                        {/* <ListItemIcon>
-                                    {index % 2 === 0 ? (
-                                        <InboxIcon />
-                                    ) : (
-                                        <MailIcon />
-                                    )}
-                                </ListItemIcon> */}
                         <ListItemText primary="Cerrar sesión" />
                     </ListItemButton>
                 </ListItem>

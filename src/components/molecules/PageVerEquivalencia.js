@@ -1,8 +1,8 @@
-import { Grid, TextareaAutosize } from '@mui/material';
-import React, { useState, useMemo, useEffect } from 'react';
-import { Header } from '../../../Header';
-import { Titulos } from '../../atoms/Title/Titulos';
-import { GridTop } from '../../../GridTop';
+import { Grid, Button, Collapse, IconButton } from '@mui/material';
+import React, { useState, useMemo, useEffect, Fragment } from 'react';
+import { Header } from './Header';
+import { Titulos } from '../atoms/Title/Titulos';
+import { GridTop } from '../atoms/GridTop';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,20 +10,22 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { BotonMUI } from '../../atoms/Button/BotonMUI';
-import { TextField } from '@mui/material';
-import { StandardInput } from '../../atoms/Input/InputMUI';
+import { BotonMUI } from '../atoms/Button/BotonMUI';
+import { StandardInput } from '../atoms/Input/InputMUI';
 import Typography from '@mui/material/Typography';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl, { useFormControl } from '@mui/material/FormControl';
-import { getEquivalencia } from '../../../services/revision';
+import { getEquivalencia } from '../../services/revision';
 import { useParams } from 'react-router-dom';
 import Chip from '@mui/material/Chip';
 import axios from 'axios';
 import { styled } from '@mui/material';
 import { css } from '@mui/styled-engine';
 import { Link } from 'react-router-dom';
-import { config } from '../../../config/config';
+import { config } from '../../config/config';
+import { ArchivoEquivalencia } from './ArchivoEquivalencia';
+import Chat from '../chat/Chat';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const ChipMedium = styled(Chip)`
     ${(props) =>
@@ -67,12 +69,17 @@ const horaConCero = (hora) => {
     }
 };
 
-const PageVerEquivalencia = () => {
+const PageVerEquivalencia = ({ socket }) => {
     const { id } = useParams();
     const [rows, setRows] = useState([]);
     const [equiv, setEquiv] = useState({});
     const [alignment, setAlignment] = useState('web');
     const [formValue, setFormValue] = useState({});
+    const [mostrarChat, setMostrarChat] = useState(false);
+
+    const handleMostrarChat = () => {
+        setMostrarChat(!mostrarChat);
+    };
 
     useEffect(() => {
         const fetchUsuarioData = async () => {
@@ -105,8 +112,8 @@ const PageVerEquivalencia = () => {
 
             setRows(arrayData);
 
-            console.log('Hola' + equiv);
-            console.log('obtainedusuario:', obtainedUsuarioData.Usuario.nombre);
+            // console.log('Hola' + equiv);
+            // console.log('obtainedusuario:', obtainedUsuarioData.Usuario.nombre);
         };
 
         fetchUsuarioData();
@@ -114,14 +121,15 @@ const PageVerEquivalencia = () => {
 
     useEffect(() => {
         const fetchEquivalenciaData = async () => {
+            // Juntar estas 2 funciones y hacerlas una.
             const obtainedEquivalenciaData = await getEquivalencia(id);
 
             let arrayData = {
-                nombre: obtainedEquivalenciaData.Materias_solicitadas[0].nombre,
-                carrera:
-                    obtainedEquivalenciaData.Materias_solicitadas[0].carrera,
+                nombre: obtainedEquivalenciaData.Materia_solicitadas[0].nombre,
 
-                materiasAprobadas: obtainedEquivalenciaData.Materias_aprobadas,
+                carrera: obtainedEquivalenciaData.Carrera.nombre_carrera,
+
+                materiasAprobadas: obtainedEquivalenciaData.Materia_aprobadas,
 
                 observaciones: obtainedEquivalenciaData.observaciones,
 
@@ -130,9 +138,9 @@ const PageVerEquivalencia = () => {
 
             setEquiv(arrayData);
 
-            console.log(obtainedEquivalenciaData);
+            // console.log(obtainedEquivalenciaData);
 
-            console.log('Hola' + arrayData.nombre_materia);
+            // console.log('Hola' + arrayData.nombre_materia);
         };
 
         fetchEquivalenciaData();
@@ -209,6 +217,11 @@ const PageVerEquivalencia = () => {
                         alignItems="center"
                     >
                         <Grid item>
+                            <Link to="/usuario/equivalencias">
+                                <IconButton sx={{ padding: 0 }}>
+                                    <ArrowBackIcon />
+                                </IconButton>
+                            </Link>
                             <Titulos component="h2" titulogrande>
                                 Revisión
                             </Titulos>
@@ -304,9 +317,10 @@ const PageVerEquivalencia = () => {
                                             <TableRow
                                                 key={row.solicitante}
                                                 sx={{
-                                                    '&:last-child td, &:last-child th': {
-                                                        border: 0
-                                                    }
+                                                    '&:last-child td, &:last-child th':
+                                                        {
+                                                            border: 0
+                                                        }
                                                 }}
                                             >
                                                 <TableCell
@@ -525,7 +539,9 @@ const PageVerEquivalencia = () => {
                                                         label="Universidad de Origen"
                                                         name="universidadOrigen"
                                                         value={
-                                                            'Universidad de la Matanza'
+                                                            materiaAprobada
+                                                                .Universidad_origen
+                                                                .nombre_universidad
                                                         }
                                                         variant="outlined"
                                                         size="small"
@@ -671,7 +687,17 @@ const PageVerEquivalencia = () => {
                                                             variant="body1"
                                                             gutterBottom
                                                         >
-                                                            No tiene certificado
+                                                            {materiaAprobada.certificado ? (
+                                                                <p>
+                                                                    Tiene
+                                                                    certificado
+                                                                </p>
+                                                            ) : (
+                                                                <p>
+                                                                    No tiene
+                                                                    certificado
+                                                                </p>
+                                                            )}
                                                         </Typography>
                                                     </Grid>
                                                 </Grid>
@@ -684,7 +710,7 @@ const PageVerEquivalencia = () => {
                                                         marginTop: '16px'
                                                     }}
                                                 >
-                                                    <Grid
+                                                    {/* <Grid
                                                         item
                                                         container
                                                         xs={12}
@@ -700,9 +726,9 @@ const PageVerEquivalencia = () => {
                                                             Adjuntar programa de
                                                             la materia .pdf
                                                         </Titulos>
-                                                    </Grid>
+                                                    </Grid> */}
 
-                                                    <Grid
+                                                    {/* <Grid
                                                         item
                                                         container
                                                         xs={12}
@@ -715,8 +741,8 @@ const PageVerEquivalencia = () => {
                                                             style={{
                                                                 width: '100%'
                                                             }}
-                                                        >
-                                                            <BotonMUI
+                                                        > */}
+                                                    {/* <BotonMUI
                                                                 sx={{
                                                                     marginRight:
                                                                         '12px'
@@ -726,8 +752,8 @@ const PageVerEquivalencia = () => {
                                                                 component="span"
                                                             >
                                                                 Descargar
-                                                            </BotonMUI>
-                                                            {/* <IconButton
+                                                            </BotonMUI> */}
+                                                    {/* <IconButton
                                             sx={{
                                                 marginRight: '12px'
                                             }}
@@ -737,7 +763,7 @@ const PageVerEquivalencia = () => {
                                         >
                                             <AttachFileOutlinedIcon />
                                         </IconButton> */}
-                                                            {/* <FileUploader
+                                                    {/* <FileUploader
                                             id="contained-button-file"
                                             multiple
                                             size="small"
@@ -745,12 +771,20 @@ const PageVerEquivalencia = () => {
                                             type="file"
                                             accept="application/pdf, application/vnd.ms-Excel"
                                         /> */}
-                                                        </label>
-                                                    </Grid>
+                                                    {/* </label> */}
                                                 </Grid>
-
-                                                {/* <AgregarMateriaUniOrigen /> */}
                                             </Grid>
+                                            <ArchivoEquivalencia
+                                                nArchivo={
+                                                    materiaAprobada.archivo
+                                                }
+                                                estado={equiv.estado}
+                                                materiaAprobada={
+                                                    materiaAprobada
+                                                }
+                                            ></ArchivoEquivalencia>
+                                            {/* <AgregarMateriaUniOrigen /> */}
+                                            {/* </Grid> */}
                                         </Grid>
                                     </>
                                 );
@@ -777,22 +811,35 @@ const PageVerEquivalencia = () => {
                                 borderRadius: '10px 10px 0px 0px'
                             }}
                         >
+                            <Button
+                                onClick={handleMostrarChat}
+                                variant="contained"
+                                sx={{
+                                    backgroundColor: '#009673',
+                                    ':hover': { backgroundColor: '#009674' }
+                                }}
+                            >
+                                {mostrarChat ? 'Ocultar chat' : 'Mostrar chat'}
+                            </Button>
+
                             <Grid
                                 item
                                 container
-                                direction="column"
-                                alignItems="flex-start"
-                                md={12}
-                                lg={5.8}
+                                direction="row"
+                                justifyContent="flex-start"
+                                alignItems="center"
+                                sm={12}
                                 sx={{
-                                    marginTop: '6px',
-                                    marginBottom: '16px'
+                                    '& > :not(style)': {
+                                        width: '100%'
+                                    }
                                 }}
                             >
-                                <Titulos titulolabel component="h2">
-                                    Respuesta
-                                </Titulos>
+                                <Collapse in={mostrarChat}>
+                                    <Chat id={id} socket={socket} />
+                                </Collapse>{' '}
                             </Grid>
+
                             {/* <Grid
                             item
                             container
@@ -848,7 +895,7 @@ const PageVerEquivalencia = () => {
                                     placeholder="Observación..."
                                 /> */}
 
-                                    <TextField
+                                    {/*<TextField
                                         id="filled-basic"
                                         label="Observación..."
                                         variant="filled"
@@ -864,7 +911,7 @@ const PageVerEquivalencia = () => {
                                         sx={{
                                             width: '100%'
                                         }}
-                                    />
+                                    />*/}
                                 </Grid>
                             </Grid>
                         </Grid>
