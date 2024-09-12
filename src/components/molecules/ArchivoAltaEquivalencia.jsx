@@ -166,7 +166,7 @@ const ArchivoAltaEquivalencia = ({
                                         </Link>
 
                                         <BotonMUI //key={file}
-                                            buttonupload
+                                            buttonupload="true"
                                             variant="outlined"
                                             onClick={() =>
                                                 handleDeleteFile(nombreArchivo)
@@ -205,7 +205,7 @@ const ArchivoAltaEquivalencia = ({
                                 // sx={{
                                 // marginRight: '12px'
                                 // }}
-                                buttonupload
+                                buttonupload="true"
                                 variant="outlined"
                                 // component="span"
                                 /*Agregado*/
@@ -268,7 +268,7 @@ const ArchivoAltaEquivalencia = ({
                                     // sx={{
                                     // marginRight: '12px'
                                     // }}
-                                    buttonupload
+                                    buttonupload="true"
                                     variant="outlined"
                                     // component="span"
                                     /*Agregado*/

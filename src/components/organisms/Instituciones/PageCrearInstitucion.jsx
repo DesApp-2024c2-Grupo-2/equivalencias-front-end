@@ -1,10 +1,6 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
-import {
-    putInstituciones,
-    getInstitucion,
-    disabledInstituciones
-} from '../../../services/institucionService';
+import { useState } from 'react';
+import { postInstituciones } from '../../../services/institucionService';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Grid, Typography, Button, IconButton } from '@mui/material';
@@ -15,34 +11,19 @@ import {
     ContainerCenterButton,
     ContainerTitle
 } from './InstitucionesStyled';
-import { useParams } from 'react-router-dom';
-import Divider from '@mui/material/Divider';
 import { toast } from 'react-toastify';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from 'react-router-dom';
 
-const PageEditarInstitucion = () => {
+const PageCrearInstitucion = () => {
     const [nombre, setNombre] = useState('');
     const [localidad, setLocalidad] = useState('');
     const [sigla, setSigla] = useState('');
-    const { id } = useParams();
-    const history = useHistory();
-    const notifyExito = () => {
-        toast.success('Institución editada con éxito', {
-            containerId: 'home',
-            position: 'bottom-left',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined
-        });
-    };
 
-    const notifyExitoDisabled = () => {
-        toast.success('Institución deshabilitada con éxito', {
+    const history = useNavigate();
+    const notifyExito = () => {
+        toast.success('Institución creada con éxito', {
             containerId: 'home',
             position: 'bottom-left',
             autoClose: 5000,
@@ -55,7 +36,7 @@ const PageEditarInstitucion = () => {
     };
 
     const notifyError = () => {
-        toast.error('Se produjo un error al intentar editar la institución', {
+        toast.error('Se produjo un error al intentar crear la institución', {
             position: 'bottom-left',
             autoClose: 5000,
             hideProgressBar: false,
@@ -66,33 +47,17 @@ const PageEditarInstitucion = () => {
         });
     };
 
-    const notifyErrorDisabled = () => {
-        toast.error(
-            'Se produjo un error al intentar deshabilitar la institución',
-            {
-                position: 'bottom-left',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined
-            }
-        );
+    const handleBack = () => {
+        history.push('/direccion/instituciones');
     };
-
-    //const handleBack = () => {
-    //    history.push('/instituciones/todas');
-    //};
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const institucion = await putInstituciones(
+            const institucion = await postInstituciones(
                 nombre,
                 localidad,
-                sigla,
-                id
+                sigla
             );
             console.log(institucion);
             notifyExito();
@@ -104,33 +69,6 @@ const PageEditarInstitucion = () => {
             notifyError();
         }
     };
-
-    const handleDisabled = async (event) => {
-        event.preventDefault();
-        try {
-            const institucion = await disabledInstituciones(id);
-            console.log(institucion);
-            notifyExitoDisabled();
-        } catch (error) {
-            notifyErrorDisabled();
-            console.log(error);
-        }
-    };
-
-    useEffect(() => {
-        const getInstitucionPorId = async () => {
-            try {
-                const institucion = await getInstitucion(id);
-                console.log('institucion', institucion);
-                setNombre(institucion.nombre_universidad);
-                setLocalidad(institucion.localidad);
-                setSigla(institucion.sigla);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        getInstitucionPorId();
-    }, []);
 
     return (
         <>
@@ -146,18 +84,14 @@ const PageEditarInstitucion = () => {
                         autoComplete="off"
                         sx={{ padding: '2rem', width: '100%' }}
                     >
-                        <Link to="/instituciones/todas">
+                        <Link to="/direccion/instituciones">
                             <IconButton sx={{ padding: 0 }}>
                                 <ArrowBackIcon />
                             </IconButton>
                         </Link>
                         <ContainerTitle>
-                            <Typography
-                                variant="h4"
-                                align="left"
-                                component="h2"
-                            >
-                                Editar Institución
+                            <Typography variant="h3" component="h1">
+                                Crear Institución
                             </Typography>
                         </ContainerTitle>
                         <Grid container spacing={2}>
@@ -214,32 +148,9 @@ const PageEditarInstitucion = () => {
                                 onClick={handleSubmit}
                                 variant="contained"
                             >
-                                Editar Institución
+                                Crear Institución
                             </Button>
                         </ContainerCenterButton>
-                        <Grid item xs={12}>
-                            <Divider />
-                            <ContainerTitle>
-                                <Typography
-                                    variant="h4"
-                                    align="left"
-                                    component="h2"
-                                >
-                                    Deshabilitar Institución
-                                </Typography>
-                            </ContainerTitle>
-                            <ContainerCenterButton>
-                                <Button
-                                    size="large"
-                                    fullWidth
-                                    onClick={handleDisabled}
-                                    color="error"
-                                    variant="contained"
-                                >
-                                    Deshabilitar Institución
-                                </Button>
-                            </ContainerCenterButton>
-                        </Grid>
                     </Box>
                 </Grid>
                 <Grid container spacing={2} xs={6}>
@@ -249,4 +160,4 @@ const PageEditarInstitucion = () => {
         </>
     );
 };
-export default PageEditarInstitucion;
+export default PageCrearInstitucion;

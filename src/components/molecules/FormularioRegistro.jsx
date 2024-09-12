@@ -4,7 +4,7 @@ import { BotonMUI } from '../atoms/Button/BotonMUI';
 import { Grid, MenuItem, styled, Select, TextField } from '@mui/material';
 import { Formulario } from '../atoms/Formulario/Formulario';
 import { postUsuarios } from '../../services/usuario_service';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import bcrypt from 'bcryptjs';
 import { toast } from 'react-toastify';
@@ -66,7 +66,7 @@ const FormularioRegistro = () => {
         });
     };
 
-    const history = useHistory();
+    const history = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();

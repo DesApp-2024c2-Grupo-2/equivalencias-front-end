@@ -30,10 +30,21 @@ export async function getEquivalenciaSuperUsuario() {
 }
 
 export async function getEquivalenciaUsuario(id) {
-    const apiResponse = await axios.get(
+/*     const apiResponse = await axios.get(
         `${config.apiUrl}/equivalencias/generalUsuario/${id}`
     );
-    return apiResponse.data;
+    return apiResponse.data; */
+    try {
+        const apiResponse = await axios.get(
+            `${config.apiUrl}/equivalencias/generalUsuario/${id}`
+        );
+        return apiResponse.data;
+    } catch (error) {
+        switch (error.response.status){
+            case 404:
+                alert("No hay equivalencias")
+        }
+    }
 }
 
 export async function putEquivalenciaUsuario(id, solicitante) {

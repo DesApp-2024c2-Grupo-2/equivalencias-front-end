@@ -25,8 +25,8 @@ const Register = () => {
     };
 
     return (
-        <SideRegistro>
-            <Titulos
+        <SideRegistro direction="column">
+            <Titulos 
                 centrar="+true"
                 blanco="+true"
                 titulogrande="+true"

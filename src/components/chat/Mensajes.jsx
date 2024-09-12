@@ -14,7 +14,7 @@ import {
     Typography
 } from '@mui/material';
 
-import withStyles from '@material-ui/core/styles/withStyles';
+import { styled } from '@mui/system';
 import MensajesStyle from './MensajesStyle.js';
 import AvatarIcon from '../atoms/AvatarIcon.jsx';
 import { Fragment, useEffect, useState } from 'react';
@@ -26,7 +26,7 @@ import {
 } from '../../services/mensajes_service.js';
 import { getUsuario, getUsuarios } from '../../services/usuario_service.js';
 
-const Mensajes = withStyles(MensajesStyle)((props) => {
+const Mensajes = styled(MensajesStyle)((props) => {
     const { classes, mensajes, usuario_id, socket } = props;
     const [anchorEl, setAnchorEl] = useState(null);
     const [hoveredMessage, setHoveredMessage] = useState(null);
