@@ -67,8 +67,7 @@ const FormUnahur = ({
                     <AutocompleteInput
                         size="small"
                         variant="outlined"
-                        key={formValue.carreras}
-                        onChange={(event) => handleChangeCarrera(event)}
+                        onSelect={(event) => handleChangeCarrera(event)}
                         disablePortal
                         options={carreras}
                         sx={{
@@ -81,7 +80,7 @@ const FormUnahur = ({
                                 key={formValue.carreras}
                                 label="Carreras UNAHUR"
                                 name="carreraUnahur"
-                                value={'' || formValue.carreras}
+                                value={' ' || formValue.carreras}
                             />
                         )}
                     />

@@ -17,32 +17,26 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import FormUnahur from './FormUnahur';
 import { getCarreras } from '../../services/carrera_service';
-import { useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 
 const CreateForm = () => {
     const [carreras, setCarreras] = useState([]);
-    
+
     useEffect(() => {
         const fetchCarreras = async () => {
-            try {
-                const response = await getCarreras();
-                const carrerasAdaptadas = response.data.map((carrera) => ({
+            const carreras = await getCarreras();
+            const carrerasAdaptadas = carreras.data.map((carrera) => {
+                return {
                     key: carrera.id,
                     label: carrera.nombre_carrera,
                     instituto: carrera.nombre_instituto
-                }));
-                setCarreras(carrerasAdaptadas);
-                console.log("carreras: ", carrerasAdaptadas);
-            } catch (error) {
-                console.error("Error al obtener las carreras:", error);
-            }
+                };
+            });
+            setCarreras(carrerasAdaptadas);
+            console.log(carrerasAdaptadas);
         };
         fetchCarreras();
     }, []);
-
-    useEffect(() => {
-        console.log("carreras actualizadas: ", carreras);
-    }, [carreras]);
 
     const usuarioId = parseInt(JSON.parse(localStorage.getItem('id')));
 
@@ -164,21 +158,20 @@ const CreateForm = () => {
     const [carreraElegida, setCarreraElegida] = useState({});
 
     //Carrera
-        //Carrera
-        const handleChangeCarrera = (event) => {
-            const { name, value } = event.target;
-            setformValue((carrera) => ({
-                ...carrera,
-                [name]: value
-            }));
-        };
-    
-        useEffect(() => {
-            const carreraDatos = carreras.find(
-                (carr) => carr.label === formValue.carreraUnahur
-            );
-            setCarreraElegida(carreraDatos);
-        }, [formValue]);
+    const handleChangeCarrera = (event) => {
+        const { name, value } = event.target;
+        setformValue((carrera) => ({
+            ...carrera,
+            [name]: value
+        }));
+    };
+
+    useEffect(() => {
+        const carreraDatos = carreras.find(
+            (carr) => carr.label === formValue.carreraUnahur
+        );
+        setCarreraElegida(carreraDatos);
+    }, [formValue]);
 
     //MateriasEquivalencias functions
     const handleChangeArray = (event, key) => {
@@ -204,14 +197,10 @@ const CreateForm = () => {
     };
 
     //Summit function
-    const handleSubmit = useCallback(async () => {
+    const handleSubmit = async () => {
         let equivalencia;
-        console.log(carreraElegida)
-        if (!carreraElegida) {
-            alert("No se ha seleccionado una carrera válida.");
-            return;
-        }
-        if (usuarioId && carreraElegida) {
+
+        if (usuarioId) {
             equivalencia = {
                 nombre: 'Equivalencia',
                 materiaSolicitada: materiasUnahur.map((item) => {
@@ -226,7 +215,6 @@ const CreateForm = () => {
                 estado: 'pendiente',
                 carrera: formValue.carreraUnahur,
                 array: materias.map((item) => {
-                    console.log("item: " + item)
                     return {
                         nota: item.notaAprobacion,
                         carga_horaria: item.cargaHorariaTotal,
@@ -242,8 +230,6 @@ const CreateForm = () => {
                 CarreraId: carreraElegida.key
             };
             console.log(equivalencia);
-        } else {
-            return;
         }
 
         const response = await axios
@@ -263,7 +249,7 @@ const CreateForm = () => {
                 console.error('Error: ', error);
                 notifyEnviarSinDatos();
             });
-    },[carreraElegida, usuarioId, formValue]);
+    };
 
     return (
         <>

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Registro } from '../organisms/Registro/Registro';
+import { Registro, FormularioMain } from '../organisms/Registro/Registro';
 import { Titulos } from '../atoms/Title/Titulos';
 import { BotonMUI } from '../atoms/Button/BotonMUI';
 import { Grid } from '@mui/material';
@@ -23,7 +23,7 @@ const Back = () => {
     };
 
     return (
-        <SideBack direction="column">
+        <SideBack>
             <Titulos centrar blanco titulogrande titulobold component="h1">
                 Trámites de Equivalencias
             </Titulos>

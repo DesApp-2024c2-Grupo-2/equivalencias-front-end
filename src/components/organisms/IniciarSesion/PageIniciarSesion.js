@@ -7,7 +7,7 @@ const PageIniciarSesion = () => {
     return (
         <FatherContainer>
             <TarjetaLogin>
-                <Grid container >
+                <Grid container>
                     <Grid item xs={12} sm={5}>
                         <Register />
                     </Grid>

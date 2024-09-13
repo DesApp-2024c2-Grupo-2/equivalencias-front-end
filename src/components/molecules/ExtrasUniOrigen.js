@@ -108,7 +108,7 @@ const ExtrasUniOrigen = ({ handleChangeArray, formValueArray, key2 }) => {
                         label="Carga horaria total"
                         variant="outlined"
                         type="number"
-                        value={formValueArray.cargaHorariaTotal||""}
+                        value={formValueArray.cargaHorariaTotal}
                         error={
                             !cargaHorariaCorrecta(
                                 formValueArray.cargaHorariaTotal
@@ -147,7 +147,7 @@ const ExtrasUniOrigen = ({ handleChangeArray, formValueArray, key2 }) => {
                         label="Nota aprobación"
                         variant="outlined"
                         type="number"
-                        value={formValueArray.notaAprobacion||""}
+                        value={formValueArray.notaAprobacion}
                         error={!esNotaCorrecta(formValueArray.notaAprobacion)}
                         onChange={(event) => {
                             handleChangeArray(event, key2);
@@ -178,7 +178,7 @@ const ExtrasUniOrigen = ({ handleChangeArray, formValueArray, key2 }) => {
                             row
                             aria-label="bool"
                             name="certificado"
-                            value={formValueArray.certificado||""}
+                            value={formValueArray.certificado}
                             onChange={(event) => handleChangeArray(event, key2)}
                         >
                             <FormControlLabel

@@ -49,7 +49,7 @@ const MateriaUniOrigen = ({
                     size="small"
                     label="Materia aprobada"
                     variant="outlined"
-                    value={formValueArray.materiaAprobada||""}
+                    value={formValueArray.materiaAprobada}
                     onChange={(event) => handleChangeArray(event, key2)}
                 />
             </Grid>
@@ -69,7 +69,7 @@ const MateriaUniOrigen = ({
                     size="small"
                     label="Carrera origen"
                     variant="outlined"
-                    value={formValueArray.carreraOrigen||""}
+                    value={formValueArray.carreraOrigen}
                     onChange={(event) => handleChangeArray(event, key2)}
                 />
             </Grid>
