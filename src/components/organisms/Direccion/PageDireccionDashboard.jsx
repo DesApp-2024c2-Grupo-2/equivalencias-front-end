@@ -48,7 +48,7 @@ const DireccionDashboard = () => {
                                     <DashboardCard
                                         tituloCard="Usuarios"
                                         cuerpoCard="Administrar y habilitar"
-                                        imgSrc="https://drive.google.com/uc?export=view&id=1sRHDyv6r5z6A6t874d9HP3lzPW1aOcGy"
+                                        imgSrc="https://res.cloudinary.com/dvdv35kwy/image/upload/v1728239438/pngwing.com_d3psei.png"
                                         link={'/superusuario/usuarios'}
                                     />
                                 </div>
@@ -63,7 +63,7 @@ const DireccionDashboard = () => {
                                     <DashboardCard
                                         tituloCard="Carreras"
                                         cuerpoCard="Ingreso y modificación"
-                                        imgSrc="https://drive.google.com/uc?export=view&id=1c1CdqCcDO5CDlkfr0mawwmTBRDElgRbK"
+                                        imgSrc="https://res.cloudinary.com/dvdv35kwy/image/upload/v1728240191/pngwing.com_3_wcpbdj.png"
                                         link={'/superusuario/carreras'}
                                     />
                                 </div>
