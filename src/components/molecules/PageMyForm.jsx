@@ -61,7 +61,7 @@ const PageMyForm = () => {
                             }}
                         >
                             <Link
-                                to="/usuario/formulario"
+                                to="/usuario/historial"
                                 style={{ textDecoration: 'none' }}
                             >
                                 <BotonMUI
