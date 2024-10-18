@@ -56,9 +56,24 @@ const PageMyForm = () => {
                             item
                             xs={0}
                             sx={{
-                                display: { sm: 'flex', xs: 'none' }
+                                display: { sm: 'flex', xs: 'none' },
+                                gap:'40px'
                             }}
                         >
+                            <Link
+                                to="/usuario/formulario"
+                                style={{ textDecoration: 'none' }}
+                            >
+                                <BotonMUI
+                                    buttoncontainedsmall
+                                    sx={{
+                                        width: '100%',
+                                        marginRight: '20px'
+                                    }}
+                                >
+                                    Ver Historial
+                                </BotonMUI>
+                            </Link>
                             <Link
                                 to="/usuario/formulario"
                                 style={{ textDecoration: 'none' }}
