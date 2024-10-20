@@ -1,0 +1,387 @@
+// import * as React from 'react';
+import React, { useState, useEffect } from 'react';
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import {
+    getEquivalencia,
+    getEquivalenciaUsuario
+} from '../../services/equivalencia_service';
+import { getUsuario_carrera } from '../../services/usuarios_carreras_service';
+import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
+import { Grid } from '@mui/material';
+import { ActionButtons } from '../atoms/Button/ActionButtons';
+import NotificationsActiveTwoToneIcon from '@mui/icons-material/NotificationsActiveTwoTone';
+
+export default function TablaEquivalencias({ searchQuery }) {
+    const rol = JSON.parse(localStorage.getItem('rol'));
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [rows, setRows] = useState([]);
+    //console.log(rol);
+    const getColumns = () => {
+        if (rol === 'directivo' || rol === 'superusuario') {
+            return [ // falta modificar los datos para los directivos y superusuarios
+                { id: 'dni', label: 'DNI' },
+                { id: 'solicitante', label: 'Solicitante' },
+                { id: 'materia', label: 'Materias Solicitadas' },
+                { id: 'dateTime', label: 'Fecha' },
+                { id: 'estado', label: 'Estado' },
+                { id: 'actions', label: 'Acciones' }
+            ];
+        } else {
+            return [ //rol alumno, falta modificar ids y pensar si el formato es el que queremos mostrar
+                { id: 'carrera', label: 'Universidad', minWidth: 170 }, // Mostrar universidad de donde proviene el alumno
+                { id: 'materia', label: 'Materia Aprobada', minWidth: 170 }, // Materia que aprobo el alumno en su universidad anterior
+                { id: 'materia', label: 'Materia equivalente UNAHUR', minWidth: 170 }, //Materia unahur con la que ya se realizo equivalencia previa
+                { id: 'dateTime', label: 'Fecha ultima incorporación', minWidth: 100 }, // Fecha de la ultima vez que se realizo esta equivalencia para algun alumno
+            ];
+        }
+    };
+    const columns = getColumns();
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const createData = (
+        materia,
+        dateTime,
+        estado,
+        solicitante,
+        dni,
+        actions,
+        carrera
+    ) => {
+        if (rol === 'directivo' || rol === 'superusuario') {
+            return {
+                solicitante,
+                dni,
+                materia,
+                dateTime,
+                actions,
+                estado,
+                carrera
+            };
+        } else {
+            return { carrera, materia, dateTime, estado, actions };
+        }
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
+
+    const filterNameMat = (materias) => {
+        let stringSalida = '';
+        let cant = materias.length;
+        if (cant == 1) {
+            stringSalida = materias[0].nombre;
+        } else if (cant == 2) {
+            stringSalida = materias[0].nombre + ', ' + materias[1].nombre;
+        } else {
+            stringSalida = `Cantidad de materias: ${cant}`;
+        }
+        return stringSalida;
+    };
+
+    const defineActions = (id, materias) => {
+        const color = materias.length > 3 ? 'error' : 'info';
+        const actions = (
+            <Grid
+                container
+                item
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+            >
+                {rol === 'directivo' || rol === 'superusuario' ? (
+                    <Link
+                        to={'/direccion/revision/' + id}
+                        style={{ textDecoration: 'none' }}
+                    >
+                        <ActionButtons color={color} />
+                    </Link>
+                ) : (
+                    <Link
+                        to={'/usuario/visualizar/' + id}
+                        style={{ textDecoration: 'none' }}
+                    >
+                        <ActionButtons color={color} />
+                    </Link>
+                )}
+            </Grid>
+        );
+        return actions;
+    };
+
+    const renderNotify = (materias) => {
+        let salida = '';
+        if (materias.length > 3) {
+            salida = <NotificationsActiveTwoToneIcon color="error" />;
+        }
+        return salida;
+    };
+
+    const renderState = (estado, materias) => {
+        let color = 'success';
+        switch (estado) {
+            case 'CERRADO':
+                color = 'error';
+                break;
+            case 'RECHAZADO':
+                color = 'error';
+                break;
+            case 'PENDIENTE':
+                color = 'info';
+                break;
+            case 'FALTA COMPLETAR':
+                color = 'warning';
+                break;
+            default:
+                color = 'success';
+        }
+        return (
+            <Button
+                color={color}
+                variant="outlined"
+                fullWidth
+                endIcon={renderNotify(materias)}
+                sx={{
+                    pointerEvents: 'none',
+                    borderRadius: 3,
+                    borderWidth: 2
+                }}
+            >
+                {estado}
+            </Button>
+        );
+    };
+    const carre = [];
+    const fetchCarrerasData = async () => {
+        if (rol === 'directivo') {
+            carre.push(
+                await getUsuario_carrera(JSON.parse(localStorage.getItem('id')))
+            );
+        }
+    };
+    fetchCarrerasData();
+
+    useEffect(() => {
+        const fetchEquivalenciaData = async () => {
+            let obtainedEquivalenciaData = [];
+            if (rol === 'directivo') {
+                obtainedEquivalenciaData = await getEquivalencia();
+            } else if (rol === 'superusuario') {
+                obtainedEquivalenciaData = await getEquivalencia();
+            } else {
+                const usuarioId = parseInt(
+                    JSON.parse(localStorage.getItem('id'))
+                );
+                obtainedEquivalenciaData = await getEquivalenciaUsuario(
+                    usuarioId
+                );
+            }
+
+            let array = [];
+
+            obtainedEquivalenciaData.forEach(function (arrayItem) {
+                let d = new Date(arrayItem.Materia_solicitadas[0].createdAt);
+                let dateTime =
+                    d.getDate() +
+                    '/' +
+                    (d.getMonth() + 1) +
+                    '/' +
+                    d.getFullYear();
+                let carrera = arrayItem.Materia_solicitadas[0].carrera;
+                let status = renderState(
+                    arrayItem.estado.toUpperCase(),
+                    arrayItem.Materia_solicitadas
+                );
+                let actions = defineActions(
+                    arrayItem.id,
+                    arrayItem.Materia_solicitadas
+                );
+                let array2 = [];
+                array.push(
+                    createData(
+                        filterNameMat(arrayItem.Materia_solicitadas),
+                        dateTime,
+                        status,
+                        arrayItem.Usuario.nombre +
+                            ' ' +
+                            arrayItem.Usuario.apellido,
+                        arrayItem.Usuario.dni,
+                        actions,
+                        carrera
+                    )
+                );
+                if (rol === 'directivo') {
+                    let carreras = carre[0].map(
+                        (carrera) => carrera.Carrera.nombre_carrera
+                    ); //mapea las carreras del directivo
+                    let dataFilter = [];
+                    array2 = array.filter((usuario) =>
+                        carreras.includes(usuario.carrera)
+                    );
+                    switch (searchQuery.column) {
+                        case 'dni':
+                            dataFilter = array2.filter((d) =>
+                                d.dni
+                                    .toString()
+                                    .toLowerCase()
+                                    .includes(searchQuery.value.toLowerCase())
+                            );
+                            break;
+                        case 'solicitante':
+                            dataFilter = array2.filter((d) =>
+                                d.solicitante
+                                    .toLowerCase()
+                                    .includes(searchQuery.value.toLowerCase())
+                            );
+                            break;
+                        case 'estado':
+                            dataFilter = array2.filter((d) =>
+                                d.estado.props.children
+                                    .toLowerCase()
+                                    .includes(searchQuery.value.toLowerCase())
+                            );
+                            break;
+                        default:
+                            dataFilter = array;
+                            break;
+                    }
+                    if (searchQuery) {
+                        setRows(dataFilter);
+                        setPage(0);
+                    } else {
+                        setRows([...array]);
+                    }
+                } else if (rol == 'superusuario') {
+                    let dataFilter = [];
+                    switch (searchQuery.column) {
+                        case 'dni':
+                            dataFilter = array.filter((d) =>
+                                d.dni
+                                    .toString()
+                                    .toLowerCase()
+                                    .includes(searchQuery.value.toLowerCase())
+                            );
+                            break;
+                        case 'solicitante':
+                            dataFilter = array.filter((d) =>
+                                d.solicitante
+                                    .toLowerCase()
+                                    .includes(searchQuery.value.toLowerCase())
+                            );
+                            break;
+                        case 'estado':
+                            dataFilter = array.filter((d) =>
+                                d.estado.props.children
+                                    .toLowerCase()
+                                    .includes(searchQuery.value.toLowerCase())
+                            );
+                            break;
+                        default:
+                            dataFilter = array;
+                            break;
+                    }
+                    if (searchQuery) {
+                        setRows(dataFilter);
+                        setPage(0);
+                    } else {
+                        setRows([...array]);
+                    }
+                } else {
+                    setRows([...array]);
+                }
+            });
+        };
+        fetchEquivalenciaData();
+    }, [searchQuery]);
+
+    return (
+        <Paper
+            sx={{
+                width: '100%',
+                overflow: 'hidden',
+                borderRadius: '10px',
+                boxShadow: 'none'
+            }}
+        >
+            <TableContainer sx={{ maxHeight: 500 }}>
+                <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                        <TableRow>
+                            {columns.map((column) => (
+                                <TableCell
+                                    key={column.id}
+                                    align={'center'}
+                                    style={{ minWidth: column.minWidth }}
+                                    sx={{
+                                        backgroundColor: 'rgba(245, 245, 245)',
+                                        padding: '16px 40px'
+                                    }}
+                                >
+                                    {column.label}
+                                </TableCell>
+                            ))}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows
+                            .slice(
+                                page * rowsPerPage,
+                                page * rowsPerPage + rowsPerPage
+                            )
+                            .map((row) => {
+                                return (
+                                    <TableRow
+                                        hover
+                                        role="checkbox"
+                                        tabIndex={-1}
+                                        key={row.code}
+                                    >
+                                        {columns.map((column) => {
+                                            const value = row[column.id];
+                                            return (
+                                                <TableCell
+                                                    key={column.id}
+                                                    align="center"
+                                                    sx={{
+                                                        padding: '1rem 2rem'
+                                                    }}
+                                                >
+                                                    {value}
+                                                </TableCell>
+                                            );
+                                        })}
+                                    </TableRow>
+                                );
+                            })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={rows.length}
+                labelRowsPerPage="Filas por página:"
+                labelDisplayedRows={({ from, to, count }) =>
+                    `${from}-${to} de ${count}`
+                }
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+        </Paper>
+    );
+}

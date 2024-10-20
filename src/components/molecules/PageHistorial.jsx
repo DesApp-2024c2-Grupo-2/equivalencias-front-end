@@ -5,6 +5,10 @@ import { Titulos } from '../atoms/Title/Titulos';
 import React from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from 'react-router-dom';
+import TablaHistorial from './TablaHistorial';
+import { ToastContainer } from 'react-toastify';
+
+
 
 const PageHistorial = () => {
     return (
@@ -47,9 +51,39 @@ const PageHistorial = () => {
                         </Titulos>
                     </Grid>
                 </GridTop>
-                Agregar tabla de equivalencias
-            </Grid>
+                <GridTop
+                        item
+                        container
+                        blanco
+                        xs={11.5}
+                        md={9}
+                        lg={7}
+                        marginTop={{
+                            xs: '0px',
+                            sm: '30px'
+                        }}
+                        sx={{
+                            height: 'auto'
+                        }}
+                    >
+                        <TablaHistorial />
+                        {/* <StickyHeadTable /> */}
+                    </GridTop>
+            <ToastContainer
+                containerId={'home'}
+                position="bottom-left"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
         </Grid>
+        </Grid>
+            
     );
 };
 
