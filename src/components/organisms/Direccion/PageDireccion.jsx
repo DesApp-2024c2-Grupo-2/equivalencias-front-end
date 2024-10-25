@@ -143,20 +143,6 @@ const PageDireccion = () => {
                         <Titulos component="h2" titulogrande>
                             Solicitudes de equivalencias
                         </Titulos>
-                        <Link
-                            to="/usuario/historial"
-                            style={{ textDecoration: 'none' }}
-                        >
-                            <BotonMUI
-                                buttoncontainedsmall
-                                sx={{
-                                    width: '100%',
-                                    marginRight: '20px'
-                                }}
-                            >
-                                Ver Historial
-                            </BotonMUI>
-                        </Link>
                     </Grid>
                 </GridTop>
 
