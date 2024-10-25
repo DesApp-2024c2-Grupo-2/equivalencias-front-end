@@ -123,26 +123,27 @@ const PageEquivalenciaDireccion = () => {
                 alignItems="center"
                 sx={{ padding: '40px 0px' }}
             >
-                <GridTop
-    item
-    container
-    xs={11.5}
-    md={7}
-    sx={{
-        padding: '0px 20px'
-    }}
-    direction="row"
-    justifyContent="space-between"
-    alignItems="center"
-    >
+    <GridTop
+        item
+        container
+        xs={11.5}
+        md={7}
+        sx={{
+            padding: '0px 20px'
+        }}
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+            >   
     <Grid item>
             <Link to="/direccionDashboard">
                 <IconButton sx={{ padding: 0 }}>
                   <ArrowBackIcon />
                 </IconButton>
             </Link>
-            <Grid container justifyContent="space-between" alignItems="center">
-                <Titulos component="h2" titulogrande>
+            <Grid container alignItems="center"
+                sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Titulos component="h2" titulogrande >
                     Solicitudes de equivalencias
                 </Titulos>
                 <Link
@@ -153,7 +154,9 @@ const PageEquivalenciaDireccion = () => {
                         buttoncontainedsmall
                         sx={{
                             width: 'auto',
-                            marginLeft: '20px'
+                            marginLeft: '500px',// No esta bien. Buscar alguna forma NO FIJA
+                            display: { sm: 'flex', xs: 'none' },
+
                         }}
                     >
                         Ver Historial
