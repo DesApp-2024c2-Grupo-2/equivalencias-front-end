@@ -18,7 +18,7 @@ import Button from '@mui/material/Button';
 import FormUnahur from './FormUnahur';
 import { getCarreras } from '../../services/carrera_service';
 import { useEffect, useCallback } from 'react';
-
+ 
 const CreateForm = () => {
     const [carreras, setCarreras] = useState([]);
     
@@ -174,12 +174,18 @@ const CreateForm = () => {
         };
     
         useEffect(() => {
-            const carreraDatos = carreras.find(
-                (carr) => carr.label === formValue.carreraUnahur
-            );
-            setCarreraElegida(carreraDatos);
-        }, [formValue]);
-
+            if (formValue.carreraUnahur) {
+                const carreraDatos = carreras.find(
+                    (carr) => carr.label === formValue.carreraUnahur
+                );
+                if (carreraDatos) {
+                    setCarreraElegida(carreraDatos);
+                } else {
+                    setCarreraElegida(null);
+                    console.log("No se encontró una carrera con el nombre :", formValue.carreraUnahur);
+                }
+            }
+    },[formValue, carreras]);
     //MateriasEquivalencias functions
     const handleChangeArray = (event, key) => {
         const indiceMateria = materias.findIndex((e) => e.key === key);
@@ -212,6 +218,12 @@ const CreateForm = () => {
             return;
         }
         if (usuarioId && carreraElegida) {
+
+            console.log('usuarioId:', usuarioId);
+            console.log('carreraElegida:', carreraElegida);
+            console.log('Instituto:', carreraElegida.nombre_instituto);  // undefinded
+            console.log('Carrera UNAHUR:', formValue.carreraUnahur);  // no devuelve nada 
+        
             equivalencia = {
                 nombre: 'Equivalencia',
                 materiaSolicitada: materiasUnahur.map((item) => {
@@ -221,7 +233,7 @@ const CreateForm = () => {
                         carrera: formValue.carreraUnahur
                     };
                 }),
-                observaciones: ' ',
+                //observaciones: ' ',
                 instituto: carreraElegida.instituto,
                 estado: 'pendiente',
                 carrera: formValue.carreraUnahur,
@@ -232,10 +244,10 @@ const CreateForm = () => {
                         carga_horaria: item.cargaHorariaTotal,
                         año_aprobacion: item.anioAprobacion,
                         nombre_materia: item.materiaAprobada,
-                        carreraOrigen: item.carreraOrigen,
                         UniversidadOrigenId: item.universidadOrigen,
+                        carreraOrigen: item.carreraOrigen,
                         certificado: item.certificado,
-                        archivo: item.archivo
+                        //archivo: item.archivo [el objeto item no tiene el atributo archivo definido]
                     };
                 }),
                 UsuarioId: usuarioId,
@@ -260,7 +272,17 @@ const CreateForm = () => {
                 }
             })
             .catch((error) => {
-                console.error('Error: ', error);
+                if (error.response) {
+                    // Error en respuesta
+                    console.error(JSON.stringify(error.response.data)); // {"errors":[{"msg":"El campo instituto es obligatorio","param":"instituto","location":"body"},{"value":"","msg":"El campo carrera es obligatorio","param":"carrera","location":"body"}]}
+                    console.error('Código de estado:', error.response.status); // retorna 400, POST http://localhost:3001/api/equivalencias/createx3  
+                } else if (error.request) {
+                    // Sin respuesta de la peticion
+                    console.error('No se recibió respuesta del servidor:', error.request);
+                } else {
+                    // Otros
+                    console.error('Error al configurar la solicitud:', error.message);
+                }
                 notifyEnviarSinDatos();
             });
     },[carreraElegida, usuarioId, formValue]);
