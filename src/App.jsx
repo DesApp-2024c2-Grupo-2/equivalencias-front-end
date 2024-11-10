@@ -19,7 +19,7 @@ import socketIO from 'socket.io-client';
 import { PageHistorial } from './components/molecules/PageHistorial';
 import { PageEquivalenciaDireccion } from './components/organisms/Direccion/PageEquivalenciaDireccion'; 
 
-const socket = socketIO.connect('https://equivalencias-back-end-2c2024.onrender.com');
+const socket = socketIO.connect('https://equivalencias-back-end-2c2024.onrender.com/api');
 
 function App() {
     const rol = JSON.parse(localStorage.getItem('rol'));
