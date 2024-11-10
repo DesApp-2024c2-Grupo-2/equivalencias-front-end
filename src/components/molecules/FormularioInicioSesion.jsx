@@ -19,8 +19,6 @@ const FormularioInicioSesion = () => {
     const [password, setPassword] = useState('');
     const [openModal, setOpenModal] = useState(false);
     
-    const navigate = useNavigate();
-
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
 
@@ -42,6 +40,7 @@ const FormularioInicioSesion = () => {
     };
 
     const ingresarAplicacion = (user) => {
+        const navigate = useNavigate();
         if (user.estado === 'Habilitado') {
             switch (user.rol) {
                 case 'alumno':
