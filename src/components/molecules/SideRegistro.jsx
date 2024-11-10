@@ -47,8 +47,3 @@ const Register = () => {
 
 export { SideRegistro, Register };
 
-/*<a href={'/registro'} style={{ textDecoration: 'none' }}>
-                <BotonMUI buttonoutlined variant="outlined">
-                    Registrarse
-                </BotonMUI>
-            </a>*/

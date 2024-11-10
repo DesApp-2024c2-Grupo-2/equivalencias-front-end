@@ -11,11 +11,15 @@ import bcrypt from 'bcryptjs';
 import ResetPasswordModal from '../organisms/IniciarSesion/ResetPasswordModal';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 const FormularioInicioSesion = () => {
     const [dni, setDni] = useState('');
     const [password, setPassword] = useState('');
     const [openModal, setOpenModal] = useState(false);
+    
+    const navigate = useNavigate();
 
     const handleOpenModal = () => setOpenModal(true);
     const handleCloseModal = () => setOpenModal(false);
@@ -41,11 +45,11 @@ const FormularioInicioSesion = () => {
         if (user.estado === 'Habilitado') {
             switch (user.rol) {
                 case 'alumno':
-                    window.location.href = '/usuario/equivalencias';
+                    navigate('/usuario/equivalencias');
                     break;
                 case 'directivo':
                 case 'superusuario':
-                    window.location.href = '/direccionDashboard';
+                    navigate('/direccionDashboard');
                     break;
                 default:
                     notifyError('Rol de usuario no reconocido');
