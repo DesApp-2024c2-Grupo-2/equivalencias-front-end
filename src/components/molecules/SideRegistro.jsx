@@ -35,14 +35,20 @@ const Register = () => {
             >
                 Trámites de Equivalencias
             </Titulos>
-
-            <a href={'/registro'} style={{ textDecoration: 'none' }}>
+            <Link to="/registro" style={{ textDecoration: 'none' }}>
                 <BotonMUI buttonoutlined variant="outlined">
                     Registrarse
                 </BotonMUI>
-            </a>
+            </Link>
+            
         </SideRegistro>
     );
 };
 
 export { SideRegistro, Register };
+
+/*<a href={'/registro'} style={{ textDecoration: 'none' }}>
+                <BotonMUI buttonoutlined variant="outlined">
+                    Registrarse
+                </BotonMUI>
+            </a>*/
