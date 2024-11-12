@@ -19,7 +19,7 @@ import socketIO from 'socket.io-client';
 import { PageHistorial } from './components/molecules/PageHistorial';
 import { PageEquivalenciaDireccion } from './components/organisms/Direccion/PageEquivalenciaDireccion'; 
 
-const socket = socketIO.connect('https://equivalencias-back-end-2c2024.onrender.com', {
+const socket = socketIO.connect('wsss://equivalencias-back-end-2c2024.onrender.com', {
   transports: ['websocket'], // Fuerza el uso de WebSockets
   reconnectionAttempts: 5,   // Reintenta hasta 5 veces antes de fallar
   timeout: 10000             // Ajusta el tiempo de espera (en milisegundos)
