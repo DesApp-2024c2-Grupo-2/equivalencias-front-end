@@ -3,6 +3,7 @@ import { Header } from './Header';
 import { GridTop } from '../atoms/GridTop';
 import { Titulos } from '../atoms/Title/Titulos';
 import { BotonMUI } from '../atoms/Button/BotonMUI';
+import { Fab } from '@mui/material';
 import { FabButton } from '../atoms/Button/FabButton';
 import StickyHeadTable from '../organisms/TableAlumno';
 import React, { useState } from 'react';
@@ -96,6 +97,7 @@ const PageMyForm = () => {
                             }}
                         >
                             <Link
+                                //to={`/usuario/visualizar/${instituciones.id}`}
                                 to="/usuario/formulario"
                                 style={{ textDecoration: 'none' }}
                             >

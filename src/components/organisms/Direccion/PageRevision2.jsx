@@ -36,7 +36,7 @@ const horaConCero = (hora) => {
     }
 };
 
-const PageRevision = () => {
+const PageRevision2 = () => {
     const { id } = useParams();
     const rol = JSON.parse(localStorage.getItem('rol'));
     const [user, setUser] = useState([]);
@@ -52,7 +52,6 @@ const PageRevision = () => {
         ],
         observaciones: ''
     });
-    
 
     const [observaciones, setObservaciones] = useState('');
 
@@ -68,6 +67,7 @@ const PageRevision = () => {
         { id: 'phone', label: 'Teléfono' },
         { id: 'actions', label: 'Fecha' }
     ];
+
     console.log(rol);
 
     const createData = (
@@ -322,13 +322,6 @@ const PageRevision = () => {
         return salida;
     };
 
-    //const rolUsuario = () => {
-    //    if (rol === 'directivo') {
-    //        return <HeaderDirectivo />;
-    //    } else {
-    //        return <HeaderSuperUsuario />;
-    //    }
-    //};
     const urlUsuario = () => {
         if (rol === 'directivo') {
             return '/direccion/solicitudes';
@@ -338,14 +331,14 @@ const PageRevision = () => {
             return '/usuario/equivalencias';
         }
     };
-
+    console.log(urlUsuario())
     return (
         <>
+            
             <Grid container direction="column">
                 <Grid item container xs={12}>
                     <Header name="Instituciones" paginaPrincipal="/" />
                 </Grid>
-
                 <Grid
                     item
                     container
@@ -367,7 +360,7 @@ const PageRevision = () => {
                         alignItems="center"
                     >
                         <Grid item>
-                            <Link to={urlUsuario}>
+                            <Link to={urlUsuario()}>
                                 <IconButton sx={{ padding: 0 }}>
                                     <ArrowBackIcon />
                                 </IconButton>
@@ -478,8 +471,6 @@ const PageRevision = () => {
                             </TableContainer>
                         </Paper>
 
-                        {/* Universidad Origen */}
-
                         {equiv.materiasAprobadas !== undefined ? (
                             equiv.materiasAprobadas.map((materiaAprobada) => {
                                 console.log(
@@ -526,7 +517,6 @@ const PageRevision = () => {
                                                     Datos Universidad de Origen
                                                 </Titulos>
                                             </Grid>
-
                                             <Grid
                                                 item
                                                 container
@@ -585,7 +575,6 @@ const PageRevision = () => {
                                                         }}
                                                     />
                                                 </Grid>
-
                                                 <Grid
                                                     item
                                                     container
@@ -656,7 +645,6 @@ const PageRevision = () => {
                                                             }}
                                                         />
                                                     </Grid>
-
                                                     <Grid
                                                         item
                                                         container
@@ -678,7 +666,6 @@ const PageRevision = () => {
                                                         />
                                                     </Grid>
                                                 </Grid>
-
                                                 <Grid
                                                     item
                                                     container
@@ -711,7 +698,6 @@ const PageRevision = () => {
                                                             }}
                                                         />
                                                     </Grid>
-
                                                     <Grid
                                                         item
                                                         container
@@ -738,7 +724,6 @@ const PageRevision = () => {
                                                         </Typography>
                                                     </Grid>
                                                 </Grid>
-
                                                 <Grid
                                                     item
                                                     container
@@ -758,7 +743,6 @@ const PageRevision = () => {
 
                                                     {/* </Grid> */}
                                                 </Grid>
-
                                                 {/* <AgregarMateriaUniOrigen /> */}
                                             </Grid>
                                         </Grid>
@@ -815,7 +799,7 @@ const PageRevision = () => {
                                     Estado
                                 </Titulos>
                             </Grid>
-                        </Grid>
+                        </Grid>                
                         <Grid container overflow="auto" maxHeight={200}>
                             {equiv.materiasSolicitadas !== undefined ? (
                                 equiv.materiasSolicitadas.map((materia) => {
@@ -972,12 +956,11 @@ const PageRevision = () => {
                                             }
                                         }}
                                     >
-                                        <Collapse in={mostrarChat}>
+                                        {/*<Collapse in={mostrarChat}>
                                             <Chat id={id} socket={socket} />
-                                        </Collapse>
+                                        </Collapse>*/}
                                     </Grid>
                                 </Grid>
-
                                 <Grid
                                     item
                                     container
@@ -1023,11 +1006,12 @@ const PageRevision = () => {
                                 </Grid>
                             </Grid>
                         </Grid>
+
                     </GridTop>
                 </Grid>
             </Grid>
         </>
     );
-};
+}
 
-export { PageRevision };
+export { PageRevision2 };

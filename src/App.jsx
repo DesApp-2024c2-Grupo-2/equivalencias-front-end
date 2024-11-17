@@ -18,8 +18,10 @@ import PageResetPassword from './components/organisms/PageResetPassword';
 import socketIO from 'socket.io-client';
 import { PageHistorial } from './components/molecules/PageHistorial';
 import { PageEquivalenciaDireccion } from './components/organisms/Direccion/PageEquivalenciaDireccion'; 
+import { PageRevision2 } from './components/organisms/Direccion/PageRevision2'
 
 const socket = socketIO.connect('http://localhost:3000');
+
 
 function App() {
     const rol = JSON.parse(localStorage.getItem('rol'));
@@ -30,7 +32,7 @@ function App() {
                 {rol === 'alumno' && (
                     <>
                         <Route path="/usuario/equivalencias" element={<PageMyForm />} />
-                        <Route path="/usuario/visualizar/:id" element={<PageRevision socket={socket} />} />
+                        <Route path="/usuario/visualizar/:id" element={<PageRevision2 />} /> 
                         <Route path="/usuario/formulario" element={<PageCreateForm />} />
                         <Route path='/usuario/historial' element={<PageHistorial />} />
                     </>
@@ -38,7 +40,7 @@ function App() {
                 {rol === 'directivo' && (  //el primero era originalmente PageDireccion
                     <>
                         <Route path="/direccion/solicitudes" element={<PageEquivalenciaDireccion />} /> 
-                        <Route path="/direccion/revision/:id" element={<PageRevision socket={socket} />} />
+                        <Route path="/direccion/revision/:id" element={<PageRevision2 />} />
                         <Route path="/instituciones/todas" element={<PageInstituciones />} />
                         <Route path="/instituciones/crear" element={<PageCrearInstituciones />} />
                         <Route path="/instituciones/editarInstitucion/:id" element={<PageEditarInstituciones />} />
@@ -50,7 +52,7 @@ function App() {
                 {rol === 'superusuario' && (
                     <>
                         <Route path="/superusuario/solicitudes" element={<PageDireccion />} />
-                        <Route path="/direccion/revision/:id" element={<PageRevision socket={socket} />} />
+                        <Route path="/direccion/revision/:id" element={<PageRevision2 />} />
                         <Route path="/superusuario/usuarios" element={<PageSuperUsuario />} />
                         <Route path="/superusuario/carreras" element={<PageCRUDCarreras />} />
                         <Route path="/instituciones/todas" element={<PageInstituciones />} />
