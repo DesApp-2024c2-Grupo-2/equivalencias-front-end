@@ -8,37 +8,43 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import {
-    getEquivalencia,
-    getEquivalenciaUsuario
-} from '../../services/equivalencia_service';
-import { getUsuario_carrera } from '../../services/usuarios_carreras_service';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import { Grid } from '@mui/material';
+
+import { getMateriaAprobada } from '../../services/historial_service';
+import { getUsuario_carrera } from '../../services/usuarios_carreras_service';
+
 import { ActionButtons } from '../atoms/Button/ActionButtons';
 import NotificationsActiveTwoToneIcon from '@mui/icons-material/NotificationsActiveTwoTone';
+import { getInstitucion } from '../../services/institucionService';
+import {getMateriaAprobadaPorId} from '../../services/historial_service';
+import { getEquivalenciaPorId } from '../../services/equivalencia_service';
 
-export default function TablaEquivalencias({ searchQuery }) {
+export default function TablaHistorial({ datosHistorial }) {
     const rol = JSON.parse(localStorage.getItem('rol'));
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [rows, setRows] = useState([]);
-    //console.log(rol);
+    const [searchQuery, setSearchQuery] = useState(null);
+
     const getColumns = () => {
         if (rol === 'directivo' || rol === 'superusuario') {
-            return [ 
-                { id: 'UnviersidadOrigen', label: 'Universidad', minWidth: 170 }, 
-                { id: 'Materia_aprobada', label: 'Materia Aprobada', minWidth: 170 }, 
-                { id: 'Materia_solicitada', label: 'Materia equivalente UNAHUR', minWidth: 170 },
-                { id: 'updatedAt', label: 'Fecha ultima incorporación', minWidth: 100 }, 
+            return [
+                { id: 'nota', label: 'Nota' },
+                { id: 'cargaHoraria', label: 'Carga Horaria' },
+                { id: 'añoAprobacion', label: 'Año de Aprobacion' },
+                { id: 'nombreMateria', label: 'Nombre Materia' },
+                { id: 'certificado', label: 'Certificado' },
+                { id: 'equivalencia', label: 'Equivalencia' },
+                { id: 'universidadOrigen', label: 'Universidad de Origen' }
             ];
         } else {
-            return [ //rol alumno, falta modificar ids y pensar si el formato es el que queremos mostrar
-                { id: 'UnviersidadOrigen', label: 'Universidad', minWidth: 170 }, // Mostrar universidad de donde proviene el alumno
-                { id: 'Materia_aprobada', label: 'Materia Aprobada', minWidth: 170 }, // Materia que aprobo el alumno en su universidad anterior
-                { id: 'Materia_solicitada', label: 'Materia equivalente UNAHUR', minWidth: 170 }, //Materia unahur con la que ya se realizo equivalencia previa
-                { id: 'updatedAt', label: 'Fecha ultima incorporación', minWidth: 100 }, // Fecha de la ultima vez que se realizo esta equivalencia para algun alumno
+            return [
+                { id: 'añoAprobacion', label: 'Año de Aprobacion', minWidth: 170 },
+                { id: 'nombreMateria', label: 'Nombre Materia', minWidth: 170 },
+                { id: 'equivalencia', label: 'Equivalencia', minWidth: 170 },
+                { id: 'universidadOrigen', label: 'Universidad de Origen', minWidth: 170 }
             ];
         }
     };
@@ -49,20 +55,26 @@ export default function TablaEquivalencias({ searchQuery }) {
     };
 
     const createData = (
-        UnviersidadOrigen,
-        Materia_aprobada,
-        Materia_solicitada,
-        updatedAt,
+        nota,
+        cargaHoraria,
+        añoAprobacion,
+        nombreMateria,
+        certificado,
+        equivalencia,
+        universidadOrigen
     ) => {
         if (rol === 'directivo' || rol === 'superusuario') {
             return {
-                UnviersidadOrigen,
-                Materia_aprobada,
-                Materia_solicitada,
-                updatedAt,
+                nota,
+                cargaHoraria,
+                añoAprobacion,
+                nombreMateria,
+                certificado,
+                equivalencia,
+                universidadOrigen
             };
         } else {
-            return { UnviersidadOrigen, Materia_aprobada, Materia_solicitada, updatedAt, };
+            return { añoAprobacion, nombreMateria, equivalencia, universidadOrigen };
         }
     };
 
@@ -71,155 +83,100 @@ export default function TablaEquivalencias({ searchQuery }) {
         setPage(0);
     };
 
-
-    const carre = [];
-
-    const fetchCarrerasData = async () => {
-        //if (rol === 'directivo') {
-            carre.push(
-                await getUsuario_carrera(JSON.parse(localStorage.getItem('id')))
-            );
-        //} No necesitariamos especificar por rol ya que en primera instancia todos tendran acceso a la misma información 
+    const filterNameMat = (materias) => {
+        let stringSalida = '';
+        let cant = materias.length;
+        if (cant === 1) {
+            stringSalida = materias[0].nombre;
+        } else if (cant === 2) {
+            stringSalida = materias[0].nombre + ', ' + materias[1].nombre;
+        } else {
+            stringSalida = `Cantidad de materias: ${cant}`;
+        }
+        return stringSalida;
     };
-    fetchCarrerasData();
 
     useEffect(() => {
-        const fetchEquivalenciaData = async () => {
-
-            let obtainedEquivalenciaData = [];
-
-            //Siguen los roles por separado para facilitar las modificaciones a futuro
+        const fetchCarrerasData = async () => {
             if (rol === 'directivo') {
-                obtainedEquivalenciaData = await getEquivalencia(); //Seguramente el get sea distinto
-            } else if (rol === 'superusuario') {
-                obtainedEquivalenciaData = await getEquivalencia();
-            } else {
-                obtainedEquivalenciaData = await getEquivalencia();
+                const carreras = await getUsuario_carrera(JSON.parse(localStorage.getItem('id')));
+                return carreras;
             }
-
-            let array = [];
-
-            obtainedEquivalenciaData.forEach(function (arrayItem) {
-                let d = new Date(arrayItem.Materia_solicitadas[0].createdAt);
-                
-                
-                let carrera = arrayItem.Materia_solicitadas[0].carrera;
-
-                
-                
-                let array2 = [];
-
-                array.push(
-                    createData(
-                        filterNameMat(arrayItem.Materia_solicitadas),
-                        dateTime,
-                        arrayItem.Usuario.nombre +
-                            ' ' +
-                            arrayItem.Usuario.apellido,
-                        arrayItem.Usuario.dni,
-                        actions,
-                        carrera
-                    )
-                );
-                if (rol === 'directivo') {
-                    let carreras = carre[0].map(
-                        (carrera) => carrera.Carrera.nombre_carrera
-                    ); //mapea las carreras del directivo
-                    let dataFilter = [];
-                    array2 = array.filter((usuario) =>
-                        carreras.includes(usuario.carrera)
-                    );
-                    switch (searchQuery.column) {
-                        case 'Unviersidad':
-                            dataFilter = array2.filter((d) =>
-                                d.UnviersidadOrigen
-                                    .toString()
-                                    .toLowerCase()
-                                    .includes(searchQuery.value.toLowerCase())
-                            );
-                            break;
-                        case 'Materia Aprobada':
-                            dataFilter = array2.filter((d) =>
-                                d.Materia_aprobada
-                                    .toLowerCase()
-                                    .includes(searchQuery.value.toLowerCase())
-                            );
-                            break;
-                        case 'Materia UNAHUR':
-                            dataFilter = array2.filter((d) =>
-                                d.Materia_solicitada
-                                    .toLowerCase()
-                                    .includes(searchQuery.value.toLowerCase())
-                            );
-                            break;
-                            case 'Fecha ultima incorporacion':
-                            dataFilter = array2.filter((d) =>
-                                d.updatedAt
-                                    .toLowerCase()
-                                    .includes(searchQuery.value.toLowerCase())
-                            );
-                            break;
-                        default:
-                            dataFilter = array;
-                            break;
-                    }
-                    if (searchQuery) {
-                        setRows(dataFilter);
-                        setPage(0);
-                    } else {
-                        setRows([...array]);
-                    }
-                } else if (rol == 'superusuario') {
-                    let dataFilter = [];
-                    switch (searchQuery.column) {
-                        case 'Unviersidad':
-                            dataFilter = array2.filter((d) =>
-                                d.UnviersidadOrigen
-                                    .toString()
-                                    .toLowerCase()
-                                    .includes(searchQuery.value.toLowerCase())
-                            );
-                            break;
-                        case 'Materia Aprobada':
-                            dataFilter = array2.filter((d) =>
-                                d.Materia_aprobada
-                                    .toLowerCase()
-                                    .includes(searchQuery.value.toLowerCase())
-                            );
-                            break;
-                        case 'Materia UNAHUR':
-                            dataFilter = array2.filter((d) =>
-                                d.Materia_solicitada
-                                    .toLowerCase()
-                                    .includes(searchQuery.value.toLowerCase())
-                            );
-                            break;
-                            case 'Fecha ultima incorporacion':
-                            dataFilter = array2.filter((d) =>
-                                d.updatedAt
-                                    .toLowerCase()
-                                    .includes(searchQuery.value.toLowerCase())
-                            );
-                            break;
-                        default:
-                            dataFilter = array;
-                            break;
-                    }
-                    if (searchQuery) {
-                        setRows(dataFilter);
-                        setPage(0);
-                    } else {
-                        setRows([...array]);
-                    }
-                } else {
-                    setRows([...array]);
-                }
-            });
+            return [];
         };
-        fetchEquivalenciaData();
-    }, [searchQuery]);
 
-    return (
+        const fetchMateriasAprobadasData = async () => {
+            try {
+                    // Obtén los datos de las materias aprobadas
+                    let obtenerDataMateriasAprobadas = await getMateriaAprobada();
+                    let array = [];
+
+                    // Recorre los datos obtenidos utilizando for...of
+                    for (const arrayItem of obtenerDataMateriasAprobadas) {
+                        let d = new Date(arrayItem.año_aprobacion);
+                        let dateTime = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+
+                        // Usa await para esperar que las funciones asincrónicas terminen
+                        let uniOrigen = await getInstitucion(arrayItem.UniversidadOrigenId);
+                        let equivalencia = await getEquivalenciaPorId(arrayItem.EquivalenciumId)
+                        console.log("certificado",arrayItem.certificado);
+                        // Crea y agrega los datos al array 
+                        array.push(
+                            createData(
+                                arrayItem.nota,
+                                arrayItem.carga_horaria,
+                                dateTime,
+                                arrayItem.nombre_materia,
+                                arrayItem.certificado ? 'Sí' : 'No',
+                                equivalencia.Materia_aprobadas[0]?.nombre_materia,
+                                uniOrigen.nombre_universidad 
+                            )
+                        );
+                    }
+
+                // Establece las filas luego de cargar todos los datos
+                setRows(array);
+                setPage(0); // Resetea la página a la primera
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        
+        fetchMateriasAprobadasData();
+    }, []); 
+
+    useEffect(() => {
+        if (searchQuery) {
+            let dataFilter = [...rows];
+            switch (searchQuery.column) {
+                case 'nombreMateria':
+                    dataFilter = rows.filter((d) =>
+                        d.nombreMateria.toLowerCase().includes(searchQuery.value.toLowerCase())
+                    );
+                    break;
+                case 'añoAprobacion':
+                    dataFilter = rows.filter((d) =>
+                        d.añoAprobacion.toString().includes(searchQuery.value)
+                    );
+                    break;
+                case 'carrera':
+                    dataFilter = rows.filter((d) =>
+                        d.carreraOrigen?.toLowerCase().includes(searchQuery.value.toLowerCase())
+                    );
+                    break;
+                default:
+                    dataFilter = rows;
+                    break;
+            }
+            setRows(dataFilter); // Actualiza las filas filtradas
+        }
+    }, [searchQuery, rows]);
+//console.log(columns)
+//console.log("hoal")
+console.log(rows)
+
+
+    return(
         <Paper
             sx={{
                 width: '100%',

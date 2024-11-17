@@ -8,6 +8,14 @@ export async function getEquivalencia() {
     return apiResponse.data;
 }
 
+export async function getEquivalenciaPorId(id) {
+    const apiResponse = await axios.get(
+        `${config.apiUrl}/equivalencias/general/${id}`
+    );
+    console.log("equivalenciaPorId", apiResponse.data)
+    return apiResponse.data;
+}
+
 export async function getEquivalenciaPorDirectivo(id) {
     const apiResponse = await axios.get(
         `${config.apiUrl}/usuarios_carreras/directivo/${id}`

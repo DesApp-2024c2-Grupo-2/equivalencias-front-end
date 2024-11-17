@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Grid, IconButton } from '@mui/material';
 import { Header } from './Header';
 import { GridTop } from '../atoms/GridTop';
@@ -7,14 +8,28 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from 'react-router-dom';
 import TablaHistorial from './TablaHistorial';
 import { ToastContainer } from 'react-toastify';
-
-
+import { getMateriaAprobada } from '../../services/historial_service';
 
 const PageHistorial = () => {
     const rol = JSON.parse(localStorage.getItem('rol'));
+    const [datosHistorial, setDatosHistorial] = useState([]);
+
+    useEffect(() => {
+        const fetchDatosHistorial = async () => {
+            try {
+                const datos = await getMateriaAprobada();
+                setDatosHistorial(datos);
+            } catch (error) {
+                console.error("Error al obtener los datos del historial:", error);
+            }
+        };
+
+        fetchDatosHistorial();
+    }, []);
+
     return (
         <Grid container direction="column">
-            <Grid item container xs={12}>
+            <Grid item xs={12}>
                 <Header
                     name="Mis equivalencias"
                     paginaPrincipal="/usuario/equivalencias/"
@@ -31,7 +46,6 @@ const PageHistorial = () => {
             >
                 <GridTop
                     item
-                    container
                     xs={11.5}
                     md={7}
                     sx={{
@@ -42,56 +56,56 @@ const PageHistorial = () => {
                     alignItems="center"
                 >
                     <Grid item>
-                        <Link to= 
-                            {
-                                rol === 'alumno' ? "/usuario/equivalencias" :
-                                rol === 'directivo' ? "/direccion/solicitudes" : 
-                                rol === 'superusuario' && "/direccionDashboard" 
-
+                        <Link
+                            to={
+                                rol === 'alumno'
+                                    ? "/usuario/equivalencias"
+                                    : rol === 'directivo'
+                                    ? "/direccion/solicitudes"
+                                    : rol === 'superusuario' && "/direccionDashboard"
                             }
                         >
                             <IconButton sx={{ padding: 0 }}>
                                 <ArrowBackIcon />
                             </IconButton>
                         </Link>
-                        <Titulos component="h2" titulogrande="+true">
+                        <Titulos component="h2" titulogrande={true}>
                             Historial
                         </Titulos>
                     </Grid>
                 </GridTop>
+
                 <GridTop
-                        item
-                        container
-                        blanco
-                        xs={11.5}
-                        md={9}
-                        lg={7}
-                        marginTop={{
-                            xs: '0px',
-                            sm: '30px'
-                        }}
-                        sx={{
-                            height: 'auto'
-                        }}
-                    >
-                        <TablaHistorial />
-                        {/* <StickyHeadTable /> */}
-                    </GridTop>
-            <ToastContainer
-                containerId={'home'}
-                position="bottom-left"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-            />
+                    item
+                    xs={11.5}
+                    md={9}
+                    lg={7}
+                    marginTop={{
+                        xs: '0px',
+                        sm: '30px'
+                    }}
+                    sx={{
+                        height: 'auto'
+                    }}
+                    blanco
+                >
+                    <TablaHistorial datos={datosHistorial} />
+                </GridTop>
+
+                <ToastContainer
+                    containerId="home"
+                    position="bottom-left"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                />
+            </Grid>
         </Grid>
-        </Grid>
-            
     );
 };
 
