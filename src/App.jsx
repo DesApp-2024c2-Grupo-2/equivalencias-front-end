@@ -110,13 +110,11 @@ import PageResetPassword from './components/organisms/PageResetPassword';
 import { PageHistorial } from './components/molecules/PageHistorial';
 import { PageEquivalenciaDireccion } from './components/organisms/Direccion/PageEquivalenciaDireccion';
 
-// Aquí puedes añadir el código para el `future flag` directamente en el Router
-
 function App() {
     const rol = JSON.parse(localStorage.getItem('rol'));
 
     return (
-        <Router future={{ v7_relativeSplatPath: true }}>
+        <Router future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
             <Routes>
                 {rol === 'alumno' && (
                     <>
