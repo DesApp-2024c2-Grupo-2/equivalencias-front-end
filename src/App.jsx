@@ -1,4 +1,4 @@
-import React from 'react';
+/*import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import PageIniciarSesion from './components/organisms/IniciarSesion/PageIniciarSesion';
@@ -15,15 +15,11 @@ import PageInstitucionDashboard from './components/organisms/Instituciones/PageI
 import PageDireccionDashboard from './components/organisms/Direccion/PageDireccionDashboard';
 import PageSuperUsuario from './components/PageSuperUsuario';
 import PageResetPassword from './components/organisms/PageResetPassword';
-import socketIO from 'socket.io-client';
+//import socketIO from 'socket.io-client';
 import { PageHistorial } from './components/molecules/PageHistorial';
 import { PageEquivalenciaDireccion } from './components/organisms/Direccion/PageEquivalenciaDireccion'; 
 
-/*const socket = socketIO.connect('wss://equivalencias-back-end-2c2024.onrender.com', {
-  transports: ['websocket'], // Fuerza el uso de WebSockets
-  reconnectionAttempts: 5,   // Reintenta hasta 5 veces antes de fallar
-  timeout: 10000             // Ajusta el tiempo de espera (en milisegundos)
-});*/
+
 
 function App() {
     const rol = JSON.parse(localStorage.getItem('rol'));
@@ -55,6 +51,97 @@ function App() {
                     <>
                         <Route path="/superusuario/solicitudes" element={<PageDireccion />} />
                         <Route path="/direccion/revision/:id" element={<PageRevision socket={socket} />} />
+                        <Route path="/superusuario/usuarios" element={<PageSuperUsuario />} />
+                        <Route path="/superusuario/carreras" element={<PageCRUDCarreras />} />
+                        <Route path="/instituciones/todas" element={<PageInstituciones />} />
+                        <Route path="/instituciones/crear" element={<PageCrearInstituciones />} />
+                        <Route path="/instituciones/editarInstitucion/:id" element={<PageEditarInstituciones />} />
+                        <Route path="/direccion/instituciones" element={<PageInstitucionDashboard />} />
+                        <Route path="/direccionDashboard" element={<PageDireccionDashboard />} />
+                        <Route path='/superusuario/historial' element={<PageHistorial />} />
+                    </>
+                )}
+                <Route path="/" element={<PageIniciarSesion />} />
+                <Route path="/registro" element={<PageRegistro />} />
+                <Route path="/resetPassword/:hash" element={<PageResetPassword />} />
+            </Routes>
+
+            <ToastContainer
+                containerId={'Toastify'}
+                position="bottom-left"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
+        </Router>
+    );
+}
+
+export default App;*/
+
+/*const socket = socketIO.connect('wss://equivalencias-back-end-2c2024.onrender.com', {
+  transports: ['websocket'], // Fuerza el uso de WebSockets
+  reconnectionAttempts: 5,   // Reintenta hasta 5 veces antes de fallar
+  timeout: 10000             // Ajusta el tiempo de espera (en milisegundos)
+});*/
+
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import PageIniciarSesion from './components/organisms/IniciarSesion/PageIniciarSesion';
+import { PageCreateForm } from './components/molecules/PageCreateForm';
+import { PageRevision } from './components/organisms/Direccion/PageRevision';
+import { PageMyForm } from './components/molecules/PageMyForm';
+import { PageCRUDCarreras } from './components/carreras/PageCRUDCarreras';
+import { PageDireccion } from './components/organisms/Direccion/PageDireccion';
+import PageRegistro from './components/organisms/Registro/PageRegistro';
+import PageInstituciones from './components/organisms/Instituciones/PageInstituciones';
+import PageCrearInstituciones from './components/organisms/Instituciones/PageCrearInstitucion';
+import PageEditarInstituciones from './components/organisms/Instituciones/PageEditarInstitucion';
+import PageInstitucionDashboard from './components/organisms/Instituciones/PageInstitucionDashboard';
+import PageDireccionDashboard from './components/organisms/Direccion/PageDireccionDashboard';
+import PageSuperUsuario from './components/PageSuperUsuario';
+import PageResetPassword from './components/organisms/PageResetPassword';
+import { PageHistorial } from './components/molecules/PageHistorial';
+import { PageEquivalenciaDireccion } from './components/organisms/Direccion/PageEquivalenciaDireccion';
+
+// Aquí puedes añadir el código para el `future flag` directamente en el Router
+
+function App() {
+    const rol = JSON.parse(localStorage.getItem('rol'));
+
+    return (
+        <Router future={{ v7_relativeSplatPath: true }}>
+            <Routes>
+                {rol === 'alumno' && (
+                    <>
+                        <Route path="/usuario/equivalencias" element={<PageMyForm />} />
+                        <Route path="/usuario/visualizar/:id" element={<PageRevision />} />
+                        <Route path="/usuario/formulario" element={<PageCreateForm />} />
+                        <Route path='/usuario/historial' element={<PageHistorial />} />
+                    </>
+                )}
+                {rol === 'directivo' && (
+                    <>
+                        <Route path="/direccion/solicitudes" element={<PageEquivalenciaDireccion />} />
+                        <Route path="/direccion/revision/:id" element={<PageRevision />} />
+                        <Route path="/instituciones/todas" element={<PageInstituciones />} />
+                        <Route path="/instituciones/crear" element={<PageCrearInstituciones />} />
+                        <Route path="/instituciones/editarInstitucion/:id" element={<PageEditarInstituciones />} />
+                        <Route path="/direccion/instituciones" element={<PageInstitucionDashboard />} />
+                        <Route path="/direccionDashboard" element={<PageDireccionDashboard />} />
+                        <Route path='/direccion/historial' element={<PageHistorial />} />
+                    </>
+                )}
+                {rol === 'superusuario' && (
+                    <>
+                        <Route path="/superusuario/solicitudes" element={<PageDireccion />} />
+                        <Route path="/direccion/revision/:id" element={<PageRevision />} />
                         <Route path="/superusuario/usuarios" element={<PageSuperUsuario />} />
                         <Route path="/superusuario/carreras" element={<PageCRUDCarreras />} />
                         <Route path="/instituciones/todas" element={<PageInstituciones />} />
