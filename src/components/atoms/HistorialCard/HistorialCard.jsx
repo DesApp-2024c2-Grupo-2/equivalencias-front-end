@@ -19,7 +19,7 @@ const HistorialCard = ({ nombreMateria, añoAprobacion, nota, cargaHoraria, cert
             </CardContent>
             <CardContent sx={{ alignItems: 'center', textAlign: 'center' }}>
                 <Typography variant="body2" color="black" sx={{ paddingTop: '0.5%', fontWeight: 'bold' }}>
-                    Año: {añoAprobacion}
+                    Año: <Typography variant="body2" color="text.secondary" sx={{ paddingTop: '0.5%'}}>{añoAprobacion}</Typography>
                 </Typography>
                 {nota && (
                     <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 'bold' }}>
