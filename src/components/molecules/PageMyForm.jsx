@@ -11,6 +11,9 @@ import { Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import AddIcon from '@mui/icons-material/Add';
 import TablaEquivalencias from './TablaEquivalencias';
+import EquivalenciaCard from '../atoms/EquivalenciaCard/EquivalenciaCard';
+import LienzoTarjetasEquivalencia from './LienzoTarjetasEquivalencia';
+
 
 const PageMyForm = () => {
     const [open, setOpen] = useState(false);
@@ -72,7 +75,7 @@ const PageMyForm = () => {
                                         marginRight: '20px'
                                     }}
                                 >
-                                    Ver Historial
+                                    Base Equivalencias
                                 </BotonMUI>
                             </Link>
                             <Link
@@ -85,7 +88,7 @@ const PageMyForm = () => {
                                         width: '100%'
                                     }}
                                 >
-                                    Solicitar equivalencia
+                                    Solicitar Equivalencia
                                 </BotonMUI>
                             </Link>
                         </Grid>
@@ -108,7 +111,7 @@ const PageMyForm = () => {
                         </Grid>
                     </GridTop>
 
-                    <GridTop
+                    {/*<GridTop
                         item
                         container
                         blanco
@@ -122,12 +125,15 @@ const PageMyForm = () => {
                         sx={{
                             height: 'auto'
                         }}
-                    >
-                        <TablaEquivalencias />
+                    >*/}
+                        
+                        {/*<TablaEquivalencias />*/}
                         {/* <StickyHeadTable /> */}
-                    </GridTop>
+                    {/*</GridTop>*/}
+                    <LienzoTarjetasEquivalencia />
                 </Grid>
             </Grid>
+            
             <ToastContainer
                 containerId={'home'}
                 position="bottom-left"

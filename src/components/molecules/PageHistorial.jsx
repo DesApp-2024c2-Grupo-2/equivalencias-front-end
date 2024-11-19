@@ -70,39 +70,10 @@ const PageHistorial = () => {
                             </IconButton>
                         </Link>
                         <Titulos component="h2" titulogrande={true}>
-                            Historial
+                            Base Equivalencias
                         </Titulos>
                     </Grid>
                 </GridTop>
-
-                <GridTop
-                    item
-                    xs={11.5}
-                    md={9}
-                    lg={7}
-                    marginTop={{
-                        xs: '0px',
-                        sm: '30px'
-                    }}
-                    sx={{
-                        height: 'auto'
-                    }}
-                    blanco
-                >
-                    <TablaHistorial datos={datosHistorial} />
-                </GridTop>
-
-                <ToastContainer
-                    containerId="home"
-                    position="bottom-left"
-                    autoClose={5000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover />
             </Grid>
         </Grid>
         
