@@ -112,7 +112,7 @@ import { PageEquivalenciaDireccion } from './components/organisms/Direccion/Page
 
 function App() {
     const rol = JSON.parse(localStorage.getItem('rol'));
-
+    console.log(rol)
     return (
         <Router future={{ v7_startTransition: true }}>
             <Routes>
