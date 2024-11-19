@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 import TablaHistorial from './TablaHistorial';
 import { ToastContainer } from 'react-toastify';
 import { getMateriaAprobada } from '../../services/historial_service';
+import HistorialCard from '../atoms/HistorialCard/HistorialCard';
+import LienzoTarjetas from './LienzoTarjetas';
 
 const PageHistorial = () => {
     const rol = JSON.parse(localStorage.getItem('rol'));
@@ -28,12 +30,12 @@ const PageHistorial = () => {
     }, []);
 
     return (
+        <>
         <Grid container direction="column">
             <Grid item xs={12}>
                 <Header
                     name="Mis equivalencias"
-                    paginaPrincipal="/usuario/equivalencias/"
-                />
+                    paginaPrincipal="/usuario/equivalencias/" />
             </Grid>
 
             <Grid
@@ -57,13 +59,11 @@ const PageHistorial = () => {
                 >
                     <Grid item>
                         <Link
-                            to={
-                                rol === 'alumno'
-                                    ? "/usuario/equivalencias"
-                                    : rol === 'directivo'
+                            to={rol === 'alumno'
+                                ? "/usuario/equivalencias"
+                                : rol === 'directivo'
                                     ? "/direccion/solicitudes"
-                                    : rol === 'superusuario' && "/direccionDashboard"
-                            }
+                                    : rol === 'superusuario' && "/direccionDashboard"}
                         >
                             <IconButton sx={{ padding: 0 }}>
                                 <ArrowBackIcon />
@@ -102,10 +102,12 @@ const PageHistorial = () => {
                     rtl={false}
                     pauseOnFocusLoss
                     draggable
-                    pauseOnHover
-                />
+                    pauseOnHover />
             </Grid>
         </Grid>
+        
+        <LienzoTarjetas />
+        </>
     );
 };
 
