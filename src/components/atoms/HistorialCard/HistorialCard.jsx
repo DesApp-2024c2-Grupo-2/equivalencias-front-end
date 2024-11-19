@@ -18,30 +18,65 @@ const HistorialCard = ({ nombreMateria, añoAprobacion, nota, cargaHoraria, cert
                 </Typography>
             </CardContent>
             <CardContent sx={{ alignItems: 'center', textAlign: 'center' }}>
-                <Typography variant="body2" color="black" sx={{ paddingTop: '0.5%', fontWeight: 'bold', display: 'inline' }}>
-                    Año: <Typography variant="body2" color="text.secondary" sx={{ paddingTop: '0.5%', display: 'inline'}}>{añoAprobacion}</Typography>
-                </Typography>
-                {nota && (
-                    <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 'bold', display: 'inline' }}>
-                        Nota: <Typography variant="body2" color="text.secondary" sx={{ paddingTop: '0.5%', display: 'inline'}}>{nota}</Typography>
+                <Box sx={{ display: 'flex', paddingTop: '0.5%' }}>
+                    <Typography variant="body2" color="black" sx={{ fontWeight: 'bold' }}>
+                        Año:
                     </Typography>
-                )}
-                {cargaHoraria && (
-                    <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 'bold', display: 'inline' }}>
-                        Carga Horaria: <Typography variant="body2" color="text.secondary" sx={{ paddingTop: '0.5%', display: 'inline'}}>{cargaHoraria}</Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ paddingLeft: 1 }}>
+                        {añoAprobacion}
                     </Typography>
-                )}
-                {certificado && (
-                    <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 'bold', display: 'inline' }}>
-                        Certificado: <Typography variant="body2" color="text.secondary" sx={{ paddingTop: '0.5%', display: 'inline'}}>{certificado}</Typography>
+                </Box>
+    
+            {nota && (
+                <Box sx={{ display: 'flex', paddingTop: '0.5%' }}>
+                    <Typography variant="body2" color="black" sx={{ fontWeight: 'bold' }}>
+                        Nota:
                     </Typography>
-                )}
-                <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 'bold', display: 'inline' }}>
-                    Equivalencia: <Typography variant="body2" color="text.secondary" sx={{ paddingTop: '0.5%', display: 'inline'}}>{equivalencia}</Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ paddingLeft: 1 }}>
+                        {nota}
+                    </Typography>
+                </Box>
+            )}
+
+            {cargaHoraria && (
+                <Box sx={{ display: 'flex', paddingTop: '0.5%' }}>
+                    <Typography variant="body2" color="black" sx={{ fontWeight: 'bold' }}>
+                        Carga Horaria:
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ paddingLeft: 1 }}>
+                        {cargaHoraria}
+                    </Typography>
+                </Box>
+            )}
+
+            {certificado && (
+                <Box sx={{ display: 'flex', paddingTop: '0.5%' }}>
+                    <Typography variant="body2" color="black" sx={{ fontWeight: 'bold' }}>
+                        Certificado:
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ paddingLeft: 1 }}>
+                        {certificado}
+                    </Typography>
+                </Box>
+            )}
+
+            <Box sx={{ display: 'flex', paddingTop: '0.5%' }}>
+                <Typography variant="body2" color="black" sx={{ fontWeight: 'bold' }}>
+                    Equivalencia:
                 </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 'bold', display: 'inline' }}>
-                    Universidad Origen: <Typography variant="body2" color="text.secondary" sx={{ paddingTop: '0.5%', display: 'inline'}}>{universidadOrigen}</Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ paddingLeft: 1 }}>
+                    {equivalencia}
                 </Typography>
+            </Box>
+
+            <Box sx={{ display: 'flex', paddingTop: '0.5%' }}>
+                <Typography variant="body2" color="black" sx={{ fontWeight: 'bold' }}>
+                    Universidad Origen:
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ paddingLeft: 1 }}>
+                    {universidadOrigen}
+                </Typography>
+            </Box>
             </CardContent>
         </Card>
     );
