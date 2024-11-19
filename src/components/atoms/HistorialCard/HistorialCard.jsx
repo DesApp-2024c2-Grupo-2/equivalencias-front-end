@@ -18,29 +18,29 @@ const HistorialCard = ({ nombreMateria, añoAprobacion, nota, cargaHoraria, cert
                 </Typography>
             </CardContent>
             <CardContent sx={{ alignItems: 'center', textAlign: 'center' }}>
-                <Typography variant="body2" color="text.secondary" sx={{ paddingTop: '0.5%' }}>
+                <Typography variant="body2" color="text.secondary" sx={{ paddingTop: '0.5%', fontWeight: 'bold' }}>
                     Año: {añoAprobacion}
                 </Typography>
                 {nota && (
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 'bold' }}>
                         Nota: {nota}
                     </Typography>
                 )}
                 {cargaHoraria && (
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 'bold' }}>
                         Carga Horaria: {cargaHoraria}
                     </Typography>
                 )}
                 {certificado && (
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 'bold' }}>
                         Certificado: {certificado}
                     </Typography>
                 )}
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 'bold' }}>
                     Equivalencia: {equivalencia}
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    Universidad: {universidadOrigen}
+                <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 'bold' }}>
+                    Universidad Origen: {universidadOrigen}
                 </Typography>
             </CardContent>
         </Card>
