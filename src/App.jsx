@@ -114,7 +114,7 @@ function App() {
     const rol = JSON.parse(localStorage.getItem('rol'));
 
     return (
-        <Router future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
+        <Router future={{ v7_startTransition: true }}>
             <Routes>
                 {rol === 'alumno' && (
                     <>
@@ -126,7 +126,7 @@ function App() {
                 )}
                 {rol === 'directivo' && (
                     <>
-                        <Route path="/direccion/solicitudes" element={<PageEquivalenciaDireccion />} />
+                        <Route path="/direccion/solicitudes" element={<PageEquivalenciaDireccion />} /> 
                         <Route path="/direccion/revision/:id" element={<PageRevision />} />
                         <Route path="/instituciones/todas" element={<PageInstituciones />} />
                         <Route path="/instituciones/crear" element={<PageCrearInstituciones />} />
