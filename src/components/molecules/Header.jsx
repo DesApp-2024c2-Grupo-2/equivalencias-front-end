@@ -94,17 +94,7 @@ const Header = ({ name, paginaPrincipal, botonSeleccionado }) => {
                         )}
 
                         <Grid md={5}>
-                            <BotonMUI
-                                aria-describedby={id}
-                                variant="text"
-                                sx={{
-                                    width: '130px',
-                                    backgroundColor: `${botonSeleccionado}`
-                                }}
-                                onClick={handleClick}
-                            >
-                                Perfil
-                            </BotonMUI>
+                            
                             <Popover
                                 id={id}
                                 open={open}
@@ -223,7 +213,7 @@ const Header = ({ name, paginaPrincipal, botonSeleccionado }) => {
                         sx={{ display: 'flex', alignItems: 'center' }}
                     >
                         <Tooltip title={userName}>
-                            <Avatar
+                            <Avatar onClick={handleClick}
                                 src={stringConcat}
                                 sx={{ width: '32px', height: '32px' }}
                             ></Avatar>
