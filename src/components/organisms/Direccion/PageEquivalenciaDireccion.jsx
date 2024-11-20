@@ -22,6 +22,7 @@ import { getInstitucionesHabilitadas } from '../../../services/institucionServic
 import { getMateriaAprobadasPorUniversidad } from '../../../services/materias_aprobadas_services';
 import BusquedaMateriasModal from '../Direccion/busquedaMateriasModal';
 import { BotonMUI } from '../../atoms/Button/BotonMUI';
+import LienzoTarjetasEquivalencia from '../../molecules/LienzoTarjetasEquivalencia';
 
 const PageEquivalenciaDireccion = () => {
     const [searchQuery, setSearchQuery] = useState({
@@ -41,7 +42,7 @@ const PageEquivalenciaDireccion = () => {
     };
 
     const [universidades, setUniversidades] = useState([]);
-    const [universidad, setUniversidad] = useState({});
+    const [universidad, setUniversidad] = useState();
     const [materiasAprobadas, setmateriasAprobadas] = useState([]);
     const [materiaAprobada, setMateriaAprobada] = useState(null);
 
@@ -79,8 +80,9 @@ const PageEquivalenciaDireccion = () => {
         } else if (universidad != null) {
             buscarMaterias();
         }
+        
     }, [universidad]);
-
+    
     const opcionesUnicas = materiasAprobadas.filter(
         (materia, index, self) =>
             self.findIndex(
@@ -141,8 +143,9 @@ const PageEquivalenciaDireccion = () => {
                   <ArrowBackIcon />
                 </IconButton>
             </Link>
+
             <Grid container alignItems="center"
-                sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                sx={{ display: 'flex', justifyContent: 'space-between', gap:'50px' }}>
                 <Titulos component="h2" titulogrande >
                     Solicitudes de equivalencias
                 </Titulos>
@@ -153,13 +156,13 @@ const PageEquivalenciaDireccion = () => {
                     <BotonMUI
                         buttoncontainedsmall
                         sx={{
-                            width: 'auto',
-                            marginLeft: '500px',// No esta bien. Buscar alguna forma NO FIJA
-                            display: { sm: 'flex', xs: 'none' },
+                            width: '100%',
+                            marginRight: '20px'
+                            
 
                         }}
                     >
-                        Ver Historial
+                        Base Equivalencias
                     </BotonMUI>
                 </Link>
             </Grid>
@@ -181,12 +184,17 @@ const PageEquivalenciaDireccion = () => {
             borderTopRightRadius: '0px'
         }}
         >
-    <TablaEquivalencias searchQuery={searchQuery} />
+    {/*<TablaEquivalencias searchQuery={searchQuery} />*/}
+    
     </GridTop>
+    <LienzoTarjetasEquivalencia rol={JSON.parse(localStorage.getItem('rol'))} searchQuery={searchQuery}/>
         </Grid>
+        
         </Grid>
+        
     );
 };
 
 export { PageEquivalenciaDireccion };
 
+//

@@ -19,6 +19,7 @@ import { getUsuarios } from '../services/usuario_service';
 import { Link } from 'react-router-dom';
 import { Header } from './molecules/Header';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import LienzoTarjetasUsuarios from './organisms/LienzoTarjetasUsuarios';
 
 
 const PageSuperUsuario = () => {
@@ -143,10 +144,14 @@ const PageSuperUsuario = () => {
                         </FormControl>
                     </Box>
 
-                    <TablaUsuarios
+                    {/*<TablaUsuarios
                         rol={rol}
                         usuarios={usuarios}
                         buscador={buscador}
+                    />*/}
+                    <LienzoTarjetasUsuarios
+                        rol={rol}
+                        searchQuery={{ column: 'dni', value: buscador }}
                     />
                 </Grid>
             </Grid>

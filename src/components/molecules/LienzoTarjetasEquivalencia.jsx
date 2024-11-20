@@ -8,19 +8,18 @@ import { getUsuario_carrera } from '../../services/usuarios_carreras_service';  
 import { ActionButtons } from '../atoms/Button/ActionButtons';
 
 
-
 const filterNameMat = (materias) => {
-        let stringSalida = '';
-        let cant = materias.length;
-        if (cant == 1) {
-            stringSalida = materias[0].nombre;
-        } else if (cant == 2) {
-            stringSalida = materias[0].nombre + ', ' + materias[1].nombre;
-        } else {
-            stringSalida = `Cantidad de materias: ${cant}`;
-        }
-        return stringSalida;
-    };
+    let stringSalida = '';
+    let cant = materias.length;
+    if (cant == 1) {
+        stringSalida = materias[0].nombre;
+    } else if (cant == 2) {
+        stringSalida = materias[0].nombre + ', ' + materias[1].nombre;
+    } else {
+        stringSalida = `Cantidad de materias: ${cant}`;
+    }
+    return stringSalida;
+};
 
 // Función para mapear el estado a un color
 const renderState = (estado) => {
@@ -56,7 +55,8 @@ const renderState = (estado) => {
 };
 
 // Función fuera del componente para evitar su recreación en cada render
-const defineActions = (id, materias, rol) => {
+/*const defineActions = (id, materias, rol) => {
+    console.log(typeof(id))
     const color = materias.length > 3 ? 'error' : 'info';
     const actions = (
         <Grid
@@ -68,14 +68,14 @@ const defineActions = (id, materias, rol) => {
         >
             {rol === 'directivo' || rol === 'superusuario' ? (
                 <Link
-                    to={'/direccion/revision/' + id}
+                    to={`/direccion/revision/${id}`}
                     style={{ textDecoration: 'none' }}
                 >
                     <ActionButtons color={color} />
                 </Link>
             ) : (
                 <Link
-                    to={'/usuario/visualizar/' + id}
+                    to={`/usuario/visualizar/${id}`}
                     style={{ textDecoration: 'none' }}
                 >
                     <ActionButtons color={color} />
@@ -83,7 +83,24 @@ const defineActions = (id, materias, rol) => {
             )}
         </Grid>
     );
+    console.log("Actions:",actions)
     return actions;
+};*/
+
+const defineActions = (id, materias, rol) => {
+    const color = materias.length > 3 ? 'error' : 'info';
+    const linkTo =
+        rol === 'directivo' || rol === 'superusuario'
+            ? `/direccion/revision/${id}`
+            : `/usuario/visualizar/${id}`;
+
+    console.log('Link generado:', linkTo);
+    
+    return (linkTo
+        /*<Link to={linkTo} style={{ textDecoration: 'none' }}>
+            <ActionButtons color={color} />
+        </Link>*/
+    );
 };
 
 // Componente principal
@@ -129,14 +146,12 @@ const LienzoTarjetasEquivalencia = ({ rol, searchQuery }) => {
                 };
             });
 
-            // Filtrar los datos según el rol y las carreras del directivo
             let filteredData = array;
             if (rol === 'directivo') {
                 const carrerasList = carreras.map((carrera) => carrera.Carrera.nombre_carrera);
                 filteredData = array.filter((usuario) => carrerasList.includes(usuario.carrera));
             }
 
-            // Filtrar según la búsqueda
             filteredData = applySearchFilter(filteredData, searchQuery);
             setCards(filteredData);
         };
@@ -144,7 +159,6 @@ const LienzoTarjetasEquivalencia = ({ rol, searchQuery }) => {
         fetchEquivalenciaData();
     }, [rol, searchQuery, carreras]);
 
-    // Función para aplicar el filtro de búsqueda
     const applySearchFilter = (data, searchQuery) => {
         if (!searchQuery) return data;
         return data.filter((d) => {
@@ -156,6 +170,10 @@ const LienzoTarjetasEquivalencia = ({ rol, searchQuery }) => {
                     return d.solicitante.toLowerCase().includes(queryValue);
                 case 'estado':
                     return d.estado.toLowerCase().includes(queryValue);
+                case 'carrera':
+                    return d.carrera.toLowerCase().includes(queryValue);
+                case 'materiaSolicitada':
+                    return d.materiaSolicitada.toLowerCase().includes(queryValue);
                 default:
                     return true;
             }
@@ -175,7 +193,6 @@ const LienzoTarjetasEquivalencia = ({ rol, searchQuery }) => {
                 flexWrap: 'wrap', // Asegura que las cards se ajusten
                 gap: '20px', // Espacio entre las cards
                 justifyContent: 'center', // Centra las cards
-                //background: 'green',
                 boxSizing: 'border-box' // Asegura que padding no cause desbordamiento
             }}
         >

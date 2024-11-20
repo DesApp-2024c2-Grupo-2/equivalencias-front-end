@@ -130,7 +130,7 @@ const PageMyForm = () => {
                         {/*<TablaEquivalencias />*/}
                         {/* <StickyHeadTable /> */}
                     {/*</GridTop>*/}
-                    <LienzoTarjetasEquivalencia />
+                    <LienzoTarjetasEquivalencia rol={JSON.parse(localStorage.getItem('rol'))} />
                 </Grid>
             </Grid>
             

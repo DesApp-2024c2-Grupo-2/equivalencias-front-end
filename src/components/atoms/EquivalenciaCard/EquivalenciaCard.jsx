@@ -83,7 +83,7 @@ const EquivalenciaCard = ({
                 {/* Link para visualizar si se aplica */}
                 {linkVisualizar && (
                     <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', paddingTop: '0.5%' }}>
-                        <Link href={linkVisualizar} target="_blank" underline="hover">
+                        <Link href={linkVisualizar} underline="hover">
                             <IconButton color="primary">
                                 <VisibilityIcon />
                             </IconButton>

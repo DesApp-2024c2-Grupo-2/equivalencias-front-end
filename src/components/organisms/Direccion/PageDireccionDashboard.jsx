@@ -32,7 +32,13 @@ const DireccionDashboard = () => {
                         >
                             <Grid sx={{ padding: '0.5rem' }}>
                                 <DashboardCard
-                                    tituloCard="Solicitudes"
+                                    tituloCard= /*{
+                                        <>
+                                            <span>Solicitudes</span>
+                                            <br />
+                                            <span>Pendientes</span>
+                                        </>
+                                    }*/"Solicitudes"
                                     cuerpoCard="Gestion y comunicación"
                                     imgSrc="https://res.cloudinary.com/dfwvsjwjr/image/upload/c_scale,w_68/v1684362644/solicitud_rryiab.png"
                                     link={rolDireccion}

@@ -22,6 +22,7 @@ import { getInstitucionesHabilitadas } from '../../../services/institucionServic
 import { getMateriaAprobadasPorUniversidad } from '../../../services/materias_aprobadas_services';
 import BusquedaMateriasModal from '../Direccion/busquedaMateriasModal';
 import { BotonMUI } from '../../atoms/Button/BotonMUI';
+import LienzoTarjetasEquivalencia from '../../molecules/LienzoTarjetasEquivalencia';
 
 const PageDireccion = () => {
     const [searchQuery, setSearchQuery] = useState({
@@ -134,7 +135,14 @@ const PageDireccion = () => {
                     justifyContent="space-between"
                     alignItems="center"
                 >
-                    <Grid item>
+                    <Grid 
+                        item
+                        xs={0}
+                        sx={{
+                            display: { sm: 'flex', xs: 'none' },
+                            gap:'40px'
+                        }}
+                    >
                         <Link to="/direccionDashboard">
                             <IconButton sx={{ padding: 0 }}>
                                 <ArrowBackIcon />
@@ -143,10 +151,24 @@ const PageDireccion = () => {
                         <Titulos component="h2" titulogrande>
                             Solicitudes de equivalencias
                         </Titulos>
+                        {/*<Link
+                                to="/superusuario/historial"
+                                style={{ textDecoration: 'none' }}
+                            >
+                                <BotonMUI
+                                    buttoncontainedsmall
+                                    sx={{
+                                        width: '100%',
+                                        marginRight: '20px'
+                                    }}
+                                >
+                                    Base Equivalencias
+                                </BotonMUI>
+                            </Link>*/}
                     </Grid>
                 </GridTop>
 
-                <GridTop
+                {/*<GridTop
                     item
                     container
                     blanco="+true"
@@ -163,9 +185,9 @@ const PageDireccion = () => {
                         borderBottomLeftRadius: '0px',
                         borderBottomRightRadius: '0px'
                     }}
-                >
+                >*/}
                     {/* Busqueda de equivalencias*/}
-                    <Grid
+                    {/*<Grid
                         item
                         container
                         direction="row"
@@ -215,16 +237,16 @@ const PageDireccion = () => {
                         >
                             Buscar
                         </Button>
-                    </Grid>
-                    <BusquedaMateriasModal
+                    </Grid>*/}
+                    {/*<BusquedaMateriasModal
                         open={openModalMateria}
                         onCloseBoton={handleCloseModalMateria}
                         materiasAprobadas={equivFiltradas}
                         universidad={
                             universidad ? universidad.nombre_universidad : ''
                         }
-                    />
-                </GridTop>
+                    />*/}
+                {/*</GridTop>*/}
 
                 <GridTop
                     item
@@ -318,6 +340,8 @@ const PageDireccion = () => {
                             <MenuItem value="dni">DNI</MenuItem>
                             <MenuItem value="solicitante">Solicitante</MenuItem>
                             <MenuItem value="estado">Estado</MenuItem>
+                            <MenuItem value="carrera">Carrera</MenuItem>
+                            <MenuItem value="materiaSolicitada">Materia</MenuItem>
                         </Select>
                     </Grid>
                 </GridTop>
@@ -335,7 +359,8 @@ const PageDireccion = () => {
                         borderTopRightRadius: '0px'
                     }}
                 >
-                    <TablaEquivalencias searchQuery={searchQuery} />
+                    {/*<TablaEquivalencias searchQuery={searchQuery} />*/}
+                    <LienzoTarjetasEquivalencia rol={JSON.parse(localStorage.getItem('rol'))} searchQuery={searchQuery}/>
                     {/* <StickyHeadTable searchQuery={searchQuery} /> */}
                 </GridTop>
             </Grid>
