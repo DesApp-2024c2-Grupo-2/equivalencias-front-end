@@ -27,6 +27,8 @@ import {
 import { Header } from '../molecules/Header';
 import { Link } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import CarreraCard from '../atoms/CarreraCard/CarreraCard';
+import LienzoCRUDCarreras from './LienzoCRUDCarreras';
 
 const PageCRUDCarreras = () => {
     const [carreraSeleccionada, setCarreraSeleccionada] = useState({
@@ -462,10 +464,20 @@ const PageCRUDCarreras = () => {
                             </Table>
                         </TableContainer>
                     </Paper>
+                    <LienzoCRUDCarreras
+                        carreras={carreras} 
+                        seleccionarCarrera={seleccionarCarrera} 
+                        handleOpenEditar={handleOpenEditar}
+                        handleOpenEliminar={handleOpenEliminar}
+                        carreraSeleccionada={carreraSeleccionada}
+                    />
                 </Grid>
             </Grid>
+            
         </Grid>
+        
     );
+    
 };
 
 export { PageCRUDCarreras };
