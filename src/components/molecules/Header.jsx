@@ -215,7 +215,8 @@ const Header = ({ name, paginaPrincipal, botonSeleccionado }) => {
                         <Tooltip title={userName}>
                             <Avatar onClick={handleClick}
                                 src={stringConcat}
-                                sx={{ width: '32px', height: '32px' }}
+                                sx={{ width: '32px', height: '32px', cursor : 'pointer'
+                                 }}
                             ></Avatar>
                         </Tooltip>
 
