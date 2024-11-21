@@ -3,7 +3,7 @@ import { config } from '../config/config';
 import qs from 'qs';
 
 //revisar en estos dos casos si esta bien q sea apiResponse.data
-export async function getInsitutciones({ limit, page }) {
+export async function getInstituciones({ limit, page }) {
     console.log('-----------------');
     console.log('ENTRE A LA FUNCION');
     console.log('El limite es', limit);
